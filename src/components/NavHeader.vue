@@ -16,11 +16,11 @@
         </el-menu>
       </el-col>
       <el-col :span='5'>
-        <el-button type="text" class='header-button' @click="dialogFormVisible = true">登陆</el-button>
-        <el-button type="text" class='header-button'>注册</el-button>
+        <el-button type="text" @click="dialogFormVisible = true">登陆</el-button>
+        <el-button type="text">注册</el-button>
       </el-col>
     </el-row>
-    <el-dialog title="用户登录" :visible.sync="dialogFormVisible">
+    <el-dialog title="用户登录" :visible.sync="dialogFormVisible" width="25%">
       <el-form :model="form">
         <el-form-item label="用户名/邮箱" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off"></el-input>
@@ -32,8 +32,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- todo-login -->
-        <el-button type='danger' @click="dialogFormVisible = false" plain>取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false" plain>确 定</el-button>
+        <el-button  @click="dialogFormVisible = false" class='login-button' >注 册</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false" class='login-button'>登 录</el-button>
       </div>
     </el-dialog>
 
@@ -49,9 +49,9 @@ export default {
       dialogFormVisible: false,
       form: {
         name: "",
-        password:"",
+        password: ""
       },
-      formLabelWidth: '120px'
+      formLabelWidth: "100px"
     };
   },
   methods: {
@@ -63,6 +63,7 @@ export default {
 </script>
 
 <style >
+/*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
   border-bottom: solid 1px #e6e6e6;
   background: rgba(255, 255, 255, 0.8);
@@ -72,12 +73,32 @@ export default {
   border: none;
 }
 
-.header-button {
-  color: #5aa9a4;
-}
-
 .search-bar {
   border-radius: 50%;
+}
+/*------------------------------dialog-----------------------------------------------------------*/
+.dialog-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100px;
+
+}
+
+.login-button {
+  width:100%;
+}
+
+.el-dialog__body {
+  padding-bottom: 0;
+}
+
+.el-button + .el-button {
+  margin-left: 0;
+}
+.el-dialog__footer {
+  padding-top:0;
 }
 </style>
 

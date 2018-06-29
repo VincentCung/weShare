@@ -1,25 +1,66 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Index from '@/pages/Index'
+import Square from '@/pages/Square'
+import Administrator from '@/pages/Administrator'
+import Register from '@/pages/Register'
+import InterestDetail from '@/pages/InterestDetail'
+import InterestList from '@/pages/InterestList'
+import InterestManage from '@/pages/InterestManage'
+import MyDetail from '@/pages/MyDetail'
+import MakeBlog from '@/pages/MakeBlog'
+
 
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
+      name: 'Index',
+      component: Index
+    },
+    {
+      path: '/square',
+      name: 'Square',
+      component: Square
+    },
+    {
+      path: '/administrator',
+      name: 'Administrator',
+      component: Administrator
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/interest',
+      name: 'InterestDetail',
+      component: InterestDetail
+    }, 
+    {
+      path: '/more',
+      name: 'InterestList',
+      component: InterestList
+    },
+    {
+      path: '/user',
+      component:MakeBlog,
+      children:[
+        {
+          path:'interest',
+          name:'InterestMange',
+          component:InterestManage
+        },
+        {
+          path:'detail',
+          name:'Detail',
+          component:MyDetail
+        }
+      ]
     }
-    // },
-    // {
-    //   path:'/'
-    // },
-    // {
-
-    // },
-    // {
-
-    // }
   ]
 })
