@@ -9,6 +9,7 @@ import InterestList from '@/pages/InterestList'
 import InterestManage from '@/pages/InterestManage'
 import MyDetail from '@/pages/MyDetail'
 import MakeBlog from '@/pages/MakeBlog'
+import SearchResult from '@/pages/SearchResult'
 
 
 Vue.use(Router)
@@ -39,7 +40,14 @@ export default new Router({
     {
       path: '/interest',
       name: 'InterestDetail',
-      component: InterestDetail
+      component: InterestDetail,
+      children:[
+        {
+          path:"result",
+          name:'SearchResult',
+          component:SearchResult
+        }
+      ]
     }, 
     {
       path: '/more',

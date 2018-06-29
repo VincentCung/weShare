@@ -3,11 +3,13 @@
     <el-row class='nav-header' type="flex" align="middle" :gutter="10" :style="$route.path=='/'?'position: fixed;left: 0;top: 0;margin: 0;':''">
       <el-col :span='2' :offset="2">
         <router-link to='/'>
-          <img src="../assets/logo.png" alt="test" height="50">
+          <img src="../assets/logo.png" alt="test" width="80">
         </router-link>
       </el-col>
       <el-col :span='5'>
-        <el-input suffix-icon="el-icon-search" :placeholder='"大家都在搜:"+hotContent' clearable @keypress.enter.native='search' class='search-bar'></el-input>
+        <el-input :placeholder='"大家都在搜:"+hotContent' clearable @keypress.enter.native='search' class='search-bar'>
+          <i slot="suffix" class="el-input__icon el-icon-search"></i>
+        </el-input>
       </el-col>
       <el-col :span='12'>
         <el-menu :default-active="$route.path" class="nav-header-menu" mode="horizontal" :router='true' background-color="inherit">
@@ -70,10 +72,10 @@ export default {
   position: fixed;
   left: 0;
   top: 0;
-  margin: 0!important;
+  margin: 0 !important;
   width: 100%;
   border-bottom: solid 1px #e6e6e6;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.75);
 }
 
 .nav-header-menu {
