@@ -986,15 +986,15 @@
       background-color: #5aa9a4;
       color: #fff; }
   .el-tag--info {
-    background-color: rgba(144, 147, 153, 0.1);
-    border-color: rgba(144, 147, 153, 0.2);
-    color: #909399; }
+    background-color: rgba(237, 150, 125, 0.1);
+    border-color: rgba(237, 150, 125, 0.2);
+    color: #ed967d; }
     .el-tag--info.is-hit {
-      border-color: #909399; }
+      border-color: #ed967d; }
     .el-tag--info .el-tag__close {
-      color: #909399; }
+      color: #ed967d; }
     .el-tag--info .el-tag__close:hover {
-      background-color: #909399;
+      background-color: #ed967d;
       color: #fff; }
   .el-tag--success {
     background-color: rgba(103, 194, 58, 0.1);

@@ -1,18 +1,20 @@
 <template>
   <div>
-    <el-row class='nav-header' type="flex" align="middle" :gutter="10">
+    <el-row class='nav-header' type="flex" align="middle" :gutter="10" :style="$route.path=='/'?'position: fixed;left: 0;top: 0;margin: 0;':''">
       <el-col :span='2' :offset="2">
-        <img src="../assets/logo.png" alt="test" height="50">
+        <router-link to='/'>
+          <img src="../assets/logo.png" alt="test" height="50">
+        </router-link>
       </el-col>
       <el-col :span='5'>
         <el-input suffix-icon="el-icon-search" :placeholder='"大家都在搜:"+hotContent' clearable @keypress.enter.native='search' class='search-bar'></el-input>
       </el-col>
       <el-col :span='12'>
         <el-menu :default-active="$route.path" class="nav-header-menu" mode="horizontal" :router='true' background-color="inherit">
-          <el-menu-item index="/">发现</el-menu-item>
-          <el-menu-item index="/3">趣点广场</el-menu-item>
-          <el-menu-item index="/4">我的趣点</el-menu-item>
-          <el-menu-item index="/5">我的微博</el-menu-item>
+          <el-menu-item index="/square">广场</el-menu-item>
+          <el-menu-item index="/more">发现趣点</el-menu-item>
+          <el-menu-item index="/user/interest">我的趣点</el-menu-item>
+          <el-menu-item index="/user">我的微博</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span='5'>
@@ -32,7 +34,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- todo-login -->
-        <el-button  @click="dialogFormVisible = false" class='login-button' >注 册</el-button>
+        <el-button @click="dialogFormVisible = false" class='login-button'>注 册</el-button>
         <el-button type="primary" @click="dialogFormVisible = false" class='login-button'>登 录</el-button>
       </div>
     </el-dialog>
@@ -65,6 +67,11 @@ export default {
 <style >
 /*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  margin: 0!important;
+  width: 100%;
   border-bottom: solid 1px #e6e6e6;
   background: rgba(255, 255, 255, 0.8);
 }
@@ -83,11 +90,10 @@ export default {
   align-items: center;
   justify-content: space-around;
   height: 100px;
-
 }
 
 .login-button {
-  width:100%;
+  width: 100%;
 }
 
 .el-dialog__body {
@@ -98,7 +104,7 @@ export default {
   margin-left: 0;
 }
 .el-dialog__footer {
-  padding-top:0;
+  padding-top: 0;
 }
 </style>
 

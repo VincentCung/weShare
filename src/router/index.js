@@ -57,7 +57,7 @@ export default new Router({
         },
         {
           path:'detail',
-          name:'Detail',
+          name:'MyDetail',
           component:MyDetail
         }
       ]
