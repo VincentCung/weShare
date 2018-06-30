@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class='nav-header' type="flex" align="middle" :gutter="10" :style="$route.path=='/'?'position: fixed;left: 0;top: 0;':''">
+    <el-row class='nav-header' type="flex" align="middle" :gutter="20" :style="$route.path=='/'?'position: fixed;left: 0;top: 0;':''">
       <el-col :span='2' :offset="2">
         <router-link to='/'>
           <img src="../assets/logo.png" alt="test" width="80">
@@ -19,27 +19,30 @@
           <el-menu-item index="/user" v-if='$store.state.is_login'>我的微博</el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span='5' v-if='!$store.state.is_login'>
+      <el-col :span='2' v-if='!$store.state.is_login'>
         <el-button type="text" @click="dialogFormVisible = true">登 陆</el-button>
-        <span> | </span>
-        <el-button type="text" @click="register">注 册</el-button>
       </el-col>
-      <el-col :span='5' v-if='$store.state.is_login'>
+      <el-col :span='2' v-if='$store.state.is_login'>
         <i class="el-icon-edit"></i>
         <el-button type="text">{{$store.state.userName}}</el-button>
-        <span> | </span>
+      </el-col>
+      <span> | </span>
+      <el-col :span='2' v-if='!$store.state.is_login'>
+        <el-button type="text" @click="register">注 册</el-button>
+      </el-col>
+      <el-col :span='2' v-if='$store.state.is_login'>
         <i class="el-icon-edit"></i>
         <el-button type="text" @click='logout'>注 销</el-button>
       </el-col>
     </el-row>
-    <el-dialog title="用户登录" :visible.sync="dialogFormVisible" width="25%" >
-      <el-form :model="loginForm" status-icon :rules="rules" ref='loginForm' >
-        <el-form-item   prop="name">
-          <el-input v-model="loginForm.name"  placeholder='请输入用户名或邮箱'>
+    <el-dialog title="用户登录" :visible.sync="dialogFormVisible" width="25%">
+      <el-form :model="loginForm" status-icon :rules="rules" ref='loginForm'>
+        <el-form-item prop="name">
+          <el-input v-model="loginForm.name" placeholder='请输入用户名或邮箱'>
             <i slot="prefix" class="el-input__icon el-icon-message"></i>
           </el-input>
         </el-form-item>
-        <el-form-item   prop="password">
+        <el-form-item prop="password">
           <el-input v-model="loginForm.password" type='password' auto-complete="off" @keyup.enter.native='login' placeholder='请输入密码'>
             <i slot="prefix" class="el-input__icon el-icon-message"></i>
           </el-input>
@@ -83,7 +86,7 @@ export default {
       rules: {
         name: [{ validator: validateName, trigger: "blur" }],
         password: [{ validator: validatePass, trigger: "blur" }]
-      },
+      }
     };
   },
   methods: {
@@ -107,6 +110,7 @@ export default {
                   type: "error"
                 });
               } else {
+                that.$refs.loginForm.resetFields();
                 that.dialogFormVisible = false;
                 that.$store.dispatch("login", response.data.msg.user);
               }
@@ -135,13 +139,16 @@ export default {
 <style >
 /*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
-  margin : 0 !important;
+  margin: 0 !important;
   width: 100%;
   border-bottom: solid 1px #e6e6e6;
   background: rgba(255, 255, 255, 0.75);
 }
 
 .nav-header-menu {
+  border: none;
+}
+.el-menu--horizontal {
   border: none;
 }
 
@@ -173,7 +180,7 @@ export default {
 }
 
 .el-form--label-top .el-form-item__label {
-  padding:0;
+  padding: 0;
 }
 </style>
 

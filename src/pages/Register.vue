@@ -123,6 +123,7 @@ export default {
   padding: 0 25px 20px 25px;
   top: 100px;
   right: 10%;
+  border-radius: 15px;
 }
 
 .register-button {
