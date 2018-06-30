@@ -21,23 +21,24 @@
       </el-col>
       <el-col :span='5'>
         <el-button type="text" @click="dialogFormVisible = true">登陆</el-button>
+        <span>  |  </span>
         <el-button type="text">注册</el-button>
       </el-col>
     </el-row>
     <el-dialog title="用户登录" :visible.sync="dialogFormVisible" width="25%">
-      <el-form :model="form">
-        <el-form-item label="用户名/邮箱" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
+      <el-form :model="ruleForm" status-icon :rules="rules" ref='ruleForm'>
+        <el-form-item label="用户名/邮箱" :label-width="formLabelWidth" prop="name">
+          <el-input v-model="ruleForm.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" :label-width="formLabelWidth">
+        <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
           <!-- todo-login -->
-          <el-input v-model="form.password" auto-complete="off" @keyup.enter.native='search'></el-input>
+          <el-input v-model="ruleForm.password" type='password' auto-complete="off" @keyup.enter.native='login'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- todo-login -->
         <el-button @click="dialogFormVisible = false" class='login-button'>注 册</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false" class='login-button'>登 录</el-button>
+        <el-button type="primary" @click="login" class='login-button'>登 录</el-button>
       </div>
     </el-dialog>
 
@@ -47,13 +48,32 @@
 <script>
 export default {
   data() {
+    var validateName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("用户名不能为空"));
+      } else {
+        callback();
+      }
+    };
+
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        callback();
+      }
+    };
     return {
       hotContent: "世界杯",
       activeIndex: "/",
       dialogFormVisible: false,
-      form: {
+      ruleForm: {
         name: "",
         password: ""
+      },
+      rules: {
+        name: [{ validator: validateName, trigger: "blur" }],
+        password: [{ validator: validatePass, trigger: "blur" }]
       },
       formLabelWidth: "100px"
     };
@@ -61,6 +81,36 @@ export default {
   methods: {
     search(e) {
       console.log(e);
+    },
+    login(e) {
+      let that = this
+      let { name, password } = this.ruleForm;
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$_http
+            .post("/user/login", {
+              name,
+              password
+            })
+            .then(function(response) {
+              console.log(response)
+              if (!response.data.msg.success) {
+                that.$alert("密码或用户名错误，请重试", "提示", {
+                  confirmButtonText: "确定",
+                  type:'error'
+                });
+              } else {
+                that.dialogFormVisible= false 
+                console.log(response.data.msg.user)
+                console.log(that)
+                that.$store.dispatch('login',response.data.msg.user)
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        }
+      });
     }
   }
 };
