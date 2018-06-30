@@ -27,6 +27,7 @@ const LOGOUT = 'LOGOUT';
 //注册状态管理全局参数
 const store = new Vuex.Store({
   state: {
+    is_login: false,
     token: '',
     userID: '',
     userName: '',
@@ -41,22 +42,24 @@ const store = new Vuex.Store({
     [LOGIN](state, info) { // 第一个参数为 state 用于变更状态 登录
       sessionStorage.setItem("loginToken", info.token);
       state.token = info.token;
-      state.userID = info.id,
-        state.userName = info.name,
-        state.email = info.email,
-        state.photo = info.photo,
-        state.gender = info.gender,
-        state.is_banned = info.is_banned
+      state.userID = info.id
+      state.userName = info.name
+      state.email = info.email
+      state.photo = info.photo
+      state.gender = info.gender
+      state.is_banned = info.is_banned
+      state.is_login = true
     },
     [LOGOUT](state, info) { // 退出登录
       sessionStorage.removeItem("loginToken");
       state.token = '';
-      state.userID = '',
-        state.userName = '',
-        state.email = '',
-        state.photo = '',
-        state.gender = '',
-        state.is_banned = ''
+      state.userID = ''
+      state.userName = ''
+      state.email = ''
+      state.photo = ''
+      state.gender = ''
+      state.is_banned = ''
+      state.is_login = false
     },
   },
   actions: {
@@ -73,7 +76,7 @@ const store = new Vuex.Store({
 let loadingInstance
 
 router.beforeEach((to, from, next) => {
-  loadingInstance = ElementUI.Loading.service({lock:true})//loadong 效果
+  loadingInstance = ElementUI.Loading.service({ lock: true })//loadong 效果
 
   store.state.token = sessionStorage.getItem('token');//获取本地存储的token
 

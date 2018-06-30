@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-container>
-            <el-main>
-                <img src="https://img.xiaopiu.com/userImages/img875164496eab78.jpg" alt="背景图" class='main-background'>
+            <el-main style="padding:0">
+                <img src="https://img.xiaopiu.com/userImages/img835164495cb9b8.jpg" alt="背景图" class='main-background'>
                 <div class='title-box'>
                     <h1 class='box-title-text'>WeShare</h1>
                     <span class="box-slogan">slogan</span>
@@ -14,48 +14,49 @@
 </template>
 <script>
 export default {
-    methods:{
-        start() {
-            this.$router.push({path:'/square'})
-        }
+  methods: {
+    start() {
+      this.$router.push({ path: "/square" });
     }
+  }
 };
 </script>
-<style>
+<style scoped>
 .main-background {
   width: 100%;
-  max-width: 100%;
-  position: fixed;
-  z-index: -1;
+  /* position: fixed;
+ 
   left: 0;
-  top: 0;
+  top: 0; */
+  z-index: -100;
 }
 
 /*-----------------------------------title-box------------------------------------*/
 .title-box {
-  position: fixed;
-  right: 300px;
+  position: absolute;
+  left: 0;
   top: 350px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 50px 200px 50px 300px;
+
 }
 
-
-
 .box-title-text {
-    font-size: 45px;
+  font-size: 45px;
 }
 
 .box-slogan {
-    margin-bottom:25px; 
-    font-size: 28px;
+  margin-bottom: 25px;
+  font-size: 28px;
 }
 
 .box-start-button {
-    font-size:20px;
-    width: 160px;
-    height: 60px;
+  font-size: 20px;
+  width: 160px;
+  height: 60px;
 }
 </style>
