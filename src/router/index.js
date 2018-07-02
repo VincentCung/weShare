@@ -8,7 +8,7 @@ import InterestDetail from '@/pages/InterestDetail'
 import InterestList from '@/pages/InterestList'
 import InterestManage from '@/pages/InterestManage'
 import MyDetail from '@/pages/MyDetail'
-import MakeBlog from '@/pages/MakeBlog'
+import MyBlog from '@/pages/MyBlog'
 import SearchResult from '@/pages/SearchResult'
 
 
@@ -56,7 +56,6 @@ export default new Router({
     },
     {
       path: '/user',
-      component:MakeBlog,
       children:[
         {
           path:'interest',
@@ -67,6 +66,11 @@ export default new Router({
           path:'detail',
           name:'MyDetail',
           component:MyDetail
+        },
+        {
+          path:'blog',
+          name:'MyBlog',
+          component:MyBlog
         }
       ]
     }
