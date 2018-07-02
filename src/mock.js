@@ -12,7 +12,7 @@ Mock.mock('/user/login', 'post', (req, res) => {
             name: 'a',
             email: '123@123.com',
             photo: '1',
-            gender: '1',
+            gender: '1',   
             is_banned: 0
         }
         result.msg.token = '123'
