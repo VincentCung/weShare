@@ -50,7 +50,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="register" class='login-button'>注 册</el-button>
-        <el-button type="primary" @click="login" class='login-button'>登 录</el-button>
+        <el-button type="primary" @click="login" class='login-button' :loading='showLoading'>登 录</el-button>
       </div>
     </el-dialog>
 
@@ -79,6 +79,7 @@ export default {
       hotContent: "世界杯",
       activeIndex: "/",
       dialogFormVisible: false,
+      showLoding: false,
       loginForm: {
         name: "",
         password: ""
@@ -96,6 +97,7 @@ export default {
     login(e) {
       let that = this;
       let { name, password } = this.loginForm;
+      this.showLoding = true;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$_http
@@ -111,6 +113,7 @@ export default {
                 });
               } else {
                 that.$refs.loginForm.resetFields();
+                that.showLoding = false;
                 that.dialogFormVisible = false;
                 that.$store.dispatch("login", response.data.msg.user);
               }
