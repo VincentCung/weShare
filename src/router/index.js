@@ -58,7 +58,7 @@ export default new Router({
       component: InterestManage
     },
     {
-      path: '/user/blog',
+      path: '/blog',
       name: 'MyBlog',
       component: MyBlog
     },
