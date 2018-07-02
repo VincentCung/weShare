@@ -37,7 +37,7 @@
               </el-form>
             </el-tab-pane>
             <el-tab-pane label="我的关注" name="third">
-            
+              
             </el-tab-pane>
         </el-tabs>
         </el-col>
@@ -64,19 +64,14 @@ export default {
   },
   computed: {
     getName() {
-      return this.$store.state.userName
+      return this.$store.state.user.userName
     },
     getGender() {
-      return this.$store.state.gender
+      return this.$store.state.user.gender
     }
   }
 };
 </script>
-<<<<<<< Updated upstream
-
-<style>
-=======
->>>>>>> Stashed changes
 
 <style scoped>
 .user_picture_button {
