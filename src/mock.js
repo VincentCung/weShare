@@ -15,6 +15,7 @@ Mock.mock('/user/login', 'post', (req, res) => {
             gender: '1',
             is_banned: 0
         }
+        result.msg.token = '123'
     } else {
         result.msg.success = 0
     }
@@ -27,6 +28,20 @@ Mock.mock('/user/register', 'post', (req, res) => {
     result.satusCode = 200
     result.msg = {}
     result.msg.success = 1
-
     return result
+})
+
+Mock.mock('/message/follow', 'post', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+    }
+})
+
+Mock.mock(/\/message\/follow/, 'get', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+        'is_follow|0-1': 1
+    }
 })

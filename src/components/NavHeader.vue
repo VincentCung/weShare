@@ -24,7 +24,7 @@
       </el-col>
       <el-col :span='2' v-if='$store.state.is_login'>
         <i class="el-icon-edit"></i>
-        <el-button type="text" @click='redirectMyDetail'>{{$store.state.userName}}</el-button>
+        <el-button type="text" @click='redirectMyDetail'>{{$store.state.user.name}}</el-button>
       </el-col>
       <span> | </span>
       <el-col :span='2' v-if='!$store.state.is_login'>
@@ -105,7 +105,7 @@ export default {
               name,
               password
             })
-            .then(function(response) {
+            .then(response => {
               if (!response.data.msg.success) {
                 that.$alert("密码或用户名错误，请重试", "提示", {
                   confirmButtonText: "确定",
@@ -115,10 +115,11 @@ export default {
                 that.$refs.loginForm.resetFields();
                 that.showLoading = false;
                 that.dialogFormVisible = false;
-                that.$store.dispatch("login", response.data.msg.user);
+                that.$store.dispatch("login", response.data.msg);
+                this.$router.go(0)
               }
             })
-            .catch(function(error) {
+            .catch(error => {
               console.log(error);
             });
         }
