@@ -16,7 +16,7 @@
           <el-menu-item index="/square">广场</el-menu-item>
           <el-menu-item index="/more">发现趣点</el-menu-item>
           <el-menu-item index="/user/interest" v-if='$store.state.is_login'>我的趣点</el-menu-item>
-          <el-menu-item index="/user" v-if='$store.state.is_login'>我的微博</el-menu-item>
+          <el-menu-item index="/user/blog" v-if='$store.state.is_login'>我的微博</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span='2' v-if='!$store.state.is_login'>
@@ -24,7 +24,7 @@
       </el-col>
       <el-col :span='2' v-if='$store.state.is_login'>
         <i class="el-icon-edit"></i>
-        <el-button type="text">{{$store.state.userName}}</el-button>
+        <el-button type="text" @click='redirectMyDetail'>{{$store.state.userName}}</el-button>
       </el-col>
       <span> | </span>
       <el-col :span='2' v-if='!$store.state.is_login'>
@@ -131,6 +131,9 @@ export default {
     register() {
       this.dialogFormVisible = false;
       this.$router.push({ path: "/register" });
+    },
+    redirectMyDetail() {
+      this.$router.push({ path: "/user/detail" });
     }
   }
 };
