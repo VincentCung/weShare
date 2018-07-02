@@ -23,13 +23,13 @@
             <el-tab-pane label="修改密码" name="second">
               <el-form class="password-form">
                 <el-form-item>
-                  <el-input placeholder="原密码" v-model="oldPassword" class="input" type="password"></el-input>
+                  <el-input placeholder="原密码" v-model="passwordForm.oldPassword" class="input" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-input placeholder="新密码" v-model="newPassword" class="input" type="password"></el-input>
+                  <el-input placeholder="新密码" v-model="passwordForm.newPassword" class="input" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-input placeholder="确认新密码" v-model="newPassword" class="input" type="password"></el-input>
+                  <el-input placeholder="确认新密码" v-model="passwordForm.newPassword" class="input" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" class="change_button">修改</el-button>
