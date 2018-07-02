@@ -56,7 +56,6 @@ export default {
           }
         })
         .then(response => {
-
           this.isFollow = !!response.data.msg.is_follow;
         })
         .catch(error => {

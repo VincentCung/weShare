@@ -102,6 +102,7 @@ export default {
 }
 .background {
   width: 100%;
+  z-index: -100;
 }
 .background-crop {
   max-width: 100%;

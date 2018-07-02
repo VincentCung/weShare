@@ -2,7 +2,7 @@
   <div id="app">
     <nav-header></nav-header>  
     <keep-alive>
-      <router-view/>
+      <router-view class="router-view-wrap"/>
     </keep-alive>
   </div>
 </template>
@@ -33,6 +33,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.router-view-wrap {
+  padding-top: 65px;
 }
 </style>
 
