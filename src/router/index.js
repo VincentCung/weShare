@@ -8,8 +8,9 @@ import InterestDetail from '@/pages/InterestDetail'
 import InterestList from '@/pages/InterestList'
 import InterestManage from '@/pages/InterestManage'
 import MyDetail from '@/pages/MyDetail'
-import MyBlog from '@/pages/MyBlog'
+import Blog from '@/pages/Blog'
 import SearchResult from '@/pages/SearchResult'
+import BlogDetail from '@/pages/BlogDtail'
 
 
 Vue.use(Router)
@@ -58,9 +59,14 @@ export default new Router({
       component: InterestManage
     },
     {
-      path: '/user/blog',
-      name: 'MyBlog',
-      component: MyBlog
+      path: '/blogs',
+      name: 'Blog',
+      component: Blog,
+    },
+    {
+      path: '/blog',
+      name: 'BlogDetail',
+      component: BlogDetail,
     },
     {
       path: '/user/detail',

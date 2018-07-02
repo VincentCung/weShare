@@ -16,7 +16,7 @@
           <el-menu-item index="/square">广场</el-menu-item>
           <el-menu-item index="/more">发现趣点</el-menu-item>
           <el-menu-item index="/user/interest" v-if='$store.state.is_login'>我的趣点</el-menu-item>
-          <el-menu-item index="/user/blog" v-if='$store.state.is_login'>我的微博</el-menu-item>
+          <el-menu-item index="/blog" v-if='$store.state.is_login'>我的微博</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span='2' v-if='!$store.state.is_login'>
@@ -24,7 +24,7 @@
       </el-col>
       <el-col :span='2' v-if='$store.state.is_login'>
         <i class="el-icon-edit"></i>
-        <el-button type="text" @click='redirectMyDetail'>{{$store.state.userName}}</el-button>
+        <el-button type="text" @click='redirectMyDetail'>{{$store.state.user.name}}</el-button>
       </el-col>
       <span> | </span>
       <el-col :span='2' v-if='!$store.state.is_login'>
@@ -79,7 +79,7 @@ export default {
       hotContent: "世界杯",
       activeIndex: "/",
       dialogFormVisible: false,
-      showLoding: false,
+      showLoading: false,
       loginForm: {
         name: "",
         password: ""
@@ -97,7 +97,7 @@ export default {
     login(e) {
       let that = this;
       let { name, password } = this.loginForm;
-      this.showLoding = true;
+      this.showLoading = true;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$_http
@@ -105,7 +105,7 @@ export default {
               name,
               password
             })
-            .then(function(response) {
+            .then(response => {
               if (!response.data.msg.success) {
                 that.$alert("密码或用户名错误，请重试", "提示", {
                   confirmButtonText: "确定",
@@ -113,12 +113,13 @@ export default {
                 });
               } else {
                 that.$refs.loginForm.resetFields();
-                that.showLoding = false;
+                that.showLoading = false;
                 that.dialogFormVisible = false;
-                that.$store.dispatch("login", response.data.msg.user);
+                that.$store.dispatch("login", response.data.msg);
+                this.$router.go(0)
               }
             })
-            .catch(function(error) {
+            .catch(error => {
               console.log(error);
             });
         }
