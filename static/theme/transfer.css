@@ -658,7 +658,7 @@
     display: table-cell; }
   .el-input-group__append, .el-input-group__prepend {
     background-color: #f5f7fa;
-    color: #909399;
+    color: #ed967d;
     vertical-align: middle;
     display: table-cell;
     position: relative;
@@ -1290,42 +1290,42 @@
         border-color: #fde2e2; }
   .el-button--info {
     color: #fff;
-    background-color: #909399;
-    border-color: #909399; }
+    background-color: #ed967d;
+    border-color: #ed967d; }
     .el-button--info:hover, .el-button--info:focus {
-      background: #a6a9ad;
-      border-color: #a6a9ad;
+      background: #f1ab97;
+      border-color: #f1ab97;
       color: #fff; }
     .el-button--info:active {
-      background: #82848a;
-      border-color: #82848a;
+      background: #d58771;
+      border-color: #d58771;
       color: #fff;
       outline: none; }
     .el-button--info.is-active {
-      background: #82848a;
-      border-color: #82848a;
+      background: #d58771;
+      border-color: #d58771;
       color: #fff; }
     .el-button--info.is-disabled, .el-button--info.is-disabled:hover, .el-button--info.is-disabled:focus, .el-button--info.is-disabled:active {
       color: #fff;
-      background-color: #c8c9cc;
-      border-color: #c8c9cc; }
+      background-color: #f6cbbe;
+      border-color: #f6cbbe; }
     .el-button--info.is-plain {
-      color: #909399;
-      background: #f4f4f5;
-      border-color: #d3d4d6; }
+      color: #ed967d;
+      background: #fdf5f2;
+      border-color: #f8d5cb; }
       .el-button--info.is-plain:hover, .el-button--info.is-plain:focus {
-        background: #909399;
-        border-color: #909399;
+        background: #ed967d;
+        border-color: #ed967d;
         color: #fff; }
       .el-button--info.is-plain:active {
-        background: #82848a;
-        border-color: #82848a;
+        background: #d58771;
+        border-color: #d58771;
         color: #fff;
         outline: none; }
       .el-button--info.is-plain.is-disabled, .el-button--info.is-plain.is-disabled:hover, .el-button--info.is-plain.is-disabled:focus, .el-button--info.is-plain.is-disabled:active {
-        color: #bcbec2;
-        background-color: #f4f4f5;
-        border-color: #e9e9eb; }
+        color: #f4c0b1;
+        background-color: #fdf5f2;
+        border-color: #fbeae5; }
   .el-button--medium {
     padding: 10px 20px;
     font-size: 14px;

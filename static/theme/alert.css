@@ -257,10 +257,10 @@
     .el-alert--success .el-alert__description {
       color: #67c23a; }
   .el-alert--info {
-    background-color: #f4f4f5;
-    color: #909399; }
+    background-color: #fdf5f2;
+    color: #ed967d; }
     .el-alert--info .el-alert__description {
-      color: #909399; }
+      color: #ed967d; }
   .el-alert--warning {
     background-color: #fdf6ec;
     color: #e6a23c; }
