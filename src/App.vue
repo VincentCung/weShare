@@ -1,24 +1,38 @@
 <template>
   <div id="app">
-    <h1>{{message}}</h1>
-    <template v-if ="seen">
-      <h1>god</h1>
-      </template> 
+    <nav-header></nav-header>  
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
 <script>
+import NavHeader from "./components/NavHeader";
+
 export default {
   name: "App",
   data() {
     return {
-      message: "Hello World!",
-      seen: "seen"
-      };
+
+    }
+  },
+  components: {
+    NavHeader
+  },
+  methods:{
+
   }
-}
+};
 </script>
 
 <style>
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 </style>
 
