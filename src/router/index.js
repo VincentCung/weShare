@@ -41,38 +41,31 @@ export default new Router({
       path: '/interest',
       name: 'InterestDetail',
       component: InterestDetail,
-      children:[
-        {
-          path:"result",
-          name:'SearchResult',
-          component:SearchResult
-        }
-      ]
-    }, 
+    },
+    { 
+      path: "/interest/result",
+      name: 'SearchResult',
+      component: SearchResult
+    },
     {
       path: '/more',
       name: 'InterestList',
       component: InterestList
     },
     {
-      path: '/user',
-      children:[
-        {
-          path:'interest',
-          name:'InterestMange',
-          component:InterestManage
-        },
-        {
-          path:'detail',
-          name:'MyDetail',
-          component:MyDetail
-        },
-        {
-          path:'blog',
-          name:'MyBlog',
-          component:MyBlog
-        }
-      ]
+      path: '/user/interest',
+      name: 'InterestMange',
+      component: InterestManage
+    },
+    {
+      path: '/user/blog',
+      name: 'MyBlog',
+      component: MyBlog
+    },
+    {
+      path: '/user/detail',
+      name: 'MyDetail',
+      component: MyDetail
     }
   ]
 })
