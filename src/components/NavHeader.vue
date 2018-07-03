@@ -131,7 +131,7 @@ export default {
         message: "注销成功",
         type: "success"
       });
-      this.$router.push({ path: "/x" });
+      this.$router.push({ path: "/square" });
     },
     register() {
       this.dialogFormVisible = false;
@@ -147,7 +147,7 @@ export default {
 <style >
 /*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
-  z-index: 10000;
+  z-index: 100;
   position: fixed;
   left: 0;
   top: 0;

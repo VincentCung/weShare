@@ -2,18 +2,18 @@
   <div id="app">
     <nav-header></nav-header>
     <keep-alive>
-      <router-view class="router-view-wrap" id="page-main"/>
+      <router-view class="router-view-wrap" id="page-main" />
     </keep-alive>
 
   </div>
 </template>
 
 <script>
-import NavHeader from './components/NavHeader'
+import NavHeader from "./components/NavHeader";
 
 export default {
   name: "App",
-  components:{
+  components: {
     NavHeader
   }
 };
@@ -32,5 +32,13 @@ body {
 }
 .router-view-wrap {
   padding-top: 65px;
+}
+
+.clearfix::after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 </style>
