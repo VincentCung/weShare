@@ -76,7 +76,6 @@ Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
             ]
         }
     })
-    console.log(req)
 
     return result
 })

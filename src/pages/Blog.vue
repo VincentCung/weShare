@@ -11,7 +11,7 @@
             <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
           </el-col>
           <el-col :span="8">
-            <div style="background-color:red">123</div>
+            <user-side-bar :counter='counter'></user-side-bar>
           </el-col>
         </el-row>
       </div>
@@ -24,6 +24,7 @@
 <script>
 import MainHeader from "@/components/MainHeader";
 import Weibo from "@/components/Weibo";
+import UserSideBar from '@/components/UserSideBar'
 
 export default {
   data() {
@@ -32,12 +33,18 @@ export default {
       followLoading: false,
       userName: '',
       avatarUrl:'',
-      weibos: []
+      weibos: [],
+      counter:{
+        count_follow:10,
+        count_weibo:12,
+        count_fans:1
+      }
     };
   },
   components: {
     MainHeader,
-    Weibo
+    Weibo,
+    UserSideBar
   },
   methods: {
     follow() {
