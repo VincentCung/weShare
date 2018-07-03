@@ -20,6 +20,8 @@ const getState = () => {
     return state
 }
 
+
+      //TODO: 验证失效的回调
 //注册状态管理全局参数
 const store = new Vuex.Store({
     state: getState(),
