@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    <nav-header></nav-header>
+    <nav-header></nav-header>  
     <keep-alive>
       <router-view class="router-view-wrap" id="page-main" />
     </keep-alive>
-
   </div>
 </template>
 
@@ -15,14 +14,14 @@ export default {
   name: "App",
   components: {
     NavHeader
+  },
+  methods:{
+
   }
 };
 </script>
 
 <style>
-body {
-  margin: 0;
-}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,3 +41,4 @@ body {
   visibility: hidden;
 }
 </style>
+
