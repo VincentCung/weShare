@@ -24,10 +24,6 @@ export default {
 <style scoped>
 .main-background {
   width: 100%;
-  /* position: fixed;
- 
-  left: 0;
-  top: 0; */
   z-index: -100;
 }
 

@@ -8,12 +8,13 @@ import InterestDetail from '@/pages/InterestDetail'
 import InterestList from '@/pages/InterestList'
 import InterestManage from '@/pages/InterestManage'
 import MyDetail from '@/pages/MyDetail'
-import MakeBlog from '@/pages/MakeBlog'
+import Blog from '@/pages/Blog'
 import SearchResult from '@/pages/SearchResult'
+import BlogDetail from '@/pages/BlogDtail'
 
 
 Vue.use(Router)
-
+//TODO:判断登录态的需求
 export default new Router({
   mode: 'history',
   routes: [
@@ -41,34 +42,36 @@ export default new Router({
       path: '/interest',
       name: 'InterestDetail',
       component: InterestDetail,
-      children:[
-        {
-          path:"result",
-          name:'SearchResult',
-          component:SearchResult
-        }
-      ]
-    }, 
+    },
+    { 
+      path: "/interest/result",
+      name: 'SearchResult',
+      component: SearchResult
+    },
     {
       path: '/more',
       name: 'InterestList',
       component: InterestList
     },
     {
-      path: '/user',
-      component:MakeBlog,
-      children:[
-        {
-          path:'interest',
-          name:'InterestMange',
-          component:InterestManage
-        },
-        {
-          path:'detail',
-          name:'MyDetail',
-          component:MyDetail
-        }
-      ]
+      path: '/user/interest',
+      name: 'InterestMange',
+      component: InterestManage
+    },
+    {
+      path: '/blogs',
+      name: 'Blog',
+      component: Blog,
+    },
+    {
+      path: '/blog',
+      name: 'BlogDetail',
+      component: BlogDetail,
+    },
+    {
+      path: '/user/detail',
+      name: 'MyDetail',
+      component: MyDetail
     }
   ]
 })

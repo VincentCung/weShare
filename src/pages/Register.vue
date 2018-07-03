@@ -97,11 +97,12 @@ export default {
 </script>
 <style >
 .main-box {
-  padding: 30px 5%;
+  margin: 15px 25px;
   position: relative;
 }
 .background {
   width: 100%;
+  z-index: -100;
 }
 .background-crop {
   max-width: 100%;
