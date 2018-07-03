@@ -103,6 +103,7 @@ export default {
       .catch(error => {
         console.log(error);
       });
+      //TODO: 请求其他信息
   },
   computed: {
     isOthers() {
