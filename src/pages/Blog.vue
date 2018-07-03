@@ -7,7 +7,7 @@
       <div class='body-wrap'>
         <el-row :gutter="20">
           <el-col :span="16">
-            <!-- TODO:微博转发 -->
+            <!-- TODO:微博转发 -->  <!-- TODO:没有微博的时候 -->
             <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
           </el-col>
           <el-col :span="8">
