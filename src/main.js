@@ -26,7 +26,11 @@ Vue.config.productionTip = false
 let loadingInstance
 
 router.beforeEach((to, from, next) => {
-  loadingInstance = ElementUI.Loading.service({ lock: true })//loadong 效果
+  loadingInstance = ElementUI.Loading.service({ 
+    lock: true ,
+    fullscreen:false,
+target:'#page-main'
+  })//loadong 效果
 
   store.state.token = sessionStorage.getItem('token');//获取本地存储的token
 
