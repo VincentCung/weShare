@@ -2,7 +2,7 @@
   <div id="app">
     <nav-header></nav-header>
     <keep-alive>
-      <router-view class="router-view-wrap"/>
+      <router-view class="router-view-wrap" id="page-main"/>
     </keep-alive>
 
   </div>
