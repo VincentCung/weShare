@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class='nav-header' type="flex" align="middle" :gutter="20" :style="$route.path=='/'?'position: fixed;left: 0;top: 0;':''">
+    <el-row class='nav-header' type="flex" align="middle" :gutter="20" >
       <el-col :span='2' :offset="2">
         <router-link to='/'>
           <img src="../assets/logo.png" alt="test" width="80">
@@ -16,7 +16,7 @@
           <el-menu-item index="/square">广场</el-menu-item>
           <el-menu-item index="/more">发现趣点</el-menu-item>
           <el-menu-item index="/user/interest" v-if='$store.state.is_login'>我的趣点</el-menu-item>
-          <el-menu-item index="/blog" v-if='$store.state.is_login'>我的微博</el-menu-item>
+          <el-menu-item index="/blogs" v-if='$store.state.is_login'>我的微博</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span='2' v-if='!$store.state.is_login'>
@@ -116,7 +116,7 @@ export default {
                 that.showLoading = false;
                 that.dialogFormVisible = false;
                 that.$store.dispatch("login", response.data.msg);
-                this.$router.go(0)
+                this.$router.go(0);
               }
             })
             .catch(error => {
@@ -131,6 +131,7 @@ export default {
         message: "注销成功",
         type: "success"
       });
+      this.$router.push({ path: "/square" });
     },
     register() {
       this.dialogFormVisible = false;
@@ -146,6 +147,10 @@ export default {
 <style >
 /*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
   margin: 0 !important;
   width: 100%;
   border-bottom: solid 1px #e6e6e6;

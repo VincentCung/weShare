@@ -11,7 +11,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 .header-box {
   height: 270px;
   background-color: rgba(255, 255, 255, 0.75);
