@@ -6,10 +6,10 @@
                 <el-form class="data-form" >
                    <el-form-item>
                         <img src="https://img.xiaopiu.com/userImages/img141644e3b5688.jpg" class="user_picture">
-                        <el-button type="warning" class="user_picture_button">更换</el-button>
+                        <el-button type="warning" class="user-picture-button">更换</el-button>
                     </el-form-item>
                     <el-form-item>
-                        <el-input :placeholder="getName" v-model="newName" class="input" ></el-input>
+                        <el-input  v-model="userName" class="input" ></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-radio v-model="gender" label="1">男</el-radio>
@@ -17,7 +17,7 @@
                         <el-radio v-model="gender" label="0">不显示</el-radio>
                     </el-form-item>          
                     <el-form-item>
-                        <el-button type="primary" class="change_button">修改</el-button>
+                        <el-button type="primary" class="change-button">修改</el-button>
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
@@ -33,7 +33,7 @@
                   <el-input placeholder="确认新密码" v-model="passwordForm.newPassword2" class="input" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" class="change_button">修改</el-button>
+                  <el-button type="primary" class="change-button">修改</el-button>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
@@ -78,16 +78,16 @@ export default {
 </script>
 
 <style scoped>  
-.user_picture_button {
+.user-picture-button {
   width: 6%;
 }
 .input {
   width: 20%;
 }
-.change_button {
+.change-button {
   width: 20%;
 }
-.user_picture {
-  border-radius: 1000px
+.user-picture {
+  border-radius: 50%
 }
 </style>

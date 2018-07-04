@@ -138,7 +138,7 @@ export default {
       this.$router.push({ path: "/register" });
     },
     redirectMyDetail() {
-      this.$router.push({ path: "/user/deta il" });
+      this.$router.push({ path: "/user/detail" });
     }
   }
 };
