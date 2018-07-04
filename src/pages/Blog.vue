@@ -36,30 +36,13 @@ export default {
       avatarUrl: "",
       weibos: [],
       result: {
-        counter: {
-          count_follow: 0,
-          count_weibo: 0,
-          count_fans: 0
+        counter:{
+          count_follow:0,
+          count_fans:0,
+          count_weibo:0
         },
-        interests: [
-          {
-            id: 1,
-            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
-            name: "test"
-          }
-        ],
-        follow: [
-          {
-            id: 1,
-            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
-            name: "test"
-          },
-          {
-            id: 2,
-            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
-            name: "test"
-          }
-        ]
+        follow:[],
+        interests:[]
       }
     };
   },
@@ -68,7 +51,88 @@ export default {
     Weibo,
     UserSideBar
   },
+  created() {
+    if (this.isOthers && this.$store.state.is_login) {
+      this.getFollowInfo();
+    }
+    let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
+    console.log(blogId);
+    let params = { targetId: blogId };
+    if (this.$store.state.is_login) {
+      params.token = this.$store.state.token;
+    }
+    this.getUserWeibos(params);
+    this.getUserInfoList({ userId: blogId });
+  },
+  beforeRouteUpdate(to,from,next) {
+    if (this.isOthers && this.$store.state.is_login) {
+      this.getFollowInfo();
+    }
+    let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
+    console.log(blogId);
+    let params = { targetId: blogId };
+    if (this.$store.state.is_login) {
+      params.token = this.$store.state.token;
+    }
+    this.getUserWeibos(params);
+    this.getUserInfoList({ userId: blogId });
+    next()
+    //TODO: 请求其他信息
+  },
+  computed: {
+    isOthers() {
+      return !!this.$route.query.userId;
+    }
+  },
   methods: {
+    getFollowInfo() {
+      this.$_http
+        .get("/message/follow", {
+          params: {
+            token: this.$store.state.token,
+            followedId: this.$route.query.userId,
+            followerId: this.$store.state.user.id
+          }
+        })
+        .then(response => {
+          this.isFollow = !!response.data.msg.is_follow;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getUserWeibos(params) {
+      this.$_http
+        .get("/weibo/user", {
+          params
+        })
+        .then(response => {
+          console.log(response.data);
+          let data = response.data.msg;
+          this.weibos = data.weibos;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getUserInfoList(params) {
+      this.$_http
+        .get("/message/user", {
+          params
+        })
+        .then(response => {
+          console.log(response.data);
+          let data = response.data.msg;
+          let { user, counter, follow, interests } = data;
+
+          this.result = { counter, follow, interests };
+          this.userName = user.name;
+          this.avatarUrl = user.photo;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     follow() {
       this.followLoading = true;
       this.$_http
@@ -88,48 +152,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
-  },
-  created() {
-    if (this.isOthers && this.$store.state.is_login) {
-      this.$_http
-        .get("/message/follow", {
-          params: {
-            token: this.$store.state.token,
-            followedId: this.$route.query.userId,
-            followerId: this.$store.state.user.id
-          }
-        })
-        .then(response => {
-          this.isFollow = !!response.data.msg.is_follow;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-    let params = { targetId: this.$route.query.userId };
-    if (this.$store.state.is_login) {
-      params.token = this.$store.state.token;
-    }
-    this.$_http
-      .get("/weibo/user", {
-        params
-      })
-      .then(response => {
-        console.log(response.data);
-        let data = response.data.msg;
-        this.weibos = data.weibos;
-        this.userName = data.user.name;
-        this.avatarUrl = data.user.photo;
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    //TODO: 请求其他信息
-  },
-  computed: {
-    isOthers() {
-      return !!this.$route.query.userId;
     }
   }
 };
