@@ -84,6 +84,7 @@ export default {
   width: 20%;
 }
 .user_picture {
-  border-radius: 1000px;
+  border-radius: 50%;
 }
 </style>
+  
