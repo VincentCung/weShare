@@ -17,7 +17,7 @@ Mock.mock('/user/login', 'post', (req, res) => {
             is_banned: 0
         }
         result.msg.token = '123'
-    } else {
+    }else {
         result.msg.success = 0
     }
     return result
