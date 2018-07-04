@@ -85,7 +85,7 @@ export default {
         password: ""
       },
       rules: {
-        name: [{ validator: validateName, trigger: "blur" }],
+        name: [{ validator: validateName, trigger:"blur" }],
         password: [{ validator: validatePass, trigger: "blur" }]
       }
     };

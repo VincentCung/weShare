@@ -12,9 +12,11 @@
                         <el-input  v-model="userName" class="input" ></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-radio v-model="gender" label="1">男</el-radio>
-                        <el-radio v-model="gender" label="2">女</el-radio>
-                        <el-radio v-model="gender" label="0">不显示</el-radio>
+                        <el-radio-group v-model="gender">
+                          <el-radio :label="1">男</el-radio>
+                          <el-radio :label="2">女</el-radio>
+                          <el-radio :label="0">不显示</el-radio>
+                        </el-radio-group>
                     </el-form-item>          
                     <el-form-item>
                         <el-button type="primary" class="change-button">修改</el-button>
@@ -50,9 +52,8 @@ export default {
   data() {
     return {
       activeName: "first",
-      userName: "USER_1",
-      newName: "",
-      gender:0,
+      userName: "",
+      gender: '0',
       passwordForm: {
         oldPassword: "",
         newPassword: "",
@@ -61,23 +62,18 @@ export default {
     };
   },
   created() {
-    this.gender = this.$store.state.user.gender 
+    this.gender = this.$store.state.user.gender;
+    this.userName = this.$store.state.user.name;
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
     }
   },
-  computed: {
-    getName() {
-      return this.$store.state.user.name
-    },
-
-  }
 };
 </script>
 
-<style scoped>  
+<style scoped>
 .user-picture-button {
   width: 6%;
 }
@@ -87,7 +83,7 @@ export default {
 .change-button {
   width: 20%;
 }
-.user-picture {
-  border-radius: 50%
+.user_picture {
+  border-radius: 50%;
 }
 </style>
