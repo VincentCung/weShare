@@ -9,7 +9,7 @@
                         <el-button type="warning" class="user_picture_button">更换</el-button>
                     </el-form-item>
                     <el-form-item>
-                        <el-input :placeholder="userName" v-model="newName" class="input" ></el-input>
+                        <el-input v-model="userName" class="input" ></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-radio-group v-model="gender">
@@ -53,7 +53,6 @@ export default {
     return {
       activeName: "first",
       userName: "",
-      newName: "",
       gender: '0',
       passwordForm: {
         oldPassword: "",
