@@ -39,10 +39,6 @@
             </el-carousel-item>
           </el-carousel>
         </div>
-<!--  -->
-        <div class="test_img">
-          <img src="../assets/1.jpg">
-        </div>
 
       </el-main>
     </el-container>

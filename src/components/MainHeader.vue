@@ -14,7 +14,7 @@
 <style scoped>
 .header-box {
   height: 270px;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 1);
   margin: 0;
   border: 0;
 }

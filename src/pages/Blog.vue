@@ -158,7 +158,7 @@ export default {
 </script>
 <style>
 .main-page {
-  background-color: #47bcc9;
+  background-color: #b3dddc;
 }
 .main-container {
   width: 920px;
