@@ -156,7 +156,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .main-page {
   background-color: #47bcc9;
 }

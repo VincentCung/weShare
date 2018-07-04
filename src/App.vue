@@ -35,6 +35,7 @@ body {
 }
 .router-view-wrap {
   padding-top: 65px;
+  background-color: #47bcc9;
 }
 body {
   margin:0;

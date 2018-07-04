@@ -155,6 +155,7 @@ export default {
   width: 100%;
   border-bottom: solid 1px #e6e6e6;
   background: rgba(255, 255, 255, 0.75);
+  min-width: 1200px;
 }
 
 .nav-header-menu {
