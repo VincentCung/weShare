@@ -12,11 +12,11 @@ Mock.mock('/user/login', 'post', (req, res) => {
             id: 123,
             name: 'a',
             email: '123@123.com',
-            photo: '1',
+            photo: 'https://img.xiaopiu.com/userImages/img201644e5199c0.jpg',
             gender: 1,
             is_banned: 0
         }
-        result.msg.token = '123'
+        result.msg.token = '1234'
     }else {
         result.msg.success = 0
     }
@@ -24,7 +24,6 @@ Mock.mock('/user/login', 'post', (req, res) => {
 })
 
 Mock.mock('/user/register', 'post', (req, res) => {
-    info = JSON.parse(req.body)
     let result = {}
     result.satusCode = 200
     result.msg = {}
@@ -108,3 +107,16 @@ Mock.mock(/\/message\/user/, 'get', {
     }
 })
 
+Mock.mock('/message/modify_pass','post',(req,res)=>{
+    let result={
+        satusCode: 200,
+        msg: {
+            success: 0,
+        }
+    }
+    info = JSON.parse(req.body)
+    if(info.old_password=='123'){
+        result.msg.success = 1
+    }
+    return result
+})

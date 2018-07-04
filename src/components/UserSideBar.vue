@@ -20,6 +20,7 @@
       <div class="box-title">
         <h4>
           <!-- TODO:跳转到对应页面 -->
+          <!-- TODO:没有到时候显示 -->
           <router-link v-if='!isOthers' to="/" class='box-title-text'>关注的人</router-link>
           <span v-else class='box-title-text'>他关注的人</span>
         </h4>
@@ -61,7 +62,7 @@
 .counter-box,
 .follow-list-box,
 .subscribe-list-box {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: #fff;
   font-size: 12px;
   margin-bottom: 16px;
 }

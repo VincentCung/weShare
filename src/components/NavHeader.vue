@@ -7,6 +7,7 @@
         </router-link>
       </el-col>
       <el-col :span='5'>
+        <!-- TODO:搜索 -->
         <el-input :placeholder='"大家都在搜:"+hotContent' clearable @keypress.enter.native='search' class='search-bar'>
           <i slot="suffix" class="el-input__icon el-icon-search"></i>
         </el-input>
@@ -95,7 +96,6 @@ export default {
       console.log(e);
     },
     login(e) {
-      let that = this;
       let { name, password } = this.loginForm;
       this.showLoading = true;
       this.$refs.loginForm.validate(valid => {
@@ -107,15 +107,15 @@ export default {
             })
             .then(response => {
               if (!response.data.msg.success) {
-                that.$alert("密码或用户名错误，请重试", "提示", {
+                this.$alert("密码或用户名错误，请重试", "提示", {
                   confirmButtonText: "确定",
                   type: "error"
                 });
               } else {
-                that.$refs.loginForm.resetFields();
-                that.showLoading = false;
-                that.dialogFormVisible = false;
-                that.$store.dispatch("login", response.data.msg);
+                this.$refs.loginForm.resetFields();
+                this.showLoading = false;
+                this.dialogFormVisible = false;
+                this.$store.dispatch("login", response.data.msg);
                 this.$router.go(0);
               }
             })
@@ -155,6 +155,7 @@ export default {
   width: 100%;
   border-bottom: solid 1px #e6e6e6;
   background: rgba(255, 255, 255, 0.75);
+  min-width: 1200px;
 }
 
 .nav-header-menu {

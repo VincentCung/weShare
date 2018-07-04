@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav-header></nav-header>  
+    <nav-header id='page-main'></nav-header>  
     <keep-alive>
       <router-view class="router-view-wrap" id="page-main" />
     </keep-alive>
@@ -35,6 +35,10 @@ body {
 }
 .router-view-wrap {
   padding-top: 65px;
+  background-color: #b3dddc;
+}
+body {
+  margin:0;
 }
 
 .clearfix::after {

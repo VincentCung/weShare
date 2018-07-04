@@ -7,6 +7,7 @@
       <div class='body-wrap'>
         <el-row :gutter="20">
           <el-col :span="16">
+            <!-- TODO:发送微博 -->
             <!-- TODO:微博转发 -->
             <!-- TODO:没有微博的时候 -->
             <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
@@ -52,14 +53,14 @@ export default {
     UserSideBar
   },
   created() {
+
     if (this.isOthers && this.$store.state.is_login) {
       this.getFollowInfo();
     }
     let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
-    console.log(blogId);
     let params = { targetId: blogId };
     if (this.$store.state.is_login) {
-      params.token = this.$store.state.token;
+      params.token = localStorage.getItem('loginToken');
     }
     this.getUserWeibos(params);
     this.getUserInfoList({ userId: blogId });
@@ -69,10 +70,9 @@ export default {
       this.getFollowInfo();
     }
     let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
-    console.log(blogId);
     let params = { targetId: blogId };
     if (this.$store.state.is_login) {
-      params.token = this.$store.state.token;
+      params.token = localStorage.getItem('loginToken');
     }
     this.getUserWeibos(params);
     this.getUserInfoList({ userId: blogId });
@@ -89,7 +89,7 @@ export default {
       this.$_http
         .get("/message/follow", {
           params: {
-            token: this.$store.state.token,
+            token: localStorage.getItem('loginToken'),
             followedId: this.$route.query.userId,
             followerId: this.$store.state.user.id
           }
@@ -137,7 +137,7 @@ export default {
       this.followLoading = true;
       this.$_http
         .post("/message/follow", {
-          token: this.$store.state.token,
+          token: localStorage.getItem('loginToken'),
           is_follow: !this.isFollow,
           followedId: this.$route.query.userId,
           followerId: this.$store.state.user.id
@@ -156,9 +156,9 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .main-page {
-  background-color: #47bcc9;
+  background-color: #b3dddc;
 }
 .main-container {
   width: 920px;
