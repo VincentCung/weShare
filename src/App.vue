@@ -1,27 +1,30 @@
 <template>
   <div id="app">
-    <nav-header></nav-header>
+    <nav-header></nav-header>  
     <keep-alive>
-      <router-view/>
+      <router-view class="router-view-wrap" id="page-main" />
     </keep-alive>
-
   </div>
 </template>
 
 <script>
-import NavHeader from './components/NavHeader'
+import NavHeader from "./components/NavHeader";
 
 export default {
   name: "App",
-  components:{
+  components: {
     NavHeader
+  },
+  methods:{
+
   }
 };
 </script>
 
 <style>
+
 body {
-  margin: 0;
+  margin :0 ;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -30,4 +33,16 @@ body {
   text-align: center;
   color: #2c3e50;
 }
+.router-view-wrap {
+  padding-top: 65px;
+}
+
+.clearfix::after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 </style>
+
