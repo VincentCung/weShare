@@ -57,7 +57,7 @@ Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
             },
             "weibos|1-20": [
                 {
-                    "id|1-100": 1,
+                    "id|+1": 1,
                     content: {
                         "create_time": '@date("yyyy年MM月dd日") @time("HH:mm")',
                         "context": '@string(7, 300)',

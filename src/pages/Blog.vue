@@ -7,11 +7,12 @@
       <div class='body-wrap'>
         <el-row :gutter="20">
           <el-col :span="16">
-            <!-- TODO:微博转发 -->  <!-- TODO:没有微博的时候 -->
+            <!-- TODO:微博转发 -->
+            <!-- TODO:没有微博的时候 -->
             <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
           </el-col>
           <el-col :span="8">
-            <user-side-bar :counter='counter'></user-side-bar>
+            <user-side-bar :info='result' :isOthers="isOthers"></user-side-bar>
           </el-col>
         </el-row>
       </div>
@@ -24,20 +25,41 @@
 <script>
 import MainHeader from "@/components/MainHeader";
 import Weibo from "@/components/Weibo";
-import UserSideBar from '@/components/UserSideBar'
+import UserSideBar from "@/components/UserSideBar";
 
 export default {
   data() {
     return {
       isFollow: false,
       followLoading: false,
-      userName: '',
-      avatarUrl:'',
+      userName: "",
+      avatarUrl: "",
       weibos: [],
-      counter:{
-        count_follow:0,
-        count_weibo:0,
-        count_fans:0
+      result: {
+        counter: {
+          count_follow: 0,
+          count_weibo: 0,
+          count_fans: 0
+        },
+        interests: [
+          {
+            id: 1,
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+            name: "test"
+          }
+        ],
+        follow: [
+          {
+            id: 1,
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+            name: "test"
+          },
+          {
+            id: 2,
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+            name: "test"
+          }
+        ]
       }
     };
   },
@@ -94,16 +116,16 @@ export default {
         params
       })
       .then(response => {
-        console.log(response.data)
-        let data = response.data.msg
-        this.weibos = data.weibos
-        this.userName = data.user.name
-        this.avatarUrl = data.user.photo
+        console.log(response.data);
+        let data = response.data.msg;
+        this.weibos = data.weibos;
+        this.userName = data.user.name;
+        this.avatarUrl = data.user.photo;
       })
       .catch(error => {
         console.log(error);
       });
-      //TODO: 请求其他信息
+    //TODO: 请求其他信息
   },
   computed: {
     isOthers() {
