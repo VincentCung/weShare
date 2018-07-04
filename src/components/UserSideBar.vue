@@ -62,7 +62,7 @@
 .counter-box,
 .follow-list-box,
 .subscribe-list-box {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #fff;
   font-size: 12px;
   margin-bottom: 16px;
 }

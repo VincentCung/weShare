@@ -37,7 +37,7 @@
 
 <style scoped>
 .weibo-box {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #fff;
   position: relative;
   text-align: start;
   margin-bottom: 10px;

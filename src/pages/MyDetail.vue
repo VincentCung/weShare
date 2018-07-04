@@ -145,7 +145,7 @@ export default {
 
 <style scoped>
 .main-page {
-  background-color: #47bcc9;
+  background-color: #b3dddc;
 }
 .main-container {
   width: 920px;
