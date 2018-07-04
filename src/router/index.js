@@ -14,7 +14,7 @@ import BlogDetail from '@/pages/BlogDtail'
 
 
 Vue.use(Router)
-
+//TODO:判断登录态的需求
 export default new Router({
   mode: 'history',
   routes: [
