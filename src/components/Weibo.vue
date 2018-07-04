@@ -6,11 +6,11 @@
                 <div v-if="deleteAble" class="box-delete-btn">
                     <el-button type="info" icon="el-icon-delete" circle size="mini"></el-button>
                 </div>
-                <!-- TODO:跳转到头像用户 -->
                 <div class="box-avatar">
                     <img :src="avatarUrl" alt="头像" class='box-avatar-img'>
                 </div>
                 <div class="box-detail">
+                  <!-- TODO:跳转到头像用户 -->
                     <el-button type="text" class='box-detail-name'>{{name}}</el-button>
                     <div class='box-detail-time'>{{content.create_time}}</div>
                     <div class='box-detail-text'>{{content.context}}</div>

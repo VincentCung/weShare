@@ -51,13 +51,10 @@ Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
     let result = Mock.mock({
         statusCode: 200,
         msg: {
-            user: {
-                "name|1-5": "★",
-                "photo":"@dataImage('200x100','头像')"
-            },
+            success: 1,
             "weibos|1-20": [
                 {
-                    "id|1-100": 1,
+                    "id|+1": 1,
                     content: {
                         "create_time": '@date("yyyy年MM月dd日") @time("HH:mm")',
                         "context": '@string(7, 300)',
@@ -65,10 +62,10 @@ Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
                         "comment_count|2-4": 1,
                         "transmit_count|2-4": 1,
                         "thumb_count|2-4": 1,
-                        "photos|0-9":[
+                        "photos|0-9": [
                             {
-                                "id|2-2000":1,
-                                "source":"@dataImage('200x100','照片')"
+                                "id|+1": 1,
+                                "source": "@dataImage('200x100','照片')"
                             }
                         ]
                     }
@@ -76,7 +73,38 @@ Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
             ]
         }
     })
-    console.log(req)
 
     return result
 })
+
+
+Mock.mock(/\/message\/user/, 'get', {
+    statusCode: 200,
+    msg: {
+        success: 1,
+        user: {
+            "name|1-5": "★",
+            "photo": "@dataImage('200x100','头像')"
+        },
+        counter:{
+            "count_follow|0-999":1,
+            "count_fans|0-999":1,
+            "count_weibo|0-999":1
+        },
+        "follow|0-5":[
+            {
+                "id|+1":1,
+                "name|1-5": "★",
+                "photo": "@dataImage('100x100','头像')"
+            }
+        ],
+        "interests|0-5":[
+            {
+                "id|+1":1,
+                "name|1-5": "★",
+                "photo": "@dataImage('100x100','头像')"
+            }
+        ],
+    }
+})
+

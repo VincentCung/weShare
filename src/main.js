@@ -7,7 +7,7 @@ import router from './router'
 import store from './store'
 //引入ui库
 import ElementUI from 'element-ui'
-import '../static/theme/index.css'
+import './assets/css/theme/index.css'
 //引入ajax
 import axios from 'axios'
 //引入 vuex管理状态
