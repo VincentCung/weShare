@@ -1,45 +1,29 @@
 <template>
-  <div class="square_fram">
-
-    <el-aside width="200px" style="overflow: visible">
-      <div class="left_nav_div">
-        <el-row class="left_nav">
-          <el-col :span="2">
-            <el-menu default-active="1" class="left_nav_menu" @open="handleOpen" @close="handleClose">
-              <el-menu-item index="1">
-                <span slot="title" class="left_nav_item">热门</span>
-              </el-menu-item>
-              <el-menu-item index="2">
-                <span slot="title" class="left_nav_item">世界杯</span>
-              </el-menu-item>
-              <el-menu-item index="3">
-                <span slot="title" class="left_nav_item">NBA</span>
-              </el-menu-item>
-              <el-menu-item index="4">
-                <span slot="title" class="left_nav_item">海贼王</span>
-              </el-menu-item>
-              <el-menu-item index="5">
-                <span slot="title" class="left_nav_item">音乐</span>
-              </el-menu-item>
-              <el-menu-item index="6">
-                <span slot="title" class="left_nav_item">更多</span>
-              </el-menu-item>
-            </el-menu>
-          </el-col>
-        </el-row>
-      </div>
-    </el-aside>
-    <el-main width="800px">
-      <div class="block">
+  <div class="square-fram">
+    <div class="left_nav_div">
+      <el-menu default-active="0" class="left_nav_menu" @open="handleOpen" @close="handleClose">
+        <el-menu-item  index="0" >
+          <span slot="title" class="left_nav_item">热门</span>
+        </el-menu-item>
+        <el-menu-item v-for='(item,index) in menuItems' :index="index+1" :key='item.id'>
+          <span slot="title" class="left_nav_item">{{item.name}}</span>
+        </el-menu-item>
+        <el-menu-item  :index="menuItems.length+1" >
+          <span slot="title" class="left_nav_item">更多</span>
+        </el-menu-item>
+      </el-menu>
+    </div>
+    <div class="square-body">
+      <div class="carousel-block">
         <el-carousel trigger="click" height="400px">
           <el-carousel-item v-for="item in imgList" :key="item">
             <h3>
-              <img :src="item" ait="">
+              <img :src="item" alt="图片">
             </h3>
           </el-carousel-item>
         </el-carousel>
       </div>
-    </el-main>
+    </div>
 
   </div>
 </template>
@@ -55,6 +39,16 @@ export default {
         require("../assets/3.jpg"),
         require("../assets/4.jpg"),
         require("../assets/5.jpg")
+      ],
+      menuItems: [
+        {
+          name: "世界杯",
+          id: 1
+        },
+        {
+          name: "游戏",
+          id: 2
+        }
       ]
     };
   },
@@ -69,12 +63,16 @@ export default {
 };
 </script>
 <style>
-.square_fram {
-  width: 80%;
-  background: #fff;
-  margin-left: auto;
-  margin-right: auto;
-  min-height: 3000px;
+.square-fram {
+  background: #b3dddc;
+  margin: 0;
+}
+
+.square-body {
+  width: 920px;
+  min-height: 1000px;
+  margin: 0 auto;
+  padding: 16px 0 0 0;
 }
 
 .left_nav_menu {
@@ -90,10 +88,5 @@ export default {
   margin-top: 20px;
   position: fixed;
   top: 120px;
-}
-
-.block {
-  width: 800px;
-  margin-top: -17px;
 }
 </style>
