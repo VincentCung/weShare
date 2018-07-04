@@ -24,7 +24,6 @@ Mock.mock('/user/login', 'post', (req, res) => {
 })
 
 Mock.mock('/user/register', 'post', (req, res) => {
-    info = JSON.parse(req.body)
     let result = {}
     result.satusCode = 200
     result.msg = {}
@@ -108,3 +107,16 @@ Mock.mock(/\/message\/user/, 'get', {
     }
 })
 
+Mock.mock('/message/modify_pass','post',(req,res)=>{
+    let result={
+        satusCode: 200,
+        msg: {
+            success: 0,
+        }
+    }
+    info = JSON.parse(req.body)
+    if(info.old_password=='123'){
+        result.msg.success = 1
+    }
+    return result
+})
