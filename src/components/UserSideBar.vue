@@ -19,20 +19,21 @@
     <div class="follow-list-box">
       <div class="box-title">
         <h4>
-                    <!-- TODO:跳转到对应页面 -->
+          <!-- TODO:跳转到对应页面 -->
+          <!-- TODO:没有到时候显示 -->
           <router-link v-if='!isOthers' to="/" class='box-title-text'>关注的人</router-link>
           <span v-else class='box-title-text'>他关注的人</span>
         </h4>
       </div>
       <div class='box-cards'>
-        <div v-for="user in info.follow" :key='user.id' class="box-card ">
+        <router-link :to="'/blogs?userId='+user.id" v-for="user in info.follow" :key='user.id' class="box-card">
           <div class="box-card-img">
-            <img :src="user.photo" alt="用户头像"  width="50" height="50">
+            <img :src="user.photo" alt="用户头像" width="50" height="50">
           </div>
           <div class='box-card-name'>
-            <router-link :to="'/blogs?userId='+user.id">{{user.name}}</router-link>
+            <div class='box-card-name-text'>{{user.name}}</div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="subscribe-list-box">
@@ -44,14 +45,14 @@
         </h4>
       </div>
       <div class='box-cards'>
-        <div v-for="interest in info.interests" :key='interest.id' class="box-card ">
+        <router-link :to="'/interest?id='+interest.id" v-for="interest in info.interests" :key='interest.id' class="box-card ">
           <div class="box-card-img">
             <img :src="interest.photo" alt="趣点图片" width="50" height="50">
           </div>
           <div class='box-card-name'>
-            <router-link :to="'/interest?id='+interest.id">{{interest.name}}</router-link>
+            <div>{{interest.name}}</div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -113,13 +114,22 @@
 
 .box-card {
   padding-bottom: 10px;
-  padding-top:10px;
+  padding-top: 10px;
   display: flex;
   position: relative;
+  font-size: 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.box-card:hover {
+  color: #5ba9a4;
 }
 
 .box-card::after {
-  content: '';
+  content: "";
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -143,16 +153,6 @@
   align-items: flex-end;
 }
 
-.box-card-name a {
-  font-size: 20px;
-  text-decoration: none;
-  color: #333;
-  font-size: 20px;
-  font-weight: 400;
-}
-.box-card-name a:hover {
-  color: #5ba9a4;
-}
 </style>
     
 <script>
@@ -166,8 +166,7 @@ export default {
       type: Object,
       required: true
     }
-  },
-
+  }
 };
 </script>
 

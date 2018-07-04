@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
     lock: true,
     fullscreen: false,
     target: '#page-main'
-  })//loadong 效果)//loadong 效果
+  })//loadong 效果
 
   store.state.token = sessionStorage.getItem('token');//获取本地存储的token
 
