@@ -1,17 +1,17 @@
 <template>
   <div class="square-fram">
-    <div class="left_nav_div">
-      <el-menu default-active="0" class="left_nav_menu" @open="handleOpen" @close="handleClose">
-        <el-menu-item  index="0" >
-          <span slot="title" class="left_nav_item">热门</span>
-        </el-menu-item>
-        <el-menu-item v-for='(item,index) in menuItems' :index="index+1" :key='item.id'>
-          <span slot="title" class="left_nav_item">{{item.name}}</span>
-        </el-menu-item>
-        <el-menu-item  :index="menuItems.length+1" >
-          <span slot="title" class="left_nav_item">更多</span>
-        </el-menu-item>
-      </el-menu>
+    <div class="left-navbar">
+      <ul>
+        <li class='navbar-item'>
+          <div class='navbar-item-block item-cur'>热门</div>
+        </li>
+        <li v-for='(item) in menuItems' :key='item.id' class='navbar-item'>
+          <router-link :to="'/interest?id='+item.id" class='navbar-item-block'>{{item.name}}</router-link>
+        </li>
+        <li class='navbar-item'>
+          <router-link to="/more" class='navbar-item-block'>更多</router-link>
+        </li>
+      </ul>
     </div>
     <div class="square-body">
       <div class="carousel-block">
@@ -69,24 +69,38 @@ export default {
 }
 
 .square-body {
+  background-color: #fff;
   width: 920px;
   min-height: 1000px;
-  margin: 0 auto;
-  padding: 16px 0 0 0;
+  margin: 16px auto 0;
 }
 
-.left_nav_menu {
-  width: 150px;
-}
-
-.left_nav_item {
-  font-size: 20px;
-}
-
-.left_nav_div {
-  width: 150px;
-  margin-top: 20px;
+.left-navbar {
   position: fixed;
-  top: 120px;
+  left: 100px;
+  top: 80px;
+  width: 110px;
+}
+
+.navbar-item {
+  margin-bottom: 3px;
+}
+
+.navbar-item-block {
+  display: block;
+  font-size: 18px;
+  height: 40px;
+  line-height: 42px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 8px;
+}
+
+.navbar-item-block:hover,
+.item-cur {
+  background-color: #fff;
+  color: #5aa9a4;
 }
 </style>
