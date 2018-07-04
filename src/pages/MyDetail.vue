@@ -6,7 +6,7 @@
                     <el-tab-pane label="个人资料" name="first">
                         <el-form class="data-form">
                             <el-form-item>
-                                <img src="https://img.xiaopiu.com/userImages/img141644e3b5688.jpg" class="user-picture">
+                                <img :src='imgUrl' class="user-picture">
                                 <el-button type="warning" class="user-picture-button" size="small">更换</el-button>
                             </el-form-item>
                             <el-form-item>
@@ -14,9 +14,9 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-radio-group v-model="gender">
+                                    <el-radio :label="0">不显示</el-radio>
                                     <el-radio :label="1">男</el-radio>
                                     <el-radio :label="2">女</el-radio>
-                                    <el-radio :label="0">不显示</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item>
@@ -41,7 +41,6 @@
                         </el-form>
                     </el-tab-pane>
                     <el-tab-pane label="我的关注" name="third">
-
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -56,7 +55,8 @@ export default {
     return {
       activeName: "first",
       userName: "",
-      gender: "0",
+      gender: 0,
+      imgUrl: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
       passwordForm: {
         oldPassword: "",
         newPassword: "",
@@ -67,6 +67,12 @@ export default {
   created() {
     this.gender = this.$store.state.user.gender;
     this.userName = this.$store.state.user.name;
+    this.imgUrl = this.$store.state.user.photo;
+  },
+  beforeRouteUpdate() {
+    this.gender = this.$store.state.user.gender;
+    this.userName = this.$store.state.user.name;
+    this.imgUrl = this.$store.state.user.photo;
   },
   methods: {
     handleClick(tab, event) {
@@ -77,7 +83,6 @@ export default {
 </script>
 
 <style scoped>
-
 .main-page {
   background-color: #47bcc9;
 }

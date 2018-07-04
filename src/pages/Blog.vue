@@ -52,14 +52,14 @@ export default {
     UserSideBar
   },
   created() {
+
     if (this.isOthers && this.$store.state.is_login) {
       this.getFollowInfo();
     }
     let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
-    console.log(blogId);
     let params = { targetId: blogId };
     if (this.$store.state.is_login) {
-      params.token = this.$store.state.token;
+      params.token = localStorage.getItem('loginToken');
     }
     this.getUserWeibos(params);
     this.getUserInfoList({ userId: blogId });
@@ -69,10 +69,9 @@ export default {
       this.getFollowInfo();
     }
     let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
-    console.log(blogId);
     let params = { targetId: blogId };
     if (this.$store.state.is_login) {
-      params.token = this.$store.state.token;
+      params.token = localStorage.getItem('loginToken');
     }
     this.getUserWeibos(params);
     this.getUserInfoList({ userId: blogId });
@@ -89,7 +88,7 @@ export default {
       this.$_http
         .get("/message/follow", {
           params: {
-            token: this.$store.state.token,
+            token: localStorage.getItem('loginToken'),
             followedId: this.$route.query.userId,
             followerId: this.$store.state.user.id
           }
@@ -137,7 +136,7 @@ export default {
       this.followLoading = true;
       this.$_http
         .post("/message/follow", {
-          token: this.$store.state.token,
+          token: localStorage.getItem('loginToken'),
           is_follow: !this.isFollow,
           followedId: this.$route.query.userId,
           followerId: this.$store.state.user.id
