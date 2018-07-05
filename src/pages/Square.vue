@@ -1,30 +1,32 @@
 <template>
-  <div class="square-fram">
-    <div class="left-navbar">
-      <ul>
-        <li class='navbar-item'>
-          <div class='navbar-item-block item-cur'>热门</div>
-        </li>
-        <li v-for='(item) in menuItems' :key='item.id' class='navbar-item'>
-          <router-link :to="'/interest?id='+item.id" class='navbar-item-block'>{{item.name}}</router-link>
-        </li>
-        <li class='navbar-item'>
-          <router-link to="/more" class='navbar-item-block'>更多</router-link>
-        </li>
-      </ul>
-    </div>
+  <div>
     <div class="square-body">
-      <div class="carousel-block">
-        <el-carousel trigger="click" height="400px">
-          <el-carousel-item v-for="item in imgList" :key="item">
-            <h3>
-              <img :src="item" alt="图片">
-            </h3>
-          </el-carousel-item>
-        </el-carousel>
+      <div class="left-navbar">
+        <ul>
+          <li class='navbar-item'>
+            <div class='navbar-item-block item-cur'>热门</div>
+          </li>
+          <li v-for='(item) in menuItems' :key='item.id' class='navbar-item'>
+            <router-link :to="'/interest?id='+item.id" class='navbar-item-block'>{{item.name}}</router-link>
+          </li>
+          <li class='navbar-item'>
+            <router-link to="/more" class='navbar-item-block'>更多</router-link>
+          </li>
+        </ul>
+      </div>
+      <div class="body-wrap">
+
+        <div class="carousel-block">
+          <el-carousel trigger="click" height="400px">
+            <el-carousel-item v-for="item in imgList" :key="item">
+              <h3>
+                <img :src="item" alt="图片">
+              </h3>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -34,11 +36,11 @@ export default {
   data() {
     return {
       imgList: [
-        require("../assets/1.jpg"),
-        require("../assets/2.jpg"),
-        require("../assets/3.jpg"),
-        require("../assets/4.jpg"),
-        require("../assets/5.jpg")
+        require("../assets/image/1.jpg"),
+        require("../assets/image/2.jpg"),
+        require("../assets/image/3.jpg"),
+        require("../assets/image/4.jpg"),
+        require("../assets/image/5.jpg")
       ],
       menuItems: [
         {
@@ -62,23 +64,20 @@ export default {
   }
 };
 </script>
-<style>
-.square-fram {
-  background: #b3dddc;
-  margin: 0;
+<style scoped>
+.square-body {
+  width: 1050px;
+  margin: 16px auto 0;
 }
 
-.square-body {
+.body-wrap {
   background-color: #fff;
-  width: 920px;
+  margin-left: 130px;
   min-height: 1000px;
-  margin: 16px auto 0;
 }
 
 .left-navbar {
   position: fixed;
-  left: 100px;
-  top: 80px;
   width: 110px;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class='main-page'>
+  <div >
     <div class="main-container">
       <div class='header-wrap'>
         <main-header :name="userName" :follow-able="isOthers&&$store.state.is_login" @follow="follow" :is-follow="isFollow" :show-loading='followLoading' :image-url='avatarUrl'></main-header>
@@ -13,7 +13,7 @@
             <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
           </el-col>
           <el-col :span="8">
-            <user-side-bar :info='result' :isOthers="isOthers"></user-side-bar>
+            <user-side-bar :info='result' :is-others="isOthers"></user-side-bar>
           </el-col>
         </el-row>
       </div>
@@ -157,9 +157,6 @@ export default {
 };
 </script>
 <style scoped>
-.main-page {
-  background-color: #b3dddc;
-}
 .main-container {
   width: 920px;
   min-height: 1000px;

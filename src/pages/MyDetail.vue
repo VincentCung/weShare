@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="main-page">
+    <div >
       <div class="main-container">
         <el-tabs v-model="activeName" @tab-click="handleClick" class="tab-menu" type="border-card">
           <el-tab-pane label="个人资料" name="first">
@@ -178,9 +178,19 @@
 </script>
 
 <style scoped>
+<<<<<<< HEAD
   .main-page {
     background-color: #b3dddc;
   }
+=======
+
+.main-container {
+  width: 920px;
+  min-height: 1000px;
+  margin: 0 auto;
+  padding: 16px 0 0 0;
+}
+>>>>>>> master
 
   .main-container {
     width: 920px;
