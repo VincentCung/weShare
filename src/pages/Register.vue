@@ -95,7 +95,7 @@ export default {
   }
 };
 </script>
-<style >
+<style scoped>
 .main-box {
   margin: 15px 25px 0;
   position: relative;
@@ -108,7 +108,6 @@ export default {
   max-width: 100%;
   height: 0;
   padding-bottom: 700px;
-  background-color: #fff; /*背景色*/
   overflow: hidden;
 }
 

@@ -34,6 +34,9 @@
             <div class='box-card-name-text'>{{user.name}}</div>
           </div>
         </router-link>
+        <div class="nothing-tip" v-if='!info.follow.length'>
+          还没有关注别人呢..
+        </div>
       </div>
     </div>
     <div class="subscribe-list-box">
@@ -53,6 +56,9 @@
             <div>{{interest.name}}</div>
           </div>
         </router-link>
+        <div class="nothing-tip" v-if='!info.interests.length'>
+          还没有订阅趣点呢..
+        </div>
       </div>
     </div>
   </div>
@@ -153,6 +159,14 @@
   align-items: flex-end;
 }
 
+.nothing-tip {
+  padding-bottom: 10px;
+  height: 20px;
+  line-height: 20px;
+  padding-top: 5px;
+  overflow: hidden;
+  font-size: 16px;
+}
 </style>
     
 <script>
