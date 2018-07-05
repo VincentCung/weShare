@@ -38,7 +38,6 @@
 .box-name {
   margin-top: 6px;
   text-align: center;
-  /* text-shadow: 0 0 4px rgba(0, 0, 0, 0.5); */
   vertical-align: text-bottom;
   font-size: 22px;
 }

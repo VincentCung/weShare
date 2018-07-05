@@ -4,7 +4,7 @@
             <div class="main-box">
                 <!-- TODO:删除按钮 -->
                 <div v-if="deleteAble" class="box-delete-btn">
-                    <el-button type="info" icon="el-icon-close" circle size="mini"></el-button>
+                    <el-button type="danger" icon="el-icon-close" circle size="mini"></el-button>
                 </div>
                 <div class="box-avatar">
                     <img :src="avatarUrl" alt="头像" class='box-avatar-img'>

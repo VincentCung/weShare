@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div class="main-container">
       <div class='header-wrap'>
         <main-header :name="userName" :follow-able="isOthers&&$store.state.is_login" @follow="follow" :is-follow="isFollow" :show-loading='followLoading' :image-url='avatarUrl'></main-header>
@@ -7,10 +7,22 @@
       <div class='body-wrap'>
         <el-row :gutter="20">
           <el-col :span="16">
-            <!-- TODO:发送微博 -->
+            <div class="textarea-box" v-if='!isOthers'>
+              <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 8}" placeholder="今天又有什么新鲜事.." v-model="context" />
+
+              <div class="box-footer">
+                <el-select v-model="interests" multiple placeholder="请选择趣点(最多为5个)" :multiple-limit='5' class='box-select'>
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-button type="primary" class='publish-btn'>发布</el-button>
+              </div>
+            </div>
             <!-- TODO:微博转发 -->
-            <!-- TODO:没有微博的时候 -->
             <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
+            <div class='nothing-tip' v-if='!weibos.length'>
+              <h3>{{isOthers?'他':'你'}}还没有发过微博呢..</h3>
+            </div>
           </el-col>
           <el-col :span="8">
             <user-side-bar :info='result' :is-others="isOthers"></user-side-bar>
@@ -31,20 +43,48 @@ import UserSideBar from "@/components/UserSideBar";
 export default {
   data() {
     return {
+      context: "",
       isFollow: false,
       followLoading: false,
       userName: "",
       avatarUrl: "",
       weibos: [],
       result: {
-        counter:{
-          count_follow:0,
-          count_fans:0,
-          count_weibo:0
+        counter: {
+          count_follow: 0,
+          count_fans: 0,
+          count_weibo: 0
         },
-        follow:[],
-        interests:[]
-      }
+        follow: [],
+        interests: []
+      },
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕"
+        },
+        {
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          label: "黄金糕"
+        },
+        {
+          value: "选项5",
+          label: "双皮奶"
+        },
+        {
+          value: "选项6 ",
+          label: "蚵仔煎"
+        }
+      ],
+      interests: []
     };
   },
   components: {
@@ -53,30 +93,29 @@ export default {
     UserSideBar
   },
   created() {
-
     if (this.isOthers && this.$store.state.is_login) {
       this.getFollowInfo();
     }
     let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
     let params = { targetId: blogId };
     if (this.$store.state.is_login) {
-      params.token = localStorage.getItem('loginToken');
+      params.token = localStorage.getItem("loginToken");
     }
     this.getUserWeibos(params);
     this.getUserInfoList({ userId: blogId });
   },
-  beforeRouteUpdate(to,from,next) {
+  beforeRouteUpdate(to, from, next) {
     if (this.isOthers && this.$store.state.is_login) {
       this.getFollowInfo();
     }
     let blogId = this.$route.query.userId || this.$store.state.user.id; //当前页面主人的Id
     let params = { targetId: blogId };
     if (this.$store.state.is_login) {
-      params.token = localStorage.getItem('loginToken');
+      params.token = localStorage.getItem("loginToken");
     }
     this.getUserWeibos(params);
     this.getUserInfoList({ userId: blogId });
-    next()
+    next();
     //TODO: 请求其他信息
   },
   computed: {
@@ -89,7 +128,7 @@ export default {
       this.$_http
         .get("/message/follow", {
           params: {
-            token: localStorage.getItem('loginToken'),
+            token: localStorage.getItem("loginToken"),
             followedId: this.$route.query.userId,
             followerId: this.$store.state.user.id
           }
@@ -137,7 +176,7 @@ export default {
       this.followLoading = true;
       this.$_http
         .post("/message/follow", {
-          token: localStorage.getItem('loginToken'),
+          token: localStorage.getItem("loginToken"),
           is_follow: !this.isFollow,
           followedId: this.$route.query.userId,
           followerId: this.$store.state.user.id
@@ -166,5 +205,36 @@ export default {
 
 .body-wrap {
   margin-top: 20px;
+}
+.textarea-box {
+  background-color: #fff;
+  margin: 0 0 10px 0;
+  border-radius: 2px;
+  padding: 15px 10px 10px;
+}
+
+.box-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.box-select {
+  width: 100%;
+  margin-right: 10px;
+}
+
+.publish-btn {
+  padding: 0 10px 0 10px;
+  height: 38px;
+  line-height: 29px;
+  width: 60px;
+  font-size: 16px;
+  box-sizing: content-box;
+}
+
+.nothing-tip {
+  background-color: #fff;
+  padding: 10px 0;
 }
 </style>

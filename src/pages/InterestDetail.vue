@@ -11,6 +11,10 @@
               <el-button type="primary" class='publish-btn'>发布</el-button>
             </div>
           </div>
+          <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
+          <div class='nothing-tip' v-if='!weibos.length'>
+            <h3>这个趣点还没有发过微博呢..</h3>
+          </div>
         </el-col>
         <el-col :span="8">
           <div>
@@ -23,7 +27,7 @@
               <span class="info-name">{{userName}}</span>
             </div>
           </div>
-          <user-side-bar :info='result' ></user-side-bar>
+          <user-side-bar :info='result'></user-side-bar>
         </el-col>
       </el-row>
     </div>
@@ -34,25 +38,27 @@
 import UserSideBar from "@/components/UserSideBar";
 
 export default {
-  data() {
+  data() { //TODO:动态信息
     return {
       userName: "用户名",
-      context:'',
+      context: "",
       avatarUrl: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+
       result: {
-        counter:{
-          count_follow:0,
-          count_fans:0,
-          count_weibo:0
+        counter: {
+          count_follow: 0,
+          count_fans: 0,
+          count_weibo: 0
         },
-        follow:[],
-        interests:[]
-      }
+        follow: [],
+        interests: []
+      },
+      weibos: []
     };
   },
-    components: {
+  components: {
     UserSideBar
-  },
+  }
 };
 </script>
 <style>
@@ -86,9 +92,6 @@ export default {
 }
 
 /*--------------------info-box----------------------------*/
-
-.info-box {
-}
 
 .info-photo-box {
   background-color: #5ba9a4;
@@ -127,5 +130,10 @@ export default {
   font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nothing-tip {
+  background-color: #fff;
+  padding: 10px 0;
 }
 </style>
