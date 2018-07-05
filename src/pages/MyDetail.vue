@@ -178,11 +178,6 @@
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-  .main-page {
-    background-color: #b3dddc;
-  }
-=======
 
 .main-container {
   width: 920px;
@@ -190,7 +185,6 @@
   margin: 0 auto;
   padding: 16px 0 0 0;
 }
->>>>>>> master
 
   .main-container {
     width: 920px;
