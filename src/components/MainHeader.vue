@@ -1,22 +1,23 @@
 <template>
-    <div>
-        <div class='header-box'>
-            <div class="box-avatar-wrap">
-                <img :src="imageUrl" alt="头像" class='box-avatar'>
-            </div>
-            <h2 class='box-name'>{{name}}</h2>
-            <div class="box-button-wrap">
-                <el-button v-if="followAble" :icon="followIcon" class='box-button' :type="buttonType" :loading='showLoading' @click='follow'>{{followText}}</el-button>
-            </div>
-        </div>
+  <div>
+    <div class='header-box'>
+      <div class="box-avatar-wrap">
+        <img :src="imageUrl" alt="头像" class='box-avatar'>
+      </div>
+      <h2 class='box-name'>{{name}}</h2>
+      <div class="box-button-wrap">
+        <el-button v-if="followAble" :icon="followIcon" class='box-button' :type="buttonType" :loading='showLoading' @click='follow'>{{followText}}</el-button>
+      </div>
     </div>
+  </div>
 </template>
 <style scoped>
 .header-box {
   height: 270px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #fff;
   margin: 0;
   border: 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 }
 .box-avatar-wrap {
   position: relative;
@@ -49,7 +50,7 @@
 <script>
 export default {
   data() {
-    return {  };
+    return {};
   },
   props: {
     isFollow: {
@@ -62,7 +63,7 @@ export default {
     },
     showLoading: {
       type: Boolean,
-      default :false
+      default: false
     },
     name: {
       type: String,
@@ -75,19 +76,19 @@ export default {
   },
   methods: {
     follow() {
-      this.$emit('follow')
+      this.$emit("follow");
     }
   },
-  computed:{
-      followText (){
-          return this.isFollow?'取消关注':'关注'
-      },
-      followIcon() {
-          return this.isFollow?'el-icon-close':'el-icon-plus'
-      },
-      buttonType() {
-          return this.isFollow?'':'primary'
-      }
+  computed: {
+    followText() {
+      return this.isFollow ? "取消关注" : "关注";
+    },
+    followIcon() {
+      return this.isFollow ? "el-icon-close" : "el-icon-plus";
+    },
+    buttonType() {
+      return this.isFollow ? "" : "primary";
+    }
   }
 };
 </script>

@@ -3,7 +3,7 @@
         <div class="interest-box">
             <div class="interest-avatar">
                 <!-- <img :src="interest.avatarUrl" class="box-avator-img"> -->
-                <img src="https://img.xiaopiu.com/userImages/img131644e3a3960.jpg" alt = "照片" class="box-avatar-img">
+                <img src="https://img.xiaopiu.com/userImages/img131644e3a3960.jpg" alt = "照片" width="180" height="180">
             </div>
             <!-- <div class="interest-name">#{{interest.name}}#</div> -->
             <div class="interest-name">#MUSIC#</div>
@@ -29,22 +29,14 @@ export default {
 <style scoped>
 .interest-box {
     text-align: center;
-    margin-left: 34px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    float: left;
+    margin:20px;
     font-size: 15px;
-    background-color: #a6a6a61e;    
-
+    background-color: #f5f5f5;    
 }
 .interest-avatar {
     margin-bottom: 10px;   
 }
-.box-avatar-img {
-    width: 180px;
-    height: 180px;
-    
-}
+
 .interest-name, .interest-num {
     margin-bottom: 10px
 }

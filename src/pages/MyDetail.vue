@@ -161,9 +161,7 @@ export default {
         }
       });
     }
-    /*       follow() {
-            this.isFollow = !this.isFollow;
-            } */
+
   }
 };
 </script>
