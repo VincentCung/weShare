@@ -20,7 +20,6 @@
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item>
-                                
                                 <el-button type="primary" class="change-button">修改</el-button>
                             </el-form-item>
                         </el-form>
@@ -167,3 +166,4 @@ export default {
   border-radius: 50%;
 }
 </style>
+  
