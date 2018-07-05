@@ -23,16 +23,11 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 
-let loadingInstance
+
 
 //TODO: 验证失效的回调
 //TODO:token check auth
 router.beforeEach((to, from, next) => {
-  loadingInstance = ElementUI.Loading.service({
-    lock: true,
-    fullscreen: false,
-    target: '#page-main'
-  })//loadong 效果
 
   store.state.token = sessionStorage.getItem('token');//获取本地存储的token
 
@@ -52,12 +47,6 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(route => {
-  loadingInstance.close()
-});
-
-
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
