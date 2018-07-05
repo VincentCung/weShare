@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav-header id='page-main'></nav-header>  
+    <nav-header id='page-main'></nav-header>
     <keep-alive>
       <router-view class="router-view-wrap" id="page-main" />
     </keep-alive>
@@ -15,16 +15,22 @@ export default {
   components: {
     NavHeader
   },
-  methods:{
-
-  }
+  methods: {}
 };
 </script>
 
 <style>
-
-body {
-  margin :0 ;
+body,
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #2c3e50;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -36,9 +42,6 @@ body {
 .router-view-wrap {
   padding-top: 65px;
   background-color: #b3dddc;
-}
-body {
-  margin:0;
 }
 
 .clearfix::after {

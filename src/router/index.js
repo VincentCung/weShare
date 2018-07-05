@@ -8,7 +8,7 @@ import InterestDetail from '@/pages/InterestDetail'
 import InterestList from '@/pages/InterestList'
 import InterestManage from '@/pages/InterestManage'
 import MyDetail from '@/pages/MyDetail'
-import Blog from '@/pages/Blog'
+import PersonalBlog from '@/pages/PersonalBlog'
 import SearchResult from '@/pages/SearchResult'
 import BlogDetail from '@/pages/BlogDtail'
 
@@ -60,8 +60,8 @@ export default new Router({
     },
     {
       path: '/blogs',
-      name: 'Blog',
-      component: Blog,
+      name: 'PersonalBlog',
+      component: PersonalBlog,
     },
     {
       path: '/blog',
