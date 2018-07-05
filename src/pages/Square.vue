@@ -1,100 +1,106 @@
 <template>
-  <div class="square_fram">
-    <el-container style="overflow: visible">
-      <el-aside width="200px" style="overflow: visible">
-        <div class="left_nav_div">
-          <el-row class="left_nav">
-            <el-col :span="2">
-              <el-menu default-active="1" class="left_nav_menu" @open="handleOpen" @close="handleClose">
-                <el-menu-item index="1">
-                  <span slot="title" class="left_nav_item">热门</span>
-                </el-menu-item>
-                <el-menu-item index="2">
-                  <span slot="title" class="left_nav_item">世界杯</span>
-                </el-menu-item>
-                <el-menu-item index="3">
-                  <span slot="title" class="left_nav_item">NBA</span>
-                </el-menu-item>
-                <el-menu-item index="4">
-                  <span slot="title" class="left_nav_item">海贼王</span>
-                </el-menu-item>
-                <el-menu-item index="5">
-                  <span slot="title" class="left_nav_item">音乐</span>
-                </el-menu-item>
-                <el-menu-item index="6">
-                  <span slot="title" class="left_nav_item">更多</span>
-                </el-menu-item>
-              </el-menu>
-            </el-col>
-          </el-row>
-        </div>
-      </el-aside>
-      <el-main width="800px">
-        <div class="block">
-          <el-carousel trigger="click" height="400px">
-            <el-carousel-item v-for="item in imgList" :key="item">
-              <h3>
-                <img :src="item" ait="">
-              </h3>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
+  <div class="square-fram">
+    <div class="left-navbar">
+      <ul>
+        <li class='navbar-item'>
+          <div class='navbar-item-block item-cur'>热门</div>
+        </li>
+        <li v-for='(item) in menuItems' :key='item.id' class='navbar-item'>
+          <router-link :to="'/interest?id='+item.id" class='navbar-item-block'>{{item.name}}</router-link>
+        </li>
+        <li class='navbar-item'>
+          <router-link to="/more" class='navbar-item-block'>更多</router-link>
+        </li>
+      </ul>
+    </div>
+    <div class="square-body">
+      <div class="carousel-block">
+        <el-carousel trigger="click" height="400px">
+          <el-carousel-item v-for="item in imgList" :key="item">
+            <h3>
+              <img :src="item" alt="图片">
+            </h3>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
 
-      </el-main>
-    </el-container>
   </div>
 </template>
 
 
 <script>
-  export default {
-    data() {
-      return {
-        imgList: [
-          require('../assets/1.jpg'),
-          require('../assets/2.jpg'),
-          require('../assets/3.jpg'),
-          require('../assets/4.jpg'),
-          require('../assets/5.jpg')
-        ]
-      }
+export default {
+  data() {
+    return {
+      imgList: [
+        require("../assets/1.jpg"),
+        require("../assets/2.jpg"),
+        require("../assets/3.jpg"),
+        require("../assets/4.jpg"),
+        require("../assets/5.jpg")
+      ],
+      menuItems: [
+        {
+          name: "世界杯",
+          id: 1
+        },
+        {
+          name: "游戏",
+          id: 2
+        }
+      ]
+    };
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
     },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
     }
   }
-
+};
 </script>
 <style>
-  .square_fram {
-    width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.square-fram {
+  background: #b3dddc;
+  margin: 0;
+}
 
-  .left_nav_menu {
-    width: 150px;
-  }
+.square-body {
+  background-color: #fff;
+  width: 920px;
+  min-height: 1000px;
+  margin: 16px auto 0;
+}
 
-  .left_nav_item {
-    font-size: 20px;
-  }
+.left-navbar {
+  position: fixed;
+  left: 100px;
+  top: 80px;
+  width: 110px;
+}
 
-  .left_nav_div {
-    width: 150px;
-    margin-top: 20px;
-    position: sticky;
-    top: 120px;
-  }
+.navbar-item {
+  margin-bottom: 3px;
+}
 
-  .block {
-    width: 800px;
-    margin-top: -17px;
-  }
+.navbar-item-block {
+  display: block;
+  font-size: 18px;
+  height: 40px;
+  line-height: 42px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 8px;
+}
 
+.navbar-item-block:hover,
+.item-cur {
+  background-color: #fff;
+  color: #5aa9a4;
+}
 </style>

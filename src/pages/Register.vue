@@ -97,7 +97,7 @@ export default {
 </script>
 <style >
 .main-box {
-  margin: 15px 25px;
+  margin: 15px 25px 0;
   position: relative;
 }
 .background {
