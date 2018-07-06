@@ -161,6 +161,5 @@ export default {
 .comment-content {
   margin-top: 5px;
 }
-.box-footer {
-}
+
 </style>

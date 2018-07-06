@@ -3,12 +3,12 @@
         <div class="menu-body">
             <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
                 <el-tab-pane label="用户管理" name="first">
-                    <el-col :span="5" :offset="18">
+                    <div class="search-bar-box">
                         <el-input placeholder="输入用户名/邮箱/用户ID" clearable @keypress.enter.native='search'>
                             <i slot="suffix" class="el-input__icon el-icon-search"></i>
                         </el-input>
-                    </el-col>
-                    <el-table :data="tableData" stripe align="center" :row-class-name="tableRowClassName">
+                    </div>
+                    <el-table :data="currentUserData" stripe align="center" :row-class-name="tableRowClassName">
                         <el-table-column label="用户ID" prop="id"></el-table-column>
                         <el-table-column label="用户名" prop="name"></el-table-column>
                         <el-table-column label="邮箱" prop="email"></el-table-column>
@@ -18,26 +18,47 @@
                         <el-table-column label="被点赞数" prop="likeNum"></el-table-column>
                         <el-table-column label="禁言" prop="is_banned">
                             <template slot-scope="scope">
-                                <el-button type="danger" v-if='!tableData[scope.$index].is_banned'>禁言</el-button>
+                                <el-button type="danger" v-if='!currentUserData[scope.$index].is_banned'>禁言</el-button>
                                 <el-button type="success" v-else>取消</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
+                    <el-pagination :page-size="10" layout="prev, pager, next" :total="userData.length" @current-change="tabUserPage">
+                    </el-pagination>
                 </el-tab-pane>
                 <el-tab-pane label="博文管理" name="second">
-
                 </el-tab-pane>
                 <el-tab-pane label="评论管理" name="third">
+                    <div class="search-bar-box">
+                        <el-input placeholder="输入评论内容/用户名" clearable @keypress.enter.native='search'>
+                            <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                        </el-input>
+                    </div>
+                    <div class="comment-box" v-for="comment in comments" :key="comment.id">
+                        <div class="comment-avatar">
+                            <img :src="comment.user.photo" alt="" width="30" height="30">
+                        </div>
+                        <div class="comment-detail">
+                            <router-link :to="'/blogs?userId='+comment.user.id" class="comment-name">
+                                <div>{{comment.user.name}}:</div>
+                            </router-link>
+                            <div class="comment-create-time">{{comment.create_time}}</div>
+                            <div class="comment-content">{{comment.context}}</div>
+                            <div class="box-footer">
+                                <el-button type='danger'>删除</el-button>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </el-tab-pane>
                 <el-tab-pane label="趣点管理" name="forth">
-
-                    <el-col :span="5" :offset="18">
+                    <div class="search-bar-box">
                         <el-input placeholder="输入趣点名" clearable @keypress.enter.native='search'>
                             <i slot="suffix" class="el-input__icon el-icon-search"></i>
                         </el-input>
-                    </el-col>
-
-                    <el-table :data="interestTable" stripe align="center" :row-class-name="tableRowClassName"> 
+                    </div>
+                    <el-table :data="currentInterestData" stripe align="center" :row-class-name="tableRowClassName">
                         <el-table-column label="趣点名" prop="interestName"></el-table-column>
                         <el-table-column label="微博数" prop="weiboNum"></el-table-column>
                         <el-table-column label="被订阅数" prop="subsNum"></el-table-column>
@@ -47,6 +68,8 @@
                             </template>
                         </el-table-column>
                     </el-table>
+                    <el-pagination :page-size="10" layout="prev, pager, next" :total="interestData.length" @current-change="tabInterestPage">
+                    </el-pagination>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -58,8 +81,30 @@
 export default {
   data() {
     return {
+      comments: [
+        {
+          id: 1,
+          user: {
+            id: 1,
+            name: "我是孤儿",
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
+          },
+          create_time: '@date("yyyy年MM月dd日") @time("HH:mm")',
+          context: "@string(7, 300)"
+        },
+        {
+          id: 1,
+          user: {
+            id: 1,
+            name: "我是孤儿",
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
+          },
+          create_time: '@date("yyyy年MM月dd日") @time("HH:mm")',
+          context: "@string(7, 300)"
+        }
+      ],
       activeName: "first",
-      tableData: [
+      userData: [
         {
           id: 132,
           name: "a",
@@ -69,35 +114,17 @@ export default {
           fansNum: 250,
           likeNum: 88,
           is_banned: false
-        },
-        {
-          id: 546,
-          name: "b",
-          email: "456@456.com",
-          commentNum: 60,
-          weiboNum: 210,
-          fansNum: 260,
-          likeNum: 98,
-          is_banned: true
-        },
-         {
-          id: 546,
-          name: "b",
-          email: "456@456.com",
-          commentNum: 60,
-          weiboNum: 210,
-          fansNum: 260,
-          likeNum: 98,
-          is_banned: true
         }
       ],
-      interestTable: [
+      interestData: [
         {
           interestName: "Music",
           weiboNum: 20,
           subsNum: 10
-        },
-      ]
+        }
+      ],
+      currentUserData: [],
+      currentInterestData: []
     };
   },
   methods: {
@@ -108,11 +135,22 @@ export default {
       console.log(e);
     },
     tableRowClassName({ row, rowIndex }) {
-      if (rowIndex%2  == 0) {
-          console.log(rowIndex)
+      if (rowIndex % 2 == 0) {
         return "even-row";
       }
       return "";
+    },
+    tabUserPage(page) {
+      this.currentUserData = this.userData.slice(
+        (page - 1) * 10,
+        page * 10 - 1
+      );
+    },
+    tabInterestPage(page) {
+      this.currentInterestData = this.interestData.slice(
+        (page - 1) * 10,
+        page * 10 - 1
+      );
     }
   }
 };
@@ -126,7 +164,49 @@ export default {
   padding: 16px 0 0 0;
 }
 
- .el-table .even-row {
+.el-table .even-row {
   background-color: #e2e2e2;
+}
+
+.search-bar-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+/*-----------------------comment-box--------------------*/
+.comment-box {
+  text-align: start;
+  display: flex;
+  padding: 5px 0 7px;
+  font-size: 12px;
+  border-bottom: 1px #d3d3d3 solid;
+}
+
+.comment-detail {
+  margin-left: 10px;
+  width: 100%;
+}
+
+.comment-name {
+  font-weight: 600;
+  line-height: 23px;
+  padding-bottom: 2px;
+}
+
+.comment-name :hover {
+  color: #5ba9a4;
+}
+
+.comment-create-time {
+  color: #b3dddc;
+}
+.comment-content {
+  margin-top: 5px;
+}
+
+.box-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

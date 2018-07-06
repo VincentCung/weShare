@@ -25,7 +25,7 @@
             </el-carousel-item>
           </el-carousel>
         </div>
-        <weibo v-for="weibo in weibos"  :content='weibo.content' :key="weibo.id" > </weibo>
+        <weibo v-for="weibo in weibos"  :content='weibo.content' :key="weibo.id" :id="weibo.id"> </weibo>
         <div class='nothing-tip' v-if='!weibos.length'>
           <h3>找不到微博呢..</h3>
         </div>
