@@ -19,7 +19,7 @@
               </div>
             </div>
             <!-- TODO:微博转发 -->
-            <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
+            <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl' :id='weibo.id'> </weibo>
             <div class='nothing-tip' v-if='!weibos.length'>
               <h3>{{isOthers?'他':'你'}}还没有发过微博呢..</h3>
             </div>

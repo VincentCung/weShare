@@ -24,11 +24,11 @@
     <div class="box-admire-bar">
       <el-button-group class='box-bar-group'>
         <!-- TODO:每一个按钮跳转 -->
-        <el-button icon="el-icon-tickets" class='box-btn'>阅读({{content.read_count}})</el-button>
-        <el-button icon="el-icon-share" class='box-btn'>转发({{content.transmit_count}})</el-button>
-        <el-button icon="el-icon-edit" class='box-btn'>评论({{content.comment_count}})</el-button>
+        <el-button icon="el-icon-tickets" class='box-btn' @click='read'>阅读({{content.read_count}})</el-button>
+        <el-button icon="el-icon-share" class='box-btn' @click='transmit'>转发({{content.transmit_count}})</el-button>
+        <el-button icon="el-icon-edit" class='box-btn' @click='comment'>评论({{content.comment_count}})</el-button>
         <!-- TODO:点赞功能 -->
-        <el-button :icon="content.is_thumb?'el-icon-star-on':'el-icon-star-on'" class='box-btn'>{{thumbText}}</el-button>
+        <el-button :icon="content.is_thumb?'el-icon-star-on':'el-icon-star-on'" class='box-btn' @click="thumb">{{thumbText}}</el-button>
       </el-button-group>
     </div>
   </div>
@@ -134,6 +134,10 @@ export default {
     deleteAble: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: Number,
+      required: true
     }
   },
   computed: {
@@ -143,6 +147,22 @@ export default {
       text += "(" + this.content.thumb_count + ")";
       return text;
     }
+  },
+  methods: {
+    read() {
+      if (this.$route.path != "/blog") {
+        this.$router.replace("/blog?id=" + this.id);
+      } 
+    },
+    comment() {
+      if (this.$route.path != "/blog") {
+        this.$router.replace("/blog?id=" + this.id);
+      } else {
+        this.$emit("comment");
+      }
+    },
+    thumb() {},
+    transmit() {}
   }
 };
 </script>

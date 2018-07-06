@@ -118,7 +118,8 @@ export default {
                 this.showLoading = false;
                 this.dialogFormVisible = false;
                 this.$store.dispatch("login", response.data.msg);
-                this.$router.go(0);
+                //this.$router.go(0);
+                this.$router.replace(this.$route.path)
               }
             })
             .catch(error => {
@@ -146,7 +147,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 /*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
   z-index: 100;

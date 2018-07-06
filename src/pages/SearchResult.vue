@@ -9,13 +9,15 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="找人">
-                    <router-link class="user-card-box" v-for="item in users" :key="item.id" :to="'/blogs?userId='+item.id">
-                        <div class="box-avatar">
-                            <img :src="item.photo" alt="">
-                        </div>
-                        <div class="box-detail">
-                            <span>{{item.name}}</span>
-                            <span> {{userGender(item.gender)}}</span>
+                    <router-link v-for="item in users" :key="item.id" :to="'/blogs?userId='+item.id">
+                        <div class="user-card-box">
+                            <div class="box-avatar">
+                                <img :src="item.photo" alt="">
+                            </div>
+                            <div class="box-detail">
+                                <span>{{item.name}}</span>
+                                <span> {{userGender(item.gender)}}</span>
+                            </div>
                         </div>
                     </router-link>
                 </el-tab-pane>
@@ -33,6 +35,12 @@ export default {
     return {
       users: [
         {
+          id: 1,
+          photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+          name: "123",
+          gender: 1
+        },
+                {
           id: 1,
           photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
           name: "123",
@@ -109,9 +117,31 @@ export default {
 }
 
 .user-card-box {
-  border: 1.5px solid #b3dddc;
-  border-radius: 5%;
-  background-color: red;
+  border: 1.5px solid #fff;
+  border-radius: 5px;
   width: 100%;
+  display: flex;
+  text-align: start;
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+
+.box-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.box-detail {
+  margin-left: 20px;
+  padding-top: 10px;
+  text-decoration: none;
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.user-card-box:hover {
+    border: 1.5px solid #b3dddc;
 }
 </style>

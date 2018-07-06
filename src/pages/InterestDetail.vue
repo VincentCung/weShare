@@ -3,6 +3,10 @@
     <div class="main-container">
       <el-row :gutter="20">
         <el-col :span="$store.state.is_login?16:24">
+          <div class="header-box">
+            <h1>{{interest.name}}</h1>
+            <el-button v-if="$store.state.is_login" :icon="subscribeIcon" class='box-button' :type="subscribeType" @click='subscribe' size="small">{{subscribeText}}</el-button>
+          </div>
           <div class="textarea-box" v-if="$store.state.is_login">
             <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 8}" placeholder="今天又有什么新鲜事.." v-model="context">
             </el-input>
@@ -37,12 +41,17 @@
 import UserSideBar from "@/components/UserSideBar";
 
 export default {
-  data() { //TODO:动态信息
+  data() {
+    //TODO:动态信息
     return {
-      userName: "用户名",
+      isSubscribe: true,
+      userName: "",
       context: "",
       avatarUrl: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
-
+      interest: {
+        id: 1,
+        name: "去你妈的点"
+      },
       result: {
         counter: {
           count_follow: 0,
@@ -57,16 +66,48 @@ export default {
   },
   components: {
     UserSideBar
+  },
+  computed: {
+    subscribeText() {
+      return this.isSubscribe ? "取消订阅" : "订阅";
+    },
+    subscribeIcon() {
+      return this.isSubscribe ? "el-icon-close" : "el-icon-plus";
+    },
+    subscribeType() {
+      return this.isSubscribe ? "" : "primary";
+    }
+  },
+  methods: {
+    subscribe() {}
   }
 };
 </script>
-<style>
-
+<style scoped>
 .main-container {
   width: 920px;
   min-height: 1000px;
   margin: 0 auto;
   padding: 16px 0 0 0;
+}
+
+.header-box {
+  display: flex;
+  align-items: flex-end;
+  margin: 20px 0;
+}
+
+.header-box h1 {
+  margin: 0;
+}
+
+.box-button {
+  margin-left: 30px;
+  padding: 0 10px;
+  height: 28px;
+  line-height: 29px;
+  font-size: 14px;
+  box-sizing: content-box;
 }
 /*---------------------------textarea-box-----------------*/
 .textarea-box {
@@ -84,7 +125,7 @@ export default {
 }
 
 .publish-btn {
-  padding: 0 10px 0 10px;
+  padding: 0 10px;
   height: 28px;
   line-height: 29px;
   width: 60px;
