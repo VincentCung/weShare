@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="main">
     <div class="main-container">
-
       <el-row :gutter="20">
         <el-col :span="16">
           <div class="textarea-box">
@@ -62,6 +61,7 @@ export default {
 };
 </script>
 <style>
+
 .main-container {
   width: 920px;
   min-height: 1000px;
@@ -74,6 +74,7 @@ export default {
   margin: 0 0 10px 0;
   border-radius: 2px;
   padding: 15px 10px 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 }
 
 .box-footer {
@@ -117,6 +118,7 @@ export default {
 .info-name-wrap {
   background-color: #fff;
   padding: 16px 16px 9px 16px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 }
 
 .info-name {
@@ -135,5 +137,6 @@ export default {
 .nothing-tip {
   background-color: #fff;
   padding: 10px 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 }
 </style>

@@ -25,6 +25,8 @@ export default {
 .main-background {
   width: 100%;
   z-index: -100;
+  position: absolute;
+  left: 0;
 }
 
 /*-----------------------------------title-box------------------------------------*/

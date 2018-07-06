@@ -41,7 +41,6 @@ a {
 }
 .router-view-wrap {
   padding-top: 65px;
-  padding-bottom: 50px; 
   background-color: #b3dddc;
 }
 
@@ -51,6 +50,9 @@ a {
   height: 0;
   clear: both;
   visibility: hidden;
+}
+.main {
+  padding-bottom: 50px;
 }
 </style>
 

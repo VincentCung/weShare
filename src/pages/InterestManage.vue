@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="main-box ">
       <div class="box-title">
         <h2>我订阅的趣点</h2>
@@ -34,6 +34,7 @@ export default {
 </script>
 
 <style scoped>
+
 .box-title {
   color: #5aa9a4;
   margin-top:0;

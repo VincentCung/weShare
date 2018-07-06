@@ -111,6 +111,7 @@ export default {
                   confirmButtonText: "确定",
                   type: "error"
                 });
+                this.showLoading = false;
               } else {
                 this.$refs.loginForm.resetFields();
                 this.showLoading = false;
