@@ -21,7 +21,7 @@
         <h4>
           <!-- TODO:跳转到对应页面 -->
           <!-- TODO:没有到时候显示 -->
-          <router-link v-if='!isOthers' to="/" class='box-title-text'>关注的人</router-link>
+          <router-link v-if='!isOthers' to="/user/detail" class='box-title-text'>关注的人</router-link>
           <span v-else class='box-title-text'>他关注的人</span>
         </h4>
       </div>
@@ -43,7 +43,7 @@
       <div class="box-title">
         <h4>
           <!-- TODO:跳转到对应页面 -->
-          <router-link v-if='!isOthers' to="/" class='box-title-text'>订阅趣点</router-link>
+          <router-link v-if='!isOthers' to="/user/interest" class='box-title-text'>订阅趣点</router-link>
           <span v-else class='box-title-text'>他关注的趣点</span>
         </h4>
       </div>
@@ -69,6 +69,7 @@
 .follow-list-box,
 .subscribe-list-box {
   background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
   font-size: 12px;
   margin-bottom: 16px;
 }

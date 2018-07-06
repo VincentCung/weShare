@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class='nav-header' type="flex" align="middle" :gutter="20" >
+    <el-row class='nav-header' type="flex" align="middle" :gutter="20">
       <el-col :span='2' :offset="2">
         <router-link to='/'>
           <img src="../assets/logo.png" alt="test" width="80">
@@ -86,7 +86,7 @@ export default {
         password: ""
       },
       rules: {
-        name: [{ validator: validateName, trigger:"blur" }],
+        name: [{ validator: validateName, trigger: "blur" }],
         password: [{ validator: validatePass, trigger: "blur" }]
       }
     };
@@ -94,6 +94,7 @@ export default {
   methods: {
     search(e) {
       console.log(e);
+      this.$router.push("/interest/result?keyword=" + e.target.value);
     },
     login(e) {
       let { name, password } = this.loginForm;
@@ -111,12 +112,18 @@ export default {
                   confirmButtonText: "确定",
                   type: "error"
                 });
+                this.showLoading = false;
               } else {
                 this.$refs.loginForm.resetFields();
                 this.showLoading = false;
                 this.dialogFormVisible = false;
                 this.$store.dispatch("login", response.data.msg);
-                this.$router.go(0);
+                //this.$router.go(0);
+                if (response.data.msg.success == 1) {
+                  this.$router.replace(this.$route.path);
+                } else {
+                  this.$router.replace("/administrator");
+                }
               }
             })
             .catch(error => {
@@ -144,7 +151,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 /*------------------------------navHeader-----------------------------------------------------------*/
 .nav-header {
   z-index: 100;

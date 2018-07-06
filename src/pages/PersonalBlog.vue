@@ -19,7 +19,7 @@
               </div>
             </div>
             <!-- TODO:微博转发 -->
-            <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
+            <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl' :id='weibo.id'> </weibo>
             <div class='nothing-tip' v-if='!weibos.length'>
               <h3>{{isOthers?'他':'你'}}还没有发过微博呢..</h3>
             </div>
@@ -146,7 +146,6 @@ export default {
           params
         })
         .then(response => {
-          console.log(response.data);
           let data = response.data.msg;
           this.weibos = data.weibos;
         })
@@ -160,7 +159,6 @@ export default {
           params
         })
         .then(response => {
-          console.log(response.data);
           let data = response.data.msg;
           let { user, counter, follow, interests } = data;
 
@@ -183,7 +181,6 @@ export default {
         })
         .then(response => {
           if (response.data.msg.success > 0) {
-            console.log(response);
             this.isFollow = !this.isFollow;
             this.followLoading = false;
           }
@@ -211,6 +208,7 @@ export default {
   margin: 0 0 10px 0;
   border-radius: 2px;
   padding: 15px 10px 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 }
 
 .box-footer {
@@ -236,5 +234,6 @@ export default {
 .nothing-tip {
   background-color: #fff;
   padding: 10px 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 }
 </style>

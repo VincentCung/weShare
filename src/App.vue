@@ -51,5 +51,8 @@ a {
   clear: both;
   visibility: hidden;
 }
+.main {
+  padding-bottom: 50px;
+}
 </style>
 
