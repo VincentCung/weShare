@@ -4,8 +4,9 @@
       <div class="main-container">
         <el-tabs v-model="activeName" @tab-click="handleClick" class="tab-menu" type="border-card">
           <el-tab-pane label="我的关注" name="first">
-            <!-- TODO:关注列表 -->
-            <follow-blog v-for="follow in follows" :key="follow.id" :name="follow.name"></follow-blog>
+            <div class="follow-list-box">
+              <follow-block v-for="follow in follows" :key="follow.user.id" :user="follow.user"></follow-block>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="个人资料" name="second">
             <el-form class="data-form">
@@ -13,10 +14,10 @@
                 <img :src='imgUrl' class="user-picture">
                 <el-button type="warning" class="user-picture-button" size="small">更换</el-button>
               </el-form-item>
-              <el-form-item>
+              <el-form-item label="用户名:">
                 <el-input v-model="userName" class="input"></el-input>
               </el-form-item>
-              <el-form-item>
+              <el-form-item label="性别:">
                 <el-radio-group v-model="gender">
                   <el-radio :label="0">不显示</el-radio>
                   <el-radio :label="1">男</el-radio>
@@ -24,7 +25,6 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item>
-
                 <el-button type="primary" class="change-button">修改</el-button>
               </el-form-item>
             </el-form>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import FollowBlog from "@/components/FollowBlog";
+import FollowBlock from "@/components/FollowBlock";
 
 export default {
   data() {
@@ -69,7 +69,14 @@ export default {
     };
     return {
       /**我的关注 */
-      follows: [],
+      follows: [
+        {
+          user: {
+            name: "123",
+            id: 123
+          }
+        }
+      ],
       /**我的关注 */
       isFollow: true,
       activeName: "first",
@@ -107,7 +114,7 @@ export default {
     };
   },
   components: {
-    FollowBlog
+    FollowBlock
   },
   created() {
     this.refreshInfo();
@@ -168,15 +175,16 @@ export default {
 
 <style scoped>
 .main-container {
-  width: 920px;
+  width: 940px;
   min-height: 1000px;
   margin: 0 auto;
   padding: 16px 0 0 0;
 }
-
+.data-form,
 .password-form {
   width: 400px;
   margin: 0 auto;
+  min-height: 400px;
 }
 
 .input {
@@ -184,11 +192,19 @@ export default {
 }
 
 .change-button {
-  width: 30%;
+  width: 60%;
 }
 
 .user-picture {
   border-radius: 50%;
+}
+.follow-list-box {
+  width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  min-height: 400px;
 }
 </style>
   

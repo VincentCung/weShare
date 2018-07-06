@@ -2,8 +2,8 @@
   <div class="main">
     <div class="main-container">
       <el-row :gutter="20">
-        <el-col :span="16">
-          <div class="textarea-box">
+        <el-col :span="$store.state.is_login?16:24">
+          <div class="textarea-box" v-if="$store.state.is_login">
             <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 8}" placeholder="今天又有什么新鲜事.." v-model="context">
             </el-input>
             <div class="box-footer">
@@ -15,7 +15,7 @@
             <h3>这个趣点还没有发过微博呢..</h3>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-if="$store.state.is_login">
           <div>
             <div class="info-photo-box">
               <div class="info-photo-wrap">

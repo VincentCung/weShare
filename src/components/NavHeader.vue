@@ -94,6 +94,7 @@ export default {
   methods: {
     search(e) {
       console.log(e);
+      this.$router.push('/interest/result?keyword='+e.target.value)
     },
     login(e) {
       let { name, password } = this.loginForm;
