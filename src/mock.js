@@ -7,7 +7,7 @@ Mock.mock('/user/login', 'post', (req, res) => {
     result.satusCode = 200
     result.msg = {}
     if (info.name == 'a' && info.password == '123') {
-        result.msg.success = 1
+        result.msg.success = 2
         result.msg.user = {
             id: 123,
             name: 'a',
