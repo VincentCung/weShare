@@ -99,6 +99,7 @@ export default {
 .main-box {
   margin: 15px 25px 0;
   position: relative;
+  padding: 0;
 }
 .background {
   width: 100%;

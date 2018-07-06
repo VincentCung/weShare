@@ -146,7 +146,6 @@ export default {
           params
         })
         .then(response => {
-          console.log(response.data);
           let data = response.data.msg;
           this.weibos = data.weibos;
         })
@@ -160,7 +159,6 @@ export default {
           params
         })
         .then(response => {
-          console.log(response.data);
           let data = response.data.msg;
           let { user, counter, follow, interests } = data;
 
@@ -183,7 +181,6 @@ export default {
         })
         .then(response => {
           if (response.data.msg.success > 0) {
-            console.log(response);
             this.isFollow = !this.isFollow;
             this.followLoading = false;
           }

@@ -3,7 +3,11 @@
     <div>
       <div class="main-container">
         <el-tabs v-model="activeName" @tab-click="handleClick" class="tab-menu" type="border-card">
-          <el-tab-pane label="个人资料" name="first">
+          <el-tab-pane label="我的关注" name="first">
+            <!-- TODO:关注列表 -->
+            <follow-blog v-for="follow in follows" :key="follow.id" :name="follow.name"></follow-blog>
+          </el-tab-pane>
+          <el-tab-pane label="个人资料" name="second">
             <el-form class="data-form">
               <el-form-item>
                 <img :src='imgUrl' class="user-picture">
@@ -25,7 +29,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="修改密码" name="second">
+          <el-tab-pane label="修改密码" name="third">
             <el-form class="password-form" :model='passwordForm' :rules="rules" ref='passwordForm' status-icon>
               <el-form-item prop='oldPassword'>
                 <el-input placeholder="请输入原密码" v-model="passwordForm.oldPassword" type="password"></el-input>
@@ -41,10 +45,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="我的关注" name="third">
-            <!-- TODO:关注列表 -->
-            <follow-blog v-for="follow in follows" :key="follow.id" :name="follow.name"></follow-blog>
-          </el-tab-pane>
+
         </el-tabs>
       </div>
 
@@ -161,19 +162,11 @@ export default {
         }
       });
     }
-
   }
 };
 </script>
 
 <style scoped>
-.main-container {
-  width: 920px;
-  min-height: 1000px;
-  margin: 0 auto;
-  padding: 16px 0 0 0;
-}
-
 .main-container {
   width: 920px;
   min-height: 1000px;

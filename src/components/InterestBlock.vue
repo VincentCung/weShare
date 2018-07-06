@@ -1,14 +1,13 @@
 <template>
     <div>
         <div class="interest-box">
-            <div class="interest-avatar">
-                <!-- <img :src="interest.avatarUrl" class="box-avator-img"> -->
-                <img src="https://img.xiaopiu.com/userImages/img131644e3a3960.jpg" alt = "照片" width="180" height="180">
-            </div>
-            <!-- <div class="interest-name">#{{interest.name}}#</div> -->
-            <div class="interest-name">#MUSIC#</div>
-            <!-- <div class="interest-num">人数：{{interest.num}}</div> -->
-            <div class="interest-num">人数：250</div>  
+            <router-link :to="'/interest?id='+interest.id" class='box-hover'>
+                <div class="interest-avatar">
+                    <img :src="interest.imageUrl" class="box-avator-img" alt="照片" width="180" height="180">
+                </div>
+                <div class="interest-name">#{{interest.name}}#</div>
+                <div class="interest-num">微博数：{{interest.count}}</div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -17,27 +16,31 @@
 export default {
   props: {
     interest: {
-      type: Object,  
-      required: true
+      type: Object,
+      required:true
     }
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
 
 <style scoped>
+
+
 .interest-box {
-    text-align: center;
-    margin:20px;
-    font-size: 15px;
-    background-color: #f5f5f5;    
-}
-.interest-avatar {
-    margin-bottom: 10px;   
+  text-align: center;
+  margin: 20px;
+  font-size: 15px;
+  background-color: #dddddd;
 }
 
-.interest-name, .interest-num {
-    margin-bottom: 10px
+.box-hover:hover {
+    color:#5aa9a4;
+}
+
+.interest-name,
+.interest-num {
+  margin-top: 10px;
+  font-weight: 600;
 }
 </style>

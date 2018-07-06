@@ -41,6 +41,7 @@ a {
 }
 .router-view-wrap {
   padding-top: 65px;
+  padding-bottom: 50px; 
   background-color: #b3dddc;
 }
 
