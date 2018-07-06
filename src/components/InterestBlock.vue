@@ -29,7 +29,7 @@ export default {
 <style scoped>
 .interest-box {
     text-align: center;
-    margin:20px;
+    margin:20px 17px;
     font-size: 15px;
     background-color: #f5f5f5;    
 }
