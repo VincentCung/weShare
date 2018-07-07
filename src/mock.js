@@ -24,7 +24,7 @@ Mock.mock('/user/login', 'post', (req, res) => {
     result.satusCode = 200
     result.msg = {}
     if (info.name == 'a' && info.password == '123') {
-        result.msg.success = 2
+        result.msg.success = 1
         result.msg.user = {
             id: 123,
             name: 'a',
@@ -64,6 +64,8 @@ Mock.mock(/\/message\/follow/, 'get', {
 })
 
 Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
+    let query = parseUrl(req.url)
+
     let result = Mock.mock({
         statusCode: 200,
         msg: {
@@ -90,6 +92,12 @@ Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
         }
     })
 
+    if (query.token) {
+        result.msg.weibos.forEach(weibo => {
+            weibo.content.is_thumb = Random.integer(0, 1)
+            return weibo
+        });
+    }
     return result
 })
 
@@ -181,15 +189,39 @@ Mock.mock(/\/weibo\/search/, 'get', (req, res) => {
                         "id|+1": 1,
                         "name": '@string(3, 10)',
                         "photo": "@dataImage('100x100','头像')",
-                        "gender|0-2":1
-                        
+                        "gender|0-2": 1
+
                     }
                 ]
             }
         })
     }
-
-
-
 })
 
+Mock.mock('/weibo/thumb', 'post', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+    }
+})
+
+
+Mock.mock('/weibo/interests', 'get', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+        'interests|0-10': [
+            {
+                "id|+1": 1,
+                "name": '@string(3, 10)',
+            }
+        ]
+    }
+})
+
+Mock.mock('/weibo/issue', 'post', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+    }
+})

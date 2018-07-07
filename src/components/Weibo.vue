@@ -4,7 +4,7 @@
     <div class="main-box">
       <!-- TODO:删除按钮 -->
       <div v-if="deleteAble" class="box-delete-btn">
-        <el-button type="danger" icon="el-icon-close" circle size="mini"></el-button>
+        <el-button type="danger" icon="el-icon-close" circle size="mini" @click="deleteWeibo"></el-button>
       </div>
       <div class="box-avatar">
         <img :src="avatarUrl" alt="头像" class='box-avatar-img'>
@@ -14,11 +14,11 @@
         <el-button type="text" class='box-detail-name'>{{name}}</el-button>
         <div class='box-detail-time'>{{content.create_time}}</div>
         <div class='box-detail-text'>{{content.context}}</div>
-        <div class='box-detail-photos clearfix' v-if='content.photos.length'>
+        <!-- <div class='box-detail-photos clearfix' v-if='content.photos.length'>
           <li class='box-photo-wrap' v-for="photo in content.photos" :key="photo.id">
             <img :src="photo.source" alt="照片" class='box-photo'>
           </li>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="box-admire-bar">
@@ -27,8 +27,7 @@
         <el-button icon="el-icon-tickets" class='box-btn' @click='read'>阅读({{content.read_count}})</el-button>
         <el-button icon="el-icon-share" class='box-btn' @click='transmit'>转发({{content.transmit_count}})</el-button>
         <el-button icon="el-icon-edit" class='box-btn' @click='comment'>评论({{content.comment_count}})</el-button>
-        <!-- TODO:点赞功能 -->
-        <el-button :icon="content.is_thumb?'el-icon-star-on':'el-icon-star-on'" class='box-btn' @click="thumb">{{thumbText}}</el-button>
+        <el-button :icon="content.is_thumb?'el-icon-star-on':'el-icon-star-off'" class='box-btn' @click="thumb" :loading='showLoading'>{{thumbText}}</el-button>
       </el-button-group>
     </div>
   </div>
@@ -138,6 +137,9 @@ export default {
     id: {
       type: Number,
       required: true
+    },
+    showLoading: {
+      type: Boolean
     }
   },
   computed: {
@@ -152,7 +154,7 @@ export default {
     read() {
       if (this.$route.path != "/blog") {
         this.$router.replace("/blog?id=" + this.id);
-      } 
+      }
     },
     comment() {
       if (this.$route.path != "/blog") {
@@ -161,7 +163,12 @@ export default {
         this.$emit("comment");
       }
     },
-    thumb() {},
+    thumb() {
+      this.$emit("thumb", this.id);
+    },
+    deleteWeibo() {
+      this.$emit("delete", this.id);
+    },
     transmit() {}
   }
 };

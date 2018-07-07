@@ -13,7 +13,7 @@
         </el-input>
       </el-col>
       <el-col :span='12'>
-        <el-menu :default-active="$route.path" class="nav-header-menu" mode="horizontal" :router='true' background-color="inherit">
+        <el-menu :default-active="$route.fullPath" class="nav-header-menu" mode="horizontal" :router='true' background-color="inherit">
           <el-menu-item index="/square">广场</el-menu-item>
           <el-menu-item index="/more">发现趣点</el-menu-item>
           <el-menu-item index="/user/interest" v-if='token'>我的趣点</el-menu-item>
