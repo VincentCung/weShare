@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <div class="main-box">
-      <weibo :content='weibo.content' :id="weibo.id" style="box-shadow:none" @comment='refreshComment' />
-      <div class="textarea-box" v-if="$store.state.is_login">
+      <weibo :content='weibo.content' :id="weibo.id" style="box-shadow:none" @comment='refreshComment' :name='weibo.user.name' :avatar-url='weibo.user.photo' :showLoading="weibo.showLoading" @thumb="thumb" />
+      <div class="textarea-box" v-if="isLogin">
         <h4 v-show='replyTo.name'>回复{{replyTo.name}}:</h4>
         <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="写下你的评论（上限200字）" v-model="context" maxlength="200">
         </el-input>
@@ -38,6 +38,8 @@ export default {
   },
   data() {
     return {
+      userId: 0,
+      isLogin: false,
       replyTo: {
         id: 0,
         name: ""
@@ -57,6 +59,10 @@ export default {
               source: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
             }
           ]
+        },
+        user: {
+          photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+          name: "123"
         }
       },
       context: "",
@@ -74,6 +80,13 @@ export default {
       ]
     };
   },
+  created() {
+    if (localStorage.getItem("loginToken")) {
+      this.isLogin = true;
+      this.userId = JSON.parse(localStorage.getItem("user_info")).id;
+    }
+    this.getBlogDetail();
+  },
   methods: {
     userGender(gender) {
       if (gender == 1) {
@@ -89,6 +102,50 @@ export default {
         name: "",
         id: 0
       };
+    },
+    getBlogDetail() {
+      let weibo_id = this.$route.params.id;
+      let params = { weibo_id };
+      if (this.isLogin) {
+        params.token = localStorage.getItem("loginToken");
+      }
+      this.$_http
+        .get("/weibo/detail", {
+          params
+        })
+        .then(response => {
+          let data = response.data.msg;
+          this.weibo = data.weibo
+          this.weibo.showLoading = false
+          this.comments = data.comments
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    thumb(value) {
+      this.weibo.showLoading = true;
+      this.$_http
+        .post("/weibo/thumb", {
+          token: localStorage.getItem("loginToken"),
+          is_thumb: !this.weibo.content.is_thumb,
+          weibo_id: this.weibo.id,
+          user_id: this.userId
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            if (this.weibo.content.is_thumb) {
+              this.weibo.content.thumb_count--;
+            } else {
+              this.weibo.content.thumb_count++;
+            }
+            this.weibo.content.is_thumb = !this.weibo.content.is_thumb;
+            this.weibo.showLoading = false;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
@@ -142,7 +199,7 @@ export default {
 
 .comment-detail {
   margin-left: 10px;
-  width: 95%;
+  width: 90%;
 }
 
 .comment-name {

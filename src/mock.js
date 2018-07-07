@@ -225,3 +225,52 @@ Mock.mock('/weibo/issue', 'post', {
         success: 1,
     }
 })
+
+Mock.mock(/\/weibo\/detail/, 'get', (req, res) => {
+    let query = parseUrl(req.url)
+    let result = Mock.mock({
+        statusCode: 200,
+        msg: {
+            success: 1,
+            weibo:
+            {
+                "id|+1": 1,
+                content: {
+                    "create_time": '@date("yyyy年MM月dd日") @time("HH:mm")',
+                    "context": '@string(7, 300)',
+                    "read_count|2-4": 1,
+                    "comment_count|2-4": 1,
+                    "transmit_count|2-4": 1,
+                    "thumb_count|2-4": 1,
+                    "photos|0-9": [
+                        {
+                            "id|+1": 1,
+                            "source": "@dataImage('200x100','照片')"
+                        }
+                    ]
+                },
+                user: {
+                    "photo": "@dataImage('100x100','头像')",
+                    "name": '@string(3, 10)',
+                }
+            },
+            'comments|0-5': [{
+                "id|+1": 1,
+                user: {
+                    "id|+1": 1,
+                    name: '@string(7, 10)',
+                    photo: "@dataImage('100x100','头像')"
+                },
+                create_time: '@date("yyyy年MM月dd日") @time("HH:mm")',
+                context: "@string(7, 300)"
+            }]
+        }
+    })
+
+    if(query.token) {
+        result.msg.weibo.content.is_thumb=1
+    }
+
+    return result
+
+})

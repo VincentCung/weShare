@@ -251,7 +251,7 @@ export default {
 
 .comment-detail {
   margin-left: 10px;
-  width: 95%;
+  width: 90%;
   box-sizing: border-box;
 }
 

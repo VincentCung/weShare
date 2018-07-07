@@ -214,8 +214,7 @@ export default {
             } else {
               this.weibos[index].content.thumb_count++;
             }
-            this.weibos[index].content.is_thumb = !this.weibos[index].content
-              .is_thumb;
+            this.weibos[index].content.is_thumb = !this.weibos[index].content.is_thumb;
             this.weibos[index].showLoading = false;
           }
         })
