@@ -1,34 +1,34 @@
 <template>
-    <div class="main">
-        <div class="main-box">
-            <weibo :content='weibo.content' :id="weibo.id" style="box-shadow:none" @comment='refreshComment' />
-            <div class="textarea-box" v-if="$store.state.is_login">
-                <h4 v-show='replyTo.name'>回复{{replyTo.name}}:</h4>
-                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="写下你的评论（上限200字）" v-model="context" maxlength="200">
-                </el-input>
-                <div class="box-footer">
-                    <el-button type="primary" class='publish-btn'>发布</el-button>
-                </div>
-            </div>
-            <div class="comment-box" v-for="comment in comments" :key="comment.id">
-                <div class="comment-avatar">
-                    <img :src="comment.user.photo" alt="" width="30" height="30">
-                </div>
-                <div class="comment-detail">
-                    <router-link :to="'/blogs?userId='+comment.user.id" class="comment-name">
-                        <div>{{comment.user.name}}:</div>
-                    </router-link>
-                    <div class="comment-create-time">{{comment.create_time}}</div>
-                    <div class="comment-content">{{comment.context}}</div>
-                    <div class="box-footer">
-                        <el-button type='text'>回复</el-button>
-                    </div>
-                </div>
-
-            </div>
-
+  <div class="main">
+    <div class="main-box">
+      <weibo :content='weibo.content' :id="weibo.id" style="box-shadow:none" @comment='refreshComment' />
+      <div class="textarea-box" v-if="$store.state.is_login">
+        <h4 v-show='replyTo.name'>回复{{replyTo.name}}:</h4>
+        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="写下你的评论（上限200字）" v-model="context" maxlength="200">
+        </el-input>
+        <div class="box-footer">
+          <el-button type="primary" class='publish-btn'>发布</el-button>
         </div>
+      </div>
+      <div class="comment-box" v-for="comment in comments" :key="comment.id">
+        <div class="comment-avatar">
+          <img :src="comment.user.photo" alt="" width="30" height="30">
+        </div>
+        <div class="comment-detail">
+          <router-link :to="'/blogs?userId='+comment.user.id" class="comment-name">
+            <div>{{comment.user.name}}:</div>
+          </router-link>
+          <div class="comment-create-time">{{comment.create_time}}</div>
+          <div class="comment-content">{{comment.context}}</div>
+          <div class="box-footer">
+            <el-button type='text'>回复</el-button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
+  </div>
 </template>
 <script>
 import Weibo from "@/components/Weibo";
@@ -142,7 +142,7 @@ export default {
 
 .comment-detail {
   margin-left: 10px;
-  width: 100%;
+  width: 95%;
 }
 
 .comment-name {
@@ -160,6 +160,6 @@ export default {
 }
 .comment-content {
   margin-top: 5px;
+  word-wrap: break-word;
 }
-
 </style>

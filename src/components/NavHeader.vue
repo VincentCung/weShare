@@ -16,22 +16,22 @@
         <el-menu :default-active="$route.path" class="nav-header-menu" mode="horizontal" :router='true' background-color="inherit">
           <el-menu-item index="/square">广场</el-menu-item>
           <el-menu-item index="/more">发现趣点</el-menu-item>
-          <el-menu-item index="/user/interest" v-if='$store.state.is_login'>我的趣点</el-menu-item>
-          <el-menu-item index="/blogs" v-if='$store.state.is_login'>我的微博</el-menu-item>
+          <el-menu-item index="/user/interest" v-if='token'>我的趣点</el-menu-item>
+          <el-menu-item index="/blogs" v-if='token'>我的微博</el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span='2' v-if='!$store.state.is_login'>
+      <el-col :span='2' v-if='!token'>
         <el-button type="text" @click="dialogFormVisible = true">登 陆</el-button>
       </el-col>
-      <el-col :span='2' v-if='$store.state.is_login'>
+      <el-col :span='2' v-if="token">
         <i class="el-icon-edit"></i>
-        <el-button type="text" @click='redirectMyDetail'>{{$store.state.user.name}}</el-button>
+        <el-button type="text" @click='redirectMyDetail'>{{user.name}}</el-button>
       </el-col>
       <span> | </span>
-      <el-col :span='2' v-if='!$store.state.is_login'>
+      <el-col :span='2' v-if='!token'>
         <el-button type="text" @click="register">注 册</el-button>
       </el-col>
-      <el-col :span='2' v-if='$store.state.is_login'>
+      <el-col :span='2' v-if='token'>
         <i class="el-icon-edit"></i>
         <el-button type="text" @click='logout'>注 销</el-button>
       </el-col>
@@ -88,7 +88,9 @@ export default {
       rules: {
         name: [{ validator: validateName, trigger: "blur" }],
         password: [{ validator: validatePass, trigger: "blur" }]
-      }
+      },
+      token: localStorage.getItem("loginToken"),
+      user: JSON.parse(localStorage.getItem("user_info"))
     };
   },
   methods: {
@@ -117,8 +119,10 @@ export default {
                 this.$refs.loginForm.resetFields();
                 this.showLoading = false;
                 this.dialogFormVisible = false;
-                this.$store.dispatch("login", response.data.msg);
-                //this.$router.go(0);
+                localStorage.setItem("loginToken", response.data.msg.token);
+                localStorage.setItem("user_info", JSON.stringify(response.data.msg.user));
+                this.token = response.data.msg.token
+                this.user = response.data.msg.user
                 if (response.data.msg.success == 1) {
                   this.$router.replace(this.$route.path);
                 } else {
@@ -133,7 +137,9 @@ export default {
       });
     },
     logout() {
-      this.$store.dispatch("logout");
+      localStorage.removeItem("loginToken");
+      localStorage.removeItem('user_info');
+      this.token=''
       this.$message({
         message: "注销成功",
         type: "success"

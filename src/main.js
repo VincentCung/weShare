@@ -4,13 +4,13 @@ import Vue from 'vue'
 import App from './App'
 //引入 router vuex
 import router from './router'
-import store from './store'
+//import store from './store'
 //引入ui库
 import ElementUI from 'element-ui'
 import './assets/css/theme/index.css'
 //引入ajax
 import axios from 'axios'
-//引入 vuex管理状态
+
 
 //数据mock
 require('./mock.js')
@@ -29,7 +29,7 @@ Vue.config.productionTip = false
 //TODO:token check auth
 router.beforeEach((to, from, next) => {
 
-  store.state.token = sessionStorage.getItem('token');//获取本地存储的token
+  localStorage.getItem('loginToken');//获取本地存储的token
 
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
     if (store.state.token !== "") {  // 通过vuex state获取当前的token是否存
@@ -50,7 +50,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   el: '#app',
   router,
-  store,
   components: { App },
   template: '<App/>'
 })

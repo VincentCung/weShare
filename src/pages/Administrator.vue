@@ -8,7 +8,7 @@
                             <i slot="suffix" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </div>
-                    <el-table :data="currentUserData" stripe align="center" :row-class-name="tableRowClassName">
+                    <el-table :data="currentUserData" stripe align="left" :row-class-name="tableRowClassName">
                         <el-table-column label="用户ID" prop="id"></el-table-column>
                         <el-table-column label="用户名" prop="name"></el-table-column>
                         <el-table-column label="邮箱" prop="email"></el-table-column>
@@ -26,7 +26,38 @@
                     <el-pagination :page-size="10" layout="prev, pager, next" :total="userData.length" @current-change="tabUserPage">
                     </el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="博文管理" name="second">
+                <el-tab-pane label="微博管理" name="second">
+                    <div class="search-bar-box">
+                        <el-input placeholder="输入微博内容/用户名" clearable @keypress.enter.native='search'>
+                            <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                        </el-input>
+                    </div>
+                    <el-table :data="currentWeiboData" :row-class-name="tableRowClassName" align="left">
+                        <el-table-column type="expand">
+                            <template slot-scope="props">
+                                <div class="context-box">
+                                    <span>微博内容：{{ props.row.context }}</span>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="用户名" prop="userName">
+                        </el-table-column>
+                        <el-table-column label="阅读数" prop="read_count">
+                        </el-table-column>
+                        <el-table-column label="点赞数" prop="thumb_count">
+                        </el-table-column>
+                        <el-table-column label="评论数" prop="comment_count">
+                        </el-table-column>
+                        <el-table-column label="转发数" prop="transmit_count">
+                        </el-table-column>
+                        <el-table-column label="删除">
+                            <template slot-scope="scope">
+                                <el-button type="danger">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-pagination :page-size="10" layout="prev, pager, next" :total="weiboData.length" @current-change="tabWeiboPage">
+                    </el-pagination>
                 </el-tab-pane>
                 <el-tab-pane label="评论管理" name="third">
                     <div class="search-bar-box">
@@ -34,7 +65,7 @@
                             <i slot="suffix" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </div>
-                    <div class="comment-box" v-for="comment in comments" :key="comment.id">
+                    <div class="comment-box" v-for="comment in currentComments" :key="comment.id">
                         <div class="comment-avatar">
                             <img :src="comment.user.photo" alt="" width="30" height="30">
                         </div>
@@ -48,9 +79,9 @@
                                 <el-button type='danger'>删除</el-button>
                             </div>
                         </div>
-
                     </div>
-
+                    <el-pagination :page-size="10" layout="prev, pager, next" :total="comments.length" @current-change="tabCommentsPage">
+                    </el-pagination>
                 </el-tab-pane>
                 <el-tab-pane label="趣点管理" name="forth">
                     <div class="search-bar-box">
@@ -58,7 +89,7 @@
                             <i slot="suffix" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </div>
-                    <el-table :data="currentInterestData" stripe align="center" :row-class-name="tableRowClassName">
+                    <el-table :data="currentInterestData" stripe align="left" :row-class-name="tableRowClassName">
                         <el-table-column label="趣点名" prop="interestName"></el-table-column>
                         <el-table-column label="微博数" prop="weiboNum"></el-table-column>
                         <el-table-column label="被订阅数" prop="subsNum"></el-table-column>
@@ -68,8 +99,8 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination :page-size="10" layout="prev, pager, next" :total="interestData.length" @current-change="tabInterestPage">
-                    </el-pagination>
+                    <el-pagination :page-size="10" layout="prev, pager, next" :total="interestData.length" @current-change="tabInterestPage"> </el-pagination>
+
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -81,6 +112,16 @@
 export default {
   data() {
     return {
+      weiboData: [
+        {
+          userName: "狗东西",
+          read_count: 1,
+          comment_count: 1,
+          transmit_count: 1,
+          thumb_count: 1,
+          context: "你妈死了"
+        }
+      ],
       comments: [
         {
           id: 1,
@@ -90,7 +131,8 @@ export default {
             photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
           },
           create_time: '@date("yyyy年MM月dd日") @time("HH:mm")',
-          context: "@string(7, 300)"
+          context:
+            "@string(7, 300)sadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddxdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
         },
         {
           id: 1,
@@ -124,7 +166,19 @@ export default {
         }
       ],
       currentUserData: [],
-      currentInterestData: []
+      currentInterestData: [],
+      currentComments: [],
+      currentWeiboData: [
+        {
+          userName: "狗东西",
+          read_count: 1,
+          comment_count: 1,
+          transmit_count: 1,
+          thumb_count: 1,
+          context:
+            "@string(7, 300)sadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddxdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ]
     };
   },
   methods: {
@@ -148,6 +202,18 @@ export default {
     },
     tabInterestPage(page) {
       this.currentInterestData = this.interestData.slice(
+        (page - 1) * 10,
+        page * 10 - 1
+      );
+    },
+    tabCommentsPage(page) {
+      this.currentComments = this.comments.slice(
+        (page - 1) * 10,
+        page * 10 - 1
+      );
+    },
+    tabWeiboPage(page) {
+      this.currentWeiboData = this.weiboData.slice(
         (page - 1) * 10,
         page * 10 - 1
       );
@@ -185,7 +251,8 @@ export default {
 
 .comment-detail {
   margin-left: 10px;
-  width: 100%;
+  width: 95%;
+  box-sizing: border-box;
 }
 
 .comment-name {
@@ -203,10 +270,17 @@ export default {
 }
 .comment-content {
   margin-top: 5px;
+  word-wrap: break-word;
+  padding-bottom: 5px;
 }
 
 .box-footer {
   display: flex;
   justify-content: flex-end;
+}
+
+.context-box {
+    text-align: left;
+    word-wrap: break-word;
 }
 </style>
