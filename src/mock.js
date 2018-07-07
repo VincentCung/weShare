@@ -120,3 +120,4 @@ Mock.mock('/message/modify_pass','post',(req,res)=>{
     }
     return result
 })
+

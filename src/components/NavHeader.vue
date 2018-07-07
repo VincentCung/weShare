@@ -95,7 +95,6 @@ export default {
   },
   methods: {
     search(e) {
-      console.log(e);
       this.$router.push("/interest/result?keyword=" + e.target.value);
     },
     login(e) {
@@ -144,14 +143,14 @@ export default {
         message: "注销成功",
         type: "success"
       });
-      this.$router.push({ path: "/square" });
+      this.$router.replace({ path: "/square" });
     },
     register() {
       this.dialogFormVisible = false;
-      this.$router.push({ path: "/register" });
+      this.$router.replace({ path: "/register" });
     },
     redirectMyDetail() {
-      this.$router.push({ path: "/user/detail" });
+      this.$router.replace({ path: "/user/detail" });
     }
   }
 };

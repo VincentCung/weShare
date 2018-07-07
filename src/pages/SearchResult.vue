@@ -1,29 +1,29 @@
 <template>
-    <div class="main">
-        <div class="tab-box">
-            <el-tabs style="height: 200px;">
-                <el-tab-pane label="找微博">
-                    <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" style="background-color:#e1e1e1" />
-                    <div class='nothing-tip' v-if='!weibos.length'>
-                        <h3>找不到微博呢..</h3>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="找人">
-                    <router-link v-for="item in users" :key="item.id" :to="'/blogs?userId='+item.id">
-                        <div class="user-card-box">
-                            <div class="box-avatar">
-                                <img :src="item.photo" alt="">
-                            </div>
-                            <div class="box-detail">
-                                <span>{{item.name}}</span>
-                                <span> {{userGender(item.gender)}}</span>
-                            </div>
-                        </div>
-                    </router-link>
-                </el-tab-pane>
-            </el-tabs>
-        </div>
+  <div class="main">
+    <div class="tab-box">
+      <el-tabs style="height: 200px;">
+        <el-tab-pane label="找微博">
+          <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" style="background-color:#e1e1e1" :name="weibo.user.name" :avatar-url="weibo.user.photo" :id="weibo.id"/>
+          <div class='nothing-tip' v-if='!weibos.length'>
+            <h3>找不到微博呢..</h3>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="找人">
+          <router-link v-for="item in users" :key="item.id" :to="'/blogs?userId='+item.id">
+            <div class="user-card-box">
+              <div class="box-avatar">
+                <img :src="item.photo" alt="">
+              </div>
+              <div class="box-detail">
+                <span>{{item.name}}</span>
+                <span> {{userGender(item.gender)}}</span>
+              </div>
+            </div>
+          </router-link>
+        </el-tab-pane>
+      </el-tabs>
     </div>
+  </div>
 </template>
 <script>
 import Weibo from "@/components/Weibo";
@@ -40,8 +40,8 @@ export default {
           name: "123",
           gender: 1
         },
-                {
-          id: 1,
+        {
+          id: 2,
           photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
           name: "123",
           gender: 1
@@ -64,6 +64,10 @@ export default {
                   "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
               }
             ]
+          },
+          user: {
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+            name: "用户名"
           }
         },
         {
@@ -77,11 +81,15 @@ export default {
             thumb_count: 1,
             photos: [
               {
-                id: 1,
+                id: 3,
                 source:
                   "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
               }
             ]
+          },
+          user: {
+            photo: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+            name: "用户名"
           }
         }
       ]
@@ -97,6 +105,21 @@ export default {
         return "";
       }
     }
+  },
+  created() {
+    this.$_http
+      .get("/weibo/search", {
+        params: {
+          sort: 0,
+          keyword: this.$route.query.keyword
+        }
+      })
+      .then(response => {
+        // this.weibos = response.data.msg.weibos;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>
@@ -142,6 +165,6 @@ export default {
 }
 
 .user-card-box:hover {
-    border: 1.5px solid #b3dddc;
+  border: 1.5px solid #b3dddc;
 }
 </style>
