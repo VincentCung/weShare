@@ -41,7 +41,7 @@ a {
 }
 .router-view-wrap {
   padding-top: 65px;
-  background-color: #b3dddc;
+  background-image: linear-gradient(to left, #92e9ec, #c6ffdd);
 }
 
 .clearfix::after {
