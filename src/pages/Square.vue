@@ -24,7 +24,7 @@
             </el-carousel-item>
           </el-carousel>
         </div>
-        <weibo v-for="weibo in weibos"  :content='weibo.content' :key="weibo.id" :id="weibo.id"> </weibo>
+        <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" :id="weibo.id" :name="weibo.user.name" :user-id="weibo.user.id" :avatar-url="weibo.user.photo" @thumb="thumb" :show-loading="weibo.showLoading"> </weibo>
         <div class='nothing-tip' v-if='!weibos.length'>
           <h3>找不到微博呢..</h3>
         </div>
@@ -36,33 +36,14 @@
 
 
 <script>
-import Weibo from '@/components/Weibo'
+import Weibo from "@/components/Weibo";
 export default {
-  components:{
+  components: {
     Weibo
   },
   data() {
     return {
-      weibos: [
-        { 
-          id: 1,
-          content: {
-            create_time: '@date("yyyy年MM月dd日") @time("HH:mm")',
-            context: "@string(7, 300)",
-            read_count: 1,
-            comment_count: 1,
-            transmit_count: 1,
-            thumb_count: 1,
-            photos: [
-              {
-                id: 1,
-                source:
-                  "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
-              }
-            ]
-          }
-        }
-      ],
+      weibos: [],
       imgList: [
         require("../assets/image/1.jpg"),
         require("../assets/image/2.jpg"),
@@ -83,12 +64,50 @@ export default {
     };
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    thumb(value) {
+      let index = this.weibos.findIndex(weibo => {
+        return weibo.id == value;
+      });
+      this.weibos[index].showLoading = true;
+      this.$_http
+        .post("/weibo/thumb", {
+          token: localStorage.getItem("loginToken"),
+          is_thumb: !this.weibos[index].content.is_thumb,
+          weibo_id: this.weibos[index].id,
+          user_id: this.userId
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            if (this.weibos[index].content.is_thumb) {
+              this.weibos[index].content.thumb_count--;
+            } else {
+              this.weibos[index].content.thumb_count++;
+            }
+            this.weibos[index].content.is_thumb = !this.weibos[index].content
+              .is_thumb;
+            this.weibos[index].showLoading = false;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
+  },
+  created() {
+    this.$_http
+      .get("/weibo/look_hot", {
+        params: {}
+      })
+      .then(response => {
+        this.weibos = response.data.msg.weibos;
+        this.weibos.forEach(weibo => {
+          weibo.showLoading = false;
+          return weibo;
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>
