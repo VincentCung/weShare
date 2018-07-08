@@ -204,11 +204,14 @@ Mock.mock('/weibo/interests', 'get', {
   }
 })
 
-Mock.mock('/weibo/issue', 'post', {
-  satusCode: 200,
-  msg: {
-    success: 1,
-  }
+Mock.mock('/weibo/issue', 'post', (req,res)=>{
+  console.log(JSON.parse(req.body))
+  return Mock.mock({
+    satusCode: 200,
+    msg: {
+      success: 1,
+    }
+  })
 })
 
 Mock.mock('/weibo/comment', 'post', {
@@ -334,16 +337,71 @@ Mock.mock('/interest/hot', 'get', {
 
 
 Mock.mock(/\/interest\/look_list/, 'get', {
+  statusCode: 200,
+  msg: {
+    success: 1,
+    "interests|15-20": [{
+      "id|+1": 1,
+      "count|2-4000": 1,
+      name: '@string(7, 20)',
+      imageUrl: "@dataImage('400x100','趣点')",
+
+    }]
+  }
+})
+
+
+Mock.mock(/\/weibo\/look_interest/, 'get', (req, res) => {
+  let query = parseUrl(req.url)
+  let result = Mock.mock({
     statusCode: 200,
     msg: {
       success: 1,
-      "interests|15-20": [{
+      interest:{
         "id|+1": 1,
         "count|2-4000": 1,
         name: '@string(7, 20)',
-        imageUrl: "@dataImage('400x100','趣点')",
-  
-      }]
+      },
+      "weibos|0-20": [{
+        "id|+1": 1,
+        content: {
+          "create_time": '@date("yyyy年MM月dd日") @time("HH:mm")',
+          "context": '@string(7, 300)',
+          "read_count|2-4": 1,
+          "comment_count|2-4": 1,
+          "transmit_count|2-4": 1,
+          "thumb_count|2-4": 1,
+          "photos|0-9": [{
+            "id|+1": 1,
+            "source": "@dataImage('200x100','照片')"
+          }],
+        },
+        user: {
+          "id|+1": 1,
+          "photo": "@dataImage('100x100','头像')",
+          "name": '@string(3, 10)',
+        }
+      }],
     }
   })
-  
+
+  if (query.token) {
+    result.msg.is_subscribe = 1
+    result.msg.weibos.forEach(weibo=>{
+      weibo.content.is_thumb = false
+      if(Random.boolean()){
+        weibo.content.is_thumb = true
+      }
+      return weibo
+    })
+  }
+
+  return result
+})
+
+Mock.mock('/interest/add', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})

@@ -2,24 +2,24 @@
   <div class="main">
     <div class="main-container">
       <el-row :gutter="20">
-        <el-col :span="$store.state.is_login?16:24">
+        <el-col :span="isLogin?16:24">
           <div class="header-box">
             <h1>{{interest.name}}</h1>
-            <el-button v-if="$store.state.is_login" :icon="subscribeIcon" class='box-button' :type="subscribeType" @click='subscribe' size="small">{{subscribeText}}</el-button>
+            <el-button v-if="isLogin" :icon="subscribeIcon" class='box-button' :type="subscribeType" @click='subscribe' size="small" :loading="showLoading">{{subscribeText}}</el-button>
           </div>
-          <div class="textarea-box" v-if="$store.state.is_login">
+          <div class="textarea-box" v-if="isLogin">
             <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 8}" placeholder="今天又有什么新鲜事.." v-model="context">
             </el-input>
             <div class="box-footer">
-              <el-button type="primary" class='publish-btn'>发布</el-button>
+              <el-button type="primary" class='publish-btn' @click="postWeibo">发布</el-button>
             </div>
           </div>
-          <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl'> </weibo>
+          <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" :name='weibo.user.name' :avatar-url='weibo.user.photo' :id="weibo.id" :user-id="weibo.user.id" @thumb="thumb"> </weibo>
           <div class='nothing-tip' v-if='!weibos.length'>
             <h3>这个趣点还没有发过微博呢..</h3>
           </div>
         </el-col>
-        <el-col :span="8" v-if="$store.state.is_login">
+        <el-col :span="8" v-if="isLogin">
           <div>
             <div class="info-photo-box">
               <div class="info-photo-wrap">
@@ -39,15 +39,19 @@
 </template>
 <script>
 import UserSideBar from "@/components/UserSideBar";
+import Weibo from "@/components/Weibo";
 
 export default {
   data() {
     //TODO:动态信息
     return {
+      isLogin: false,
+      userId: 0,
       isSubscribe: true,
       userName: "",
       context: "",
-      avatarUrl: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+      avatarUrl: "",
+      showLoading:false,
       interest: {
         id: 1,
         name: "去你妈的点"
@@ -65,7 +69,8 @@ export default {
     };
   },
   components: {
-    UserSideBar
+    UserSideBar,
+    Weibo
   },
   computed: {
     subscribeText() {
@@ -78,8 +83,123 @@ export default {
       return this.isSubscribe ? "" : "primary";
     }
   },
+  created() {
+    let params = { interest_id: this.$route.query.id };
+    if (localStorage.getItem("loginToken")) {
+      this.isLogin = true;
+      this.userId = JSON.parse(localStorage.getItem("user_info")).id;
+      params.token = localStorage.getItem("loginToken");
+      this.getUserInfoList({ user_id: this.userId });
+    }
+    this.getInterestDetail(params);
+  },
   methods: {
-    subscribe() {}
+    subscribe() {},
+    getUserInfoList(params) {
+      this.$_http
+        .get("/message/user", {
+          params
+        })
+        .then(response => {
+          let data = response.data.msg;
+          let { user, counter, follow, interests } = data;
+
+          this.result = { counter, follow, interests };
+          this.userName = user.name;
+          this.avatarUrl = user.photo;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getInterestDetail(params) {
+      this.$_http
+        .get("/weibo/look_interest", {
+          params
+        })
+        .then(response => {
+          this.weibos = response.data.msg.weibos;
+          if (this.isLogin) {
+            this.isSubscribe = response.data.msg.is_subscribe;
+            this.interest = response.data.msg.interest
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    thumb(value) {
+      let index = this.weibos.findIndex(weibo => {
+        return weibo.id == value;
+      });
+      this.weibos[index].showLoading = true;
+      this.$_http
+        .post("/weibo/thumb", {
+          token: localStorage.getItem("loginToken"),
+          is_thumb: !this.weibos[index].content.is_thumb,
+          weibo_id: this.weibos[index].id,
+          user_id: this.userId
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            if (this.weibos[index].content.is_thumb) {
+              this.weibos[index].content.thumb_count--;
+            } else {
+              this.weibos[index].content.thumb_count++;
+            }
+            this.weibos[index].content.is_thumb = !this.weibos[index].content
+              .is_thumb;
+            this.weibos[index].showLoading = false;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },subscribe() {
+      this.showLoading = true;
+      this.$_http
+        .post("/interest/add", {
+          token: localStorage.getItem("loginToken"),
+          is_sub: !this.isSubscribe,
+          interest_id:this.$route.query.id,
+          user_id: this.userId
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            this.isSubscribe = !this.isSubscribe;
+            this.showLoading = false;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    postWeibo() {
+      if(this.context) {
+          this.$_http
+        .post("/weibo/issue", {
+          token: localStorage.getItem("loginToken"),
+          context: this.context,
+          user_id: this.userId,
+          interest_ids: [this.$route.query.id]
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            this.context = "";
+            this.$router.go(this.$route.path);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      } else {
+        this.$message({
+          message: '微博内容不能为空',
+          type: 'warning'
+        });
+      }
+      
+    }
   }
 };
 </script>

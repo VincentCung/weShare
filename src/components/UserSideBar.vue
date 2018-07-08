@@ -19,14 +19,12 @@
     <div class="follow-list-box">
       <div class="box-title">
         <h4>
-          <!-- TODO:跳转到对应页面 -->
-          <!-- TODO:没有到时候显示 -->
-          <router-link v-if='!isOthers' to="/user/detail" class='box-title-text'>关注的人</router-link>
+          <router-link v-if='!isOthers' to="/user/detail" class='box-title-text' >关注的人</router-link>
           <span v-else class='box-title-text'>他关注的人</span>
         </h4>
       </div>
       <div class='box-cards'>
-        <router-link :to="'/blogs?userId='+user.id" v-for="user in info.follow" :key='user.id' class="box-card">
+        <router-link :to="'/blogs?userId='+user.id" v-for="user in info.follow" :key='user.id' class="box-card" >
           <div class="box-card-img">
             <img :src="user.photo" alt="用户头像" width="50" height="50">
           </div>
@@ -42,13 +40,12 @@
     <div class="subscribe-list-box">
       <div class="box-title">
         <h4>
-          <!-- TODO:跳转到对应页面 -->
-          <router-link v-if='!isOthers' to="/user/interest" class='box-title-text'>订阅趣点</router-link>
+          <router-link v-if='!isOthers' to="/user/interest" class='box-title-text' >订阅趣点</router-link>
           <span v-else class='box-title-text'>他关注的趣点</span>
         </h4>
       </div>
       <div class='box-cards'>
-        <router-link :to="'/interest?id='+interest.id" v-for="interest in info.interests" :key='interest.id' class="box-card ">
+        <router-link :to="'/interest?id='+interest.id" v-for="interest in info.interests" :key='interest.id' class="box-card " >
           <div class="box-card-img">
             <img :src="interest.photo" alt="趣点图片" width="50" height="50">
           </div>

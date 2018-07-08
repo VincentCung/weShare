@@ -76,7 +76,6 @@ export default {
     if (this.isOthers && this.isLogin) {
       this.getFollowInfo();
     }
-    // let blogId = this.$route.query.userId || this.userId; //当前页面主人的Id
     let params = { targetId: this.blogId };
     if (this.isLogin) {
       params.token = localStorage.getItem("loginToken");
@@ -93,7 +92,6 @@ export default {
     if (this.isOthers && this.isLogin) {
       this.getFollowInfo();
     }
-    // let blogId = this.$route.query.userId || this.userId; //当前页面主人的Id
     let params = { targetId:this.blogId};
     if (this.isLogin) {
       params.token = localStorage.getItem("loginToken");
@@ -225,22 +223,30 @@ export default {
         });
     },
     postWeibo() {
-      this.$_http
-        .post("/weibo/issue", {
-          token: localStorage.getItem("loginToken"),
-          context: this.context,
-          user_id: this.userId,
-          interest_ids: this.interests
-        })
-        .then(response => {
-          if (response.data.msg.success > 0) {
-            this.context = "";
-            this.$router.go(this.$route.path);
-          }
-        })
-        .catch(error => {
-          console.log(error);
+      if(this.context) {
+
+        this.$_http
+          .post("/weibo/issue", {
+            token: localStorage.getItem("loginToken"),
+            context: this.context,
+            user_id: this.userId,
+            interest_ids: this.interests
+          })
+          .then(response => {
+            if (response.data.msg.success > 0) {
+              this.context = "";
+              this.$router.go(this.$route.path);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        this.$message({
+          message: '微博内容不能为空',
+          type: 'warning'
         });
+      }
     },
     deleteWeibo(value) {
       this.$confirm("此操作将永久删除该微博, 是否继续?", "提示", {

@@ -4,7 +4,7 @@
       <weibo :content='weibo.content' :id="weibo.id" style="box-shadow:none" @comment='refreshComment' :name='weibo.user.name' :avatar-url='weibo.user.photo' :showLoading="weibo.showLoading" @thumb="thumb" :user-id="weibo.user.id" />
       <div class="textarea-box" v-if="isLogin">
         <h4 v-show='replyTo.name'>回复{{replyTo.name}}:</h4>
-        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="写下你的评论（上限200字）" v-model="context" maxlength="200" ref="comment" @keypress.enter.native='postComment'>
+        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="写下你的评论（上限200字）" v-model="context" maxlength="200" ref="comment">
         </el-input>
         <div class="box-footer">
           <el-button type="primary" class='publish-btn' @click="postComment">发布</el-button>
@@ -16,7 +16,6 @@
         </div>
         <div class="comment-detail">
           <div class="comment-user">
-
             <router-link :to="'/blogs?userId='+comment.user.id" class="comment-name">
               <div>{{comment.user.name}}</div>
             </router-link>
@@ -95,44 +94,51 @@ export default {
       };
     },
     postComment() {
-      let body = {
-        token: localStorage.getItem("loginToken"),
-        context: this.context,
-        user_id: this.userId,
-        weibo_id: this.weibo.id
-      };
-      if (this.replyTo.name) {
-        body.parent_id = this.replyTo.id;
-      }
-      this.$_http
-        .post("/weibo/comment", body)
-        .then(response => {
-          if (response.data.msg.success > 0) {
-            let comment = {
-              context: this.context,
-              id: 999,
-              user: {
-                id: this.userId,
-                photo:
-                  "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
-                name: "123"
-              },
-              create_time: "now"
-            };
-            if (this.replyTo.name) {
-              comment.parent = {}
-              comment.parent.id = this.replyTo.id;
-              comment.parent.name = this.replyTo.name
+      if (this.context) {
+        let body = {
+          token: localStorage.getItem("loginToken"),
+          context: this.context,
+          user_id: this.userId,
+          weibo_id: this.weibo.id
+        };
+        if (this.replyTo.name) {
+          body.parent_id = this.replyTo.id;
+        }
+        this.$_http
+          .post("/weibo/comment", body)
+          .then(response => {
+            if (response.data.msg.success > 0) {
+              let comment = {
+                context: this.context,
+                id: 999,
+                user: {
+                  id: this.userId,
+                  photo:
+                    "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+                  name: "123"
+                },
+                create_time: "now"
+              };
+              if (this.replyTo.name) {
+                comment.parent = {};
+                comment.parent.id = this.replyTo.id;
+                comment.parent.name = this.replyTo.name;
+              }
+              this.comments.splice(0, 0, comment);
+              this.context = "";
+              this.refreshComment();
+              //this.$router.go(this.$route.path);
             }
-            this.comments.splice(0,0,comment)
-            this.context = "";
-            this.refreshComment();
-            //this.$router.go(this.$route.path);
-          }
-        })
-        .catch(error => {
-          console.log(error);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        this.$message({
+          message: "评论内容不能为空！",
+          type: "warning"
         });
+      }
     },
     replyComment(target) {
       this.replyTo = {

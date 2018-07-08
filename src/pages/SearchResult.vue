@@ -3,7 +3,7 @@
     <div class="tab-box">
       <el-tabs>
         <el-tab-pane label="找微博" name="0">
-          <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" style="background-color:#e1e1e1" :name="weibo.user.name" :avatar-url="weibo.user.photo" :id="weibo.id" :user-id="weibo.user.id"/>
+          <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" style="background-color:#e1e1e1" :name="weibo.user.name" :avatar-url="weibo.user.photo" :id="weibo.id" :user-id="weibo.user.id" />
           <div class='nothing-tip' v-if='!weibos.length'>
             <h3>找不到微博呢..</h3>
           </div>
@@ -62,13 +62,16 @@ export default {
       .catch(error => {
         console.log(error);
       });
-
+    let params = {
+      sort: 1,
+      keyword: this.$route.query.keyword
+    };
+    if (localStorage.getItem("loginToken")){
+      params.token = localStorage.getItem("loginToken")
+    }
     this.$_http
       .get("/weibo/search", {
-        params: {
-          sort: 1,
-          keyword: this.$route.query.keyword
-        }
+        params
       })
       .then(response => {
         this.users = response.data.msg.users;
