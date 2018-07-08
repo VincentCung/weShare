@@ -16,7 +16,7 @@ import axios from 'axios'
 require('./mock.js')
 
 
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'
+//  axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'
 Vue.prototype.$_http = axios;
 Vue.use(ElementUI)
 

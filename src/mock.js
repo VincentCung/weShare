@@ -55,13 +55,6 @@ Mock.mock('/message/follow', 'post', {
   }
 })
 
-Mock.mock(/\/message\/follow/, 'get', {
-  satusCode: 200,
-  msg: {
-    success: 1,
-    'is_follow|0-1': 1
-  }
-})
 
 Mock.mock(/\/weibo\/user/, 'get', (req, res) => {
   let query = parseUrl(req.url)
@@ -400,6 +393,34 @@ Mock.mock(/\/weibo\/look_interest/, 'get', (req, res) => {
 })
 
 Mock.mock('/interest/add', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})
+
+Mock.mock(/\/message\/followeds/, 'get', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+    'users|0-20': [{
+      'id|+1':12,
+      "photo": "@dataImage('100x100','头像')",
+      "name": '@string(3, 10)',
+      "gender|0-2":1
+    }]
+  }
+})
+
+Mock.mock(/\/message\/follow/, 'get', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+    'is_follow|0-1': 1
+  }
+})
+
+Mock.mock('/message/modify', 'post', {
   satusCode: 200,
   msg: {
     success: 1,

@@ -5,17 +5,20 @@
         <el-tabs v-model="activeName" @tab-click="handleClick" class="tab-menu" type="border-card">
           <el-tab-pane label="我的关注" name="first">
             <div class="follow-list-box">
-              <follow-block v-for="follow in follows" :key="follow.user.id" :user="follow.user"></follow-block>
+              <div class='nothing-tip' v-if='!follows.length'>
+                <h3>还没关注别人呢..</h3>
+              </div>
+              <follow-block v-for="user in follows" :key="user.id" :user="user" :avatar-url="user.photo" @cancel="cancelFollow"></follow-block>
             </div>
           </el-tab-pane>
           <el-tab-pane label="个人资料" name="second">
-            <el-form class="data-form">
+            <el-form class="data-form" :model='detailForm' :rules="detailRules" ref='detailForm' status-icon>
               <el-form-item>
                 <img :src='imgUrl' class="user-picture">
                 <el-button type="warning" class="user-picture-button" size="small">更换</el-button>
               </el-form-item>
-              <el-form-item label="用户名:">
-                <el-input v-model="userName" class="input"></el-input>
+              <el-form-item label="用户名:" prop='userName'>
+                <el-input v-model="detailForm.userName" class="input"></el-input>
               </el-form-item>
               <el-form-item label="性别:">
                 <el-radio-group v-model="gender">
@@ -25,7 +28,7 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="change-button">修改</el-button>
+                <el-button type="primary" class="change-button" @click="modifyDetail">修改</el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -68,25 +71,19 @@ export default {
       }
     };
     return {
-      /**我的关注 */
-      follows: [
-        {
-          user: {
-            name: "123",
-            id: 123
-          }
-        }
-      ],
-      /**我的关注 */
+      follows: [],
       isFollow: true,
       activeName: "first",
-      userName: "",
       gender: 0,
-      imgUrl: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg",
+      userId: 0,
+      imgUrl: "",
       passwordForm: {
         oldPassword: "",
         newPassword: "",
         checkPassword: ""
+      },
+      detailForm: {
+        userName: ""
       },
       rules: {
         oldPassword: [
@@ -110,6 +107,15 @@ export default {
             trigger: "blur"
           }
         ]
+      },
+      detailRules: {
+        userName: [
+          {
+            required: true,
+            message: "用户名不能为空",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },
@@ -118,6 +124,7 @@ export default {
   },
   created() {
     this.refreshInfo();
+    this.getfollowList();
   },
   beforeRouteEnter(to, from, next) {
     next(vue => {
@@ -125,24 +132,42 @@ export default {
     });
   },
   methods: {
-    // TODO:修改资料
     handleClick(tab, event) {
-      if (tab.index == 0) {
+      if (tab.index == 1) {
         this.refreshInfo();
       }
     },
     refreshInfo() {
-      this.gender = this.$store.state.user.gender;
-      this.userName = this.$store.state.user.name;
-      this.imgUrl = this.$store.state.user.photo;
+      let user = JSON.parse(localStorage.getItem("user_info"));
+      this.gender = user.gender;
+      this.detailForm.userName = user.name;
+      this.imgUrl = user.photo;
+      this.userId = user.id;
     },
+    getfollowList() {
+      this.$_http
+        .get("/message/followeds", {
+          params: {
+            user_id: this.userId,
+            token: localStorage.getItem("loginToken")
+          }
+        })
+        .then(response => {
+          let data = response.data.msg;
+          this.follows = data.users;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     changePassword() {
       this.$refs.passwordForm.validate(valid => {
         if (valid) {
           let { oldPassword, newPassword } = this.passwordForm;
           this.$_http
             .post("/message/modify_pass", {
-              id: this.$store.state.user.id,
+              id: this.userId,
               token: localStorage.getItem("loginToken"),
               old_password: oldPassword,
               new_password: newPassword
@@ -168,6 +193,71 @@ export default {
             });
         }
       });
+    },
+    modifyDetail() {
+      this.$refs.detailForm.validate(valid => {
+        if (valid) {
+          this.$_http
+            .post("/message/modify", {
+              id: this.userId,
+              token: localStorage.getItem("loginToken"),
+              name: this.detailForm.userName,
+              gender: this.gender
+            })
+            .then(respond => {
+              let { success } = respond.data.msg;
+              if (success == 1) {
+                this.$alert("修改成功", "提示", {
+                  confirmButtonText: "确定",
+                  type: "success"
+                });
+                let user = JSON.parse(localStorage.getItem("user_info"));
+                console.log(user);
+                user.gender = this.gender;
+                user.name = this.detailForm.userName;
+                localStorage.setItem("user_info", JSON.stringify(user));
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        }
+      });
+    },
+    cancelFollow(targetId) {
+      this.$confirm("是否取消对该用户的关注?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$_http
+            .post("/message/follow", {
+              token: localStorage.getItem("loginToken"),
+              is_follow: false,
+              followedId: targetId,
+              followerId: this.userId
+            })
+            .then(response => {
+              if (response.data.msg.success > 0) {
+                console.log(this.follows)
+                let index = this.follows.findIndex(user => {
+                  return user.id == targetId;
+                });
+                this.follows.splice(index, 1);
+                this.$message({
+                  type: "success",
+                  message: "取消关注成功!"
+                });
+              }
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };
