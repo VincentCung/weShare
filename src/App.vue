@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <nav-header id='page-main'></nav-header>
-    <keep-alive>
       <router-view class="router-view-wrap" id="page-main" />
-    </keep-alive>
   </div>
 </template>
 

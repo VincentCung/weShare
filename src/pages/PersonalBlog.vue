@@ -18,7 +18,7 @@
               </div>
             </div>
             <!-- TODO:微博转发 -->
-            <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl' :id='weibo.id' :showLoading="weibo.showLoading" @thumb="thumb" @delete="deleteWeibo"> </weibo>
+            <weibo v-for="weibo in weibos" :delete-able="!isOthers" :content='weibo.content' :key="weibo.id" :name='userName' :avatar-url='avatarUrl' :id='weibo.id' :show-loading="weibo.showLoading" @thumb="thumb" @delete="deleteWeibo" :user-id="blogId"> </weibo>
             <div class='nothing-tip' v-if='!weibos.length'>
               <h3>{{isOthers?'他':'你'}}还没有发过微博呢..</h3>
             </div>
@@ -76,13 +76,13 @@ export default {
     if (this.isOthers && this.isLogin) {
       this.getFollowInfo();
     }
-    let blogId = this.$route.query.userId || this.userId; //当前页面主人的Id
-    let params = { targetId: blogId };
+    // let blogId = this.$route.query.userId || this.userId; //当前页面主人的Id
+    let params = { targetId: this.blogId };
     if (this.isLogin) {
       params.token = localStorage.getItem("loginToken");
     }
     this.getUserWeibos(params);
-    this.getUserInfoList({ userId: blogId });
+    this.getUserInfoList({ userId: this.blogId });
     this.getInterestList();
   },
   beforeRouteUpdate(to, from, next) {
@@ -93,19 +93,22 @@ export default {
     if (this.isOthers && this.isLogin) {
       this.getFollowInfo();
     }
-    let blogId = this.$route.query.userId || this.userId; //当前页面主人的Id
-    let params = { targetId: blogId };
+    // let blogId = this.$route.query.userId || this.userId; //当前页面主人的Id
+    let params = { targetId:this.blogId};
     if (this.isLogin) {
       params.token = localStorage.getItem("loginToken");
     }
     this.getUserWeibos(params);
-    this.getUserInfoList({ userId: blogId });
+    this.getUserInfoList({ userId: this.blogId });
     this.getInterestList();
     next();
   },
   computed: {
     isOthers() {
       return !!this.$route.query.userId;
+    },
+    blogId() {
+      return Number(this.$route.query.userId || this.userId)
     }
   },
   methods: {
@@ -199,7 +202,6 @@ export default {
         return weibo.id == value;
       });
       this.weibos[index].showLoading = true;
-      console.log(this.weibos[index]);
       this.$_http
         .post("/weibo/thumb", {
           token: localStorage.getItem("loginToken"),
@@ -248,7 +250,7 @@ export default {
       })
         .then(() => {
           this.$_http
-            .post("/weibo/issue", {
+            .post("/weibo/delete", {
               token: localStorage.getItem("loginToken"),
               id: value
             })

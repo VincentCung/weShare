@@ -7,7 +7,6 @@
         </router-link>
       </el-col>
       <el-col :span='5'>
-        <!-- TODO:搜索 -->
         <el-input :placeholder='"大家都在搜:"+hotContent' clearable @keypress.enter.native='search' class='search-bar'>
           <i slot="suffix" class="el-input__icon el-icon-search"></i>
         </el-input>

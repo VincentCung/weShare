@@ -2,7 +2,6 @@
   <div class='weibo-box'>
 
     <div class="main-box">
-      <!-- TODO:删除按钮 -->
       <div v-if="deleteAble" class="box-delete-btn">
         <el-button type="danger" icon="el-icon-close" circle size="mini" @click="deleteWeibo"></el-button>
       </div>
@@ -10,8 +9,7 @@
         <img :src="avatarUrl" alt="头像" class='box-avatar-img'>
       </div>
       <div class="box-detail">
-        <!-- TODO:跳转到头像用户 -->
-        <el-button type="text" class='box-detail-name'>{{name}}</el-button>
+        <el-button type="text" class='box-detail-name' @click="redirectToUser">{{name}}</el-button>
         <div class='box-detail-time'>{{content.create_time}}</div>
         <div class='box-detail-text'>{{content.context}}</div>
         <!-- <div class='box-detail-photos clearfix' v-if='content.photos.length'>
@@ -122,13 +120,17 @@ export default {
       type: String,
       default: "用户名"
     },
-    content: {
-      type: Object,
-      required: true
-    },
     avatarUrl: {
       type: String,
       default: "https://img.xiaopiu.com/userImages/img141644e3b5688.jpg"
+    },
+    userId: {
+      type:Number,
+      required:true,
+    },
+    content: {
+      type: Object,
+      required: true
     },
     deleteAble: {
       type: Boolean,
@@ -139,7 +141,8 @@ export default {
       required: true
     },
     showLoading: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -169,7 +172,17 @@ export default {
     deleteWeibo() {
       this.$emit("delete", this.id);
     },
-    transmit() {}
+    transmit() {},
+    redirectToUser() {
+      if(this.$route.path!='/blogs'){
+        let mainUserId = JSON.parse(localStorage.getItem('user_info')).id
+        if(mainUserId == this.userId) {
+          this.$router.push('/blogs')
+        } else {
+          this.$router.push('/blogs?userId='+ this.userId)
+        }
+      }
+    }
   }
 };
 </script>

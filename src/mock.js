@@ -171,6 +171,7 @@ Mock.mock(/\/weibo\/search/, 'get', (req, res) => {
                             ]
                         },
                         user: {
+                            "id|+1":1,
                             "photo": "@dataImage('100x100','头像')",
                             "name": '@string(3, 10)',
                         }
@@ -226,6 +227,27 @@ Mock.mock('/weibo/issue', 'post', {
     }
 })
 
+Mock.mock('/weibo/comment', 'post', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+    }
+})
+
+Mock.mock('/weibo/delete', 'post', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+    }
+})
+
+Mock.mock('/weibo/del_comment', 'post', {
+    satusCode: 200,
+    msg: {
+        success: 1,
+    }
+})
+
 Mock.mock(/\/weibo\/detail/, 'get', (req, res) => {
     let query = parseUrl(req.url)
     let result = Mock.mock({
@@ -250,6 +272,7 @@ Mock.mock(/\/weibo\/detail/, 'get', (req, res) => {
                     ]
                 },
                 user: {
+                    "id|+1":1,
                     "photo": "@dataImage('100x100','头像')",
                     "name": '@string(3, 10)',
                 }
@@ -257,7 +280,7 @@ Mock.mock(/\/weibo\/detail/, 'get', (req, res) => {
             'comments|0-5': [{
                 "id|+1": 1,
                 user: {
-                    "id|+1": 1,
+                    "id|+1": 123,
                     name: '@string(7, 10)',
                     photo: "@dataImage('100x100','头像')"
                 },
@@ -270,6 +293,16 @@ Mock.mock(/\/weibo\/detail/, 'get', (req, res) => {
     if(query.token) {
         result.msg.weibo.content.is_thumb=1
     }
+
+    result.msg.comments.forEach(item=>{
+        if(Random.boolean()){
+            item.parent={
+                id:1,
+                name:"test"
+            }
+        }
+        return item
+    })
 
     return result
 

@@ -15,7 +15,6 @@
         </ul>
       </div>
       <div class="body-wrap">
-
         <div class="carousel-block">
           <el-carousel trigger="click" height="400px">
             <el-carousel-item v-for="item in imgList" :key="item">
