@@ -60,6 +60,7 @@
 import FollowBlock from "@/components/FollowBlock";
 
 export default {
+  
   data() {
     let checkPass = (rule, value, callback) => {
       if (value === "") {

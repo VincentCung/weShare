@@ -31,7 +31,8 @@ Mock.mock('/user/login', 'post', (req, res) => {
       email: '123@123.com',
       photo: 'https://img.xiaopiu.com/userImages/img201644e5199c0.jpg',
       gender: 1,
-      is_banned: 0
+      is_banned: false,
+      is_admini:false
     }
     result.msg.token = '1234'
   } else {

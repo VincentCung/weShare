@@ -40,6 +40,14 @@ import Weibo from "@/components/Weibo";
 import UserSideBar from "@/components/UserSideBar";
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      let login =!!localStorage.getItem('loginToken')
+      if(vm.$route.fullPath=="/blogs"&&!login){
+        vm.$router.replace('/404')
+      }
+    });
+  },
   data() {
     return {
       userId: 0,

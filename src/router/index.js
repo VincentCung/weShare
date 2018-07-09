@@ -11,6 +11,7 @@ import MyDetail from '@/pages/MyDetail'
 import PersonalBlog from '@/pages/PersonalBlog'
 import SearchResult from '@/pages/SearchResult'
 import BlogDetail from '@/pages/BlogDtail'
+import notFound from '@/pages/notFound'
 
 
 Vue.use(Router)
@@ -56,7 +57,10 @@ export default new Router({
     {
       path: '/user/interest',
       name: 'InterestMange',
-      component: InterestManage
+      component: InterestManage,
+      meta:{
+        requireAuth:true
+      }
     },
     {
       path: '/blogs',
@@ -71,7 +75,15 @@ export default new Router({
     {
       path: '/user/detail',
       name: 'MyDetail',
-      component: MyDetail
+      component: MyDetail,
+      meta:{
+        requireAuth:true
+      }
+    },
+    {
+      path: '/404',
+      name: 'notFound',
+      component: notFound
     }
   ]
 })

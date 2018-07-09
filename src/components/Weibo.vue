@@ -175,11 +175,14 @@ export default {
     transmit() {},
     redirectToUser() {
       if(this.$route.path!='/blogs'){
-        let mainUserId = JSON.parse(localStorage.getItem('user_info')).id
-        if(mainUserId == this.userId) {
-          this.$router.push('/blogs')
+        let mainUserId =null
+        if(localStorage.getItem('loginToken')){
+          mainUserId = JSON.parse(localStorage.getItem('user_info')).id
+        }
+        if(mainUserId&&mainUserId == this.userId) {
+          this.$router.replace('/blogs')
         } else {
-          this.$router.push('/blogs?userId='+ this.userId)
+          this.$router.replace('/blogs?userId='+ this.userId)
         }
       }
     }

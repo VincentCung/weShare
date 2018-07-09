@@ -122,6 +122,14 @@
 
 <script>
 export default {
+  beforeRouteEnter(to, from, next) {
+    let isAdimini = JSON.parse(localStorage.getItem("user_info")).is_admini;
+    if (isAdimini) {
+      next();
+    } else {
+      next("/404");
+    }
+  },
   data() {
     return {
       activeName: "first",
@@ -395,12 +403,10 @@ export default {
           if (response.data.msg.success > 0) {
             this.dialogLoading = false;
             this.interestNum++;
-
             this.$message({
               type: "success",
               message: "创建成功!"
             });
-
             this.interestData.splice(this.interestData.length, 1);
             this.interestData.splice(0, 0, {
               id: 999,

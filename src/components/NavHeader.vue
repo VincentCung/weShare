@@ -92,6 +92,8 @@ export default {
       user: JSON.parse(localStorage.getItem("user_info"))
     };
   },
+  created(){
+  },
   methods: {
     search(e) {
       this.$router.push("/interest/result?keyword=" + e.target.value);

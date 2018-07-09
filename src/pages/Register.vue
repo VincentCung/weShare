@@ -97,7 +97,6 @@ export default {
 </script>
 <style scoped>
 .main-box {
-  margin: 15px 25px 0;
   position: relative;
   padding: 0;
 }
