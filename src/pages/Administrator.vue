@@ -85,6 +85,19 @@
         </el-tab-pane>
         <el-tab-pane label="趣点管理" name="forth">
           <div class="search-bar-box">
+            <el-button type="success" style="margin-right:20px" @click="dialogFormVisible = true">创建趣点</el-button>
+            <el-dialog title="创建趣点" :visible.sync="dialogFormVisible" width="25%">
+              <el-form :model="interestForm" status-icon :rules="rules" ref='interestCreateForm'>
+                <el-form-item prop="name">
+                  <el-input v-model="interestForm.name" placeholder='请输入趣点名'>
+                    <i slot="prefix" class="el-input__icon el-icon-message"></i>
+                  </el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="createInterest" class='login-button' :loading="dialogLoading">创 建</el-button>
+              </div>
+            </el-dialog>
             <el-input placeholder="输入趣点名" clearable @keypress.enter.native='searchInterest' v-model="interestSearchContext">
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
             </el-input>
@@ -113,6 +126,7 @@ export default {
     return {
       activeName: "first",
       showLoading: false,
+      dialogLoading: false,
       userData: [],
       userNum: 0,
       userSearchContext: "",
@@ -124,7 +138,14 @@ export default {
       commentSearchContext: "",
       interestData: [],
       interestNum: 0,
-      interestSearchContext: ""
+      interestSearchContext: "",
+      dialogFormVisible: false,
+      rules: {
+        name: [{ required: true, message: "趣点不能为空", trigger: "blur" }]
+      },
+      interestForm: {
+        name: ""
+      }
     };
   },
 
@@ -344,11 +365,11 @@ export default {
             .post("/system/user/banned", {
               token: localStorage.getItem("loginToken"),
               id: targetUser.id,
-              is_banned:!targetUser.is_banned
+              is_banned: !targetUser.is_banned
             })
             .then(response => {
               if (response.data.msg.success > 0) {
-                targetUser.is_banned = !targetUser.is_banned
+                targetUser.is_banned = !targetUser.is_banned;
                 this.$message({
                   type: "success",
                   message: "操作成功!"
@@ -361,6 +382,35 @@ export default {
             type: "info",
             message: "已取消删除"
           });
+        });
+    },
+    createInterest() {
+      this.dialogLoading = true;
+      this.$_http
+        .post("/system/interest/add", {
+          token: localStorage.getItem("loginToken"),
+          name: this.interestForm.name
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            this.dialogLoading = false;
+            this.interestNum++;
+
+            this.$message({
+              type: "success",
+              message: "创建成功!"
+            });
+
+            this.interestData.splice(this.interestData.length, 1);
+            this.interestData.splice(0, 0, {
+              id: 999,
+              name: this.interestForm.name,
+              weibo_count: 0,
+              sub_count: 0
+            });
+            this.dialogFormVisible = false;
+            this.$refs.interestCreateForm.resetFields();
+          }
         });
     }
   }
@@ -427,5 +477,33 @@ export default {
 .context-box {
   text-align: left;
   word-wrap: break-word;
+}
+
+/*------------------------------dialog-----------------------------------------------------------*/
+.dialog-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100px;
+}
+
+.login-button {
+  width: 100%;
+}
+
+.el-dialog__body {
+  padding-bottom: 0;
+}
+
+.el-button + .el-button {
+  margin-left: 0;
+}
+.el-dialog__footer {
+  padding-top: 0;
+}
+
+.el-form--label-top .el-form-item__label {
+  padding: 0;
 }
 </style>

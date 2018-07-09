@@ -499,6 +499,13 @@ Mock.mock('/system/user/banned', 'post', {
   }
 })
 
+Mock.mock('/system/interest/add', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})
+
 Mock.mock(/\/weibo\/search/, 'get', (req, res) => {
   let query = parseUrl(req.url)
   if (query.sort == 0) {

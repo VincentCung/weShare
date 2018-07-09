@@ -93,6 +93,18 @@ export default {
     }
     this.getInterestDetail(params);
   },
+
+  beforeRouteUpdate(to, from, next) {
+    let params = { interest_id: this.$route.query.id };
+    if (localStorage.getItem("loginToken")) {
+      this.isLogin = true;
+      this.userId = JSON.parse(localStorage.getItem("user_info")).id;
+      params.token = localStorage.getItem("loginToken");
+      this.getUserInfoList({ user_id: this.userId });
+    }
+    this.getInterestDetail(params);
+    next();
+  },
   methods: {
     subscribe() {},
     getUserInfoList(params) {
