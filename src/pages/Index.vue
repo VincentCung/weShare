@@ -2,11 +2,8 @@
     <div>
         <el-container>
             <el-main style="padding:0">
-               <!--  <img src="https://img.xiaopiu.com/userImages/img835164495cb9b8.jpg" alt="背景图" class='main-background'> -->
                 <img src="../assets/image/woman.jpg" alt="背景图" class='main-background'>
-                <div class='title-box'>
-                    <!-- <h1 class='box-title-text'>WeShare</h1> -->
-                    <span class="box-slogan">分享生活趣事，记录点滴生活</span>
+                <div class='button-box'>
                     <el-button class='box-start-button' type="primary" @click="start">发 现</el-button>
                 </div>
             </el-main>
@@ -31,26 +28,11 @@ export default {
 }
 
 /*-----------------------------------title-box------------------------------------*/
-.title-box {
+.button-box {
   position: absolute;
-  left: 0;
-  top: 350px;
+  top: 550px;
+  right: 400px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 50px 200px 50px 300px;
-
-}
-
-.box-title-text {
-  font-size: 45px;
-}
-
-.box-slogan {
-  margin-bottom: 25px;
-  font-size: 28px;
 }
 
 .box-start-button {

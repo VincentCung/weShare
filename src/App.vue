@@ -51,6 +51,7 @@ a {
 }
 .main {
   padding-bottom: 50px;
+  min-height: 800px;
 }
 </style>
 
