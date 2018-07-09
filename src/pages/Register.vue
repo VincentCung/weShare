@@ -2,7 +2,8 @@
     <div>
         <el-main class='main-box'>
             <div class='background-crop'>
-                <img src="https://img.xiaopiu.com/userImages/img381644e6c6908.jpg" alt="背景图" class='background'>
+               <!--  <img src="https://img.xiaopiu.com/userImages/img381644e6c6908.jpg" alt="背景图" class='background'> -->
+                <img src="../assets/image/register.jpg" alt="背景图" class='background'>
             </div>
 
             <el-form status-icon class="register-form" :model='registerForm' :rules="rules" ref='registerForm'>
