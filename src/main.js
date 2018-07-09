@@ -23,14 +23,55 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 
+// http request 请求拦截器，有token值则配置上token值
+axios.interceptors.request.use(
+  config => {
+    let postRequireToken =false
+    let getRequireToken =false
+    if(config.method=='post'){
+      postRequireToken ==  !!JSON.parse(config.body).token
+    } else if(config.method=='get') {
+      if(config.params.token){
+        getRequireToken = true
+      }
+    }
+    if (postRequireToken||getRequireToken) {  // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
+        config.headers.Authorization = localStorage.getItem('loginToken')
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  });
 
+// http response 服务器响应拦截器，这里拦截401错误，并重新跳入登页重新获取token
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 404:
+          router.replace({
+            path: '/404',
+          })
+          break;
+        case 401:
+          localStorage.removeItem('loginToken')
+          router.replace({
+            path: '/404',
+          })
+          break;
+      }
+    }
+    return Promise.reject(error.response.data)
+  });
 
-//TODO: 验证失效的回调
-//TODO:token check auth
 router.beforeEach((to, from, next) => {
   let isLogin = !!localStorage.getItem('loginToken');//获取本地存储的token
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-    if (isLogin) {  
+    if (isLogin) {
       next();
     }
     else {

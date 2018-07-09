@@ -32,7 +32,7 @@ Mock.mock('/user/login', 'post', (req, res) => {
       photo: 'https://img.xiaopiu.com/userImages/img201644e5199c0.jpg',
       gender: 1,
       is_banned: false,
-      is_admini:false
+      is_admini:true
     }
     result.msg.token = '1234'
   } else {
