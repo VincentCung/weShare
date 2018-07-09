@@ -94,7 +94,8 @@ export default {
       };
     },
     postComment() {
-      if (this.context) {
+      let is_banned = JSON.parse(localStorage.getItem("user_info")).is_banned;
+      if (this.context && !is_banned) {
         let body = {
           token: localStorage.getItem("loginToken"),
           context: this.context,
@@ -133,9 +134,14 @@ export default {
           .catch(error => {
             console.log(error);
           });
+      } else if (is_banned) {
+        this.$message({
+          message: "您被管理员禁言了,请跟管理员联系恢复",
+          type: "warning"
+        });
       } else {
         this.$message({
-          message: "评论内容不能为空！",
+          message: "微博内容不能为空",
           type: "warning"
         });
       }

@@ -131,52 +131,6 @@ Mock.mock('/message/modify_pass', 'post', (req, res) => {
   return result
 })
 
-Mock.mock(/\/weibo\/search/, 'get', (req, res) => {
-  let query = parseUrl(req.url)
-  if (query.sort == 0) {
-    return Mock.mock({
-      statusCode: 200,
-      msg: {
-        success: 1,
-        "weibos|1-20": [{
-          "id|+1": 1,
-          content: {
-            "create_time": '@date("yyyy年MM月dd日") @time("HH:mm")',
-            "context": '@string(7, 300)',
-            "read_count|2-4": 1,
-            "comment_count|2-4": 1,
-            "transmit_count|2-4": 1,
-            "thumb_count|2-4": 1,
-            "photos|0-9": [{
-              "id|+1": 1,
-              "source": "@dataImage('200x100','照片')"
-            }]
-          },
-          user: {
-            "id|+1": 1,
-            "photo": "@dataImage('100x100','头像')",
-            "name": '@string(3, 10)',
-          }
-        }]
-      }
-    })
-
-  } else {
-    return Mock.mock({
-      statusCode: 200,
-      msg: {
-        success: 1,
-        "users|1-20": [{
-          "id|+1": 1,
-          "name": '@string(3, 10)',
-          "photo": "@dataImage('100x100','头像')",
-          "gender|0-2": 1
-
-        }]
-      }
-    })
-  }
-})
 
 Mock.mock('/weibo/thumb', 'post', {
   satusCode: 200,
@@ -197,7 +151,7 @@ Mock.mock('/weibo/interests', 'get', {
   }
 })
 
-Mock.mock('/weibo/issue', 'post', (req,res)=>{
+Mock.mock('/weibo/issue', 'post', (req, res) => {
   console.log(JSON.parse(req.body))
   return Mock.mock({
     satusCode: 200,
@@ -350,7 +304,7 @@ Mock.mock(/\/weibo\/look_interest/, 'get', (req, res) => {
     statusCode: 200,
     msg: {
       success: 1,
-      interest:{
+      interest: {
         "id|+1": 1,
         "count|2-4000": 1,
         name: '@string(7, 20)',
@@ -380,9 +334,9 @@ Mock.mock(/\/weibo\/look_interest/, 'get', (req, res) => {
 
   if (query.token) {
     result.msg.is_subscribe = 1
-    result.msg.weibos.forEach(weibo=>{
+    result.msg.weibos.forEach(weibo => {
       weibo.content.is_thumb = false
-      if(Random.boolean()){
+      if (Random.boolean()) {
         weibo.content.is_thumb = true
       }
       return weibo
@@ -404,10 +358,10 @@ Mock.mock(/\/message\/followeds/, 'get', {
   msg: {
     success: 1,
     'users|0-20': [{
-      'id|+1':12,
+      'id|+1': 12,
       "photo": "@dataImage('100x100','头像')",
       "name": '@string(3, 10)',
-      "gender|0-2":1
+      "gender|0-2": 1
     }]
   }
 })
@@ -424,5 +378,170 @@ Mock.mock('/message/modify', 'post', {
   satusCode: 200,
   msg: {
     success: 1,
+  }
+})
+
+Mock.mock(/\/system\/user\/search/, 'get', (req, res) => {
+  let result = Mock.mock({
+    statusCode: 200,
+    msg: {
+      success: 1,
+      "users|10": [{
+        "id|+1": 1,
+        name: '@string(3, 10)',
+        email: "123@123.com",
+        "comment_count|10-200": 1,
+        "weibo_count|10-200": 1,
+        "fans_count|10-200": 1,
+        "thumb_count|10-200": 1,
+        "is_banned": "@boolean()"
+      }]
+    }
+  })
+
+  result.msg.user_count = 100
+  return result
+})
+
+
+
+
+Mock.mock(/\/system\/weibo\/search/, 'get', (req, res) => {
+  let result = Mock.mock({
+    statusCode: 200,
+    msg: {
+      success: 1,
+      "weibos|10": [{
+        "id|+1": 1,
+        userName: '@string(3, 10)',
+        "read_count|10-200": 1,
+        "comment_count|10-200": 1,
+        "transmit_count|10-200": 1,
+        "thumb_count|10-200": 1,
+        "context": "@string(3, 300)"
+      }]
+    }
+  })
+
+  result.msg.weibo_count = 100
+  return result
+})
+
+Mock.mock(/\/system\/comment\/search/, 'get', (req, res) => {
+  let result = Mock.mock({
+    statusCode: 200,
+    msg: {
+      success: 1,
+      "comments|10": [{
+        "id|+1": 1,
+        user: {
+          "id|+1": 1,
+          "name": '@string(3, 10)',
+          "photo": "@dataImage('100x100','头像')",
+        },
+        create_time: '@date("yyyy年MM月dd日") @time("HH:mm")',
+        context:
+          "@string(7, 300)sadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddxdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }]
+    }
+  })
+
+  result.msg.comment_count = 100
+  return result
+})
+
+
+Mock.mock(/\/system\/interest\/search/, 'get', (req, res) => {
+  let result = Mock.mock({
+    statusCode: 200,
+    msg: {
+      success: 1,
+      "interests|10": [{
+        "id|+1": 1,
+        name: '@string(3, 10)',
+        "weibo_count|2-500": 1,
+        "sub_count|2-500": 1
+      }]
+    }
+  })
+
+  result.msg.interest_count = 100
+  return result
+})
+
+
+
+Mock.mock('/system/interest/delete', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})
+
+Mock.mock('/system/weibo/delete', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})
+
+Mock.mock('/system/comment/delete', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})
+
+Mock.mock('/system/user/banned', 'post', {
+  satusCode: 200,
+  msg: {
+    success: 1,
+  }
+})
+
+Mock.mock(/\/weibo\/search/, 'get', (req, res) => {
+  let query = parseUrl(req.url)
+  if (query.sort == 0) {
+    return Mock.mock({
+      statusCode: 200,
+      msg: {
+        success: 1,
+        "weibos|1-20": [{
+          "id|+1": 1,
+          content: {
+            "create_time": '@date("yyyy年MM月dd日") @time("HH:mm")',
+            "context": '@string(7, 300)',
+            "read_count|2-4": 1,
+            "comment_count|2-4": 1,
+            "transmit_count|2-4": 1,
+            "thumb_count|2-4": 1,
+            "photos|0-9": [{
+              "id|+1": 1,
+              "source": "@dataImage('200x100','照片')"
+            }]
+          },
+          user: {
+            "id|+1": 1,
+            "photo": "@dataImage('100x100','头像')",
+            "name": '@string(3, 10)',
+          }
+        }]
+      }
+    })
+
+  } else {
+    return Mock.mock({
+      statusCode: 200,
+      msg: {
+        success: 1,
+        "users|1-20": [{
+          "id|+1": 1,
+          "name": '@string(3, 10)',
+          "photo": "@dataImage('100x100','头像')",
+          "gender|0-2": 1
+
+        }]
+      }
+    })
   }
 })

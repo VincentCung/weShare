@@ -51,10 +51,10 @@ export default {
       userName: "",
       context: "",
       avatarUrl: "",
-      showLoading:false,
+      showLoading: false,
       interest: {
-        id: 1,
-        name: "去你妈的点"
+        id: 0,
+        name: ""
       },
       result: {
         counter: {
@@ -121,7 +121,7 @@ export default {
           this.weibos = response.data.msg.weibos;
           if (this.isLogin) {
             this.isSubscribe = response.data.msg.is_subscribe;
-            this.interest = response.data.msg.interest
+            this.interest = response.data.msg.interest;
           }
         })
         .catch(error => {
@@ -155,13 +155,14 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },subscribe() {
+    },
+    subscribe() {
       this.showLoading = true;
       this.$_http
         .post("/interest/add", {
           token: localStorage.getItem("loginToken"),
           is_sub: !this.isSubscribe,
-          interest_id:this.$route.query.id,
+          interest_id: this.$route.query.id,
           user_id: this.userId
         })
         .then(response => {
@@ -175,30 +176,35 @@ export default {
         });
     },
     postWeibo() {
-      if(this.context) {
-          this.$_http
-        .post("/weibo/issue", {
-          token: localStorage.getItem("loginToken"),
-          context: this.context,
-          user_id: this.userId,
-          interest_ids: [this.$route.query.id]
-        })
-        .then(response => {
-          if (response.data.msg.success > 0) {
-            this.context = "";
-            this.$router.go(this.$route.path);
-          }
-        })
-        .catch(error => {
-          console.log(error);
+      let is_banned = JSON.parse(localStorage.getItem("user_info")).is_banned;
+      if (this.context && !is_banned) {
+        this.$_http
+          .post("/weibo/issue", {
+            token: localStorage.getItem("loginToken"),
+            context: this.context,
+            user_id: this.userId,
+            interest_ids: [this.$route.query.id]
+          })
+          .then(response => {
+            if (response.data.msg.success > 0) {
+              this.context = "";
+              this.$router.go(this.$route.path);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else if (is_banned) {
+        this.$message({
+          message: "您被管理员禁言了,请跟管理员联系恢复",
+          type: "warning"
         });
       } else {
         this.$message({
-          message: '微博内容不能为空',
-          type: 'warning'
+          message: "微博内容不能为空",
+          type: "warning"
         });
       }
-      
     }
   }
 };

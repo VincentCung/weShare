@@ -92,7 +92,7 @@ export default {
     if (this.isOthers && this.isLogin) {
       this.getFollowInfo();
     }
-    let params = { targetId:this.blogId};
+    let params = { targetId: this.blogId };
     if (this.isLogin) {
       params.token = localStorage.getItem("loginToken");
     }
@@ -106,7 +106,7 @@ export default {
       return !!this.$route.query.userId;
     },
     blogId() {
-      return Number(this.$route.query.userId || this.userId)
+      return Number(this.$route.query.userId || this.userId);
     }
   },
   methods: {
@@ -214,7 +214,8 @@ export default {
             } else {
               this.weibos[index].content.thumb_count++;
             }
-            this.weibos[index].content.is_thumb = !this.weibos[index].content.is_thumb;
+            this.weibos[index].content.is_thumb = !this.weibos[index].content
+              .is_thumb;
             this.weibos[index].showLoading = false;
           }
         })
@@ -223,8 +224,8 @@ export default {
         });
     },
     postWeibo() {
-      if(this.context) {
-
+      let is_banned = JSON.parse(localStorage.getItem("user_info")).is_banned;
+      if (this.context && !is_banned) {
         this.$_http
           .post("/weibo/issue", {
             token: localStorage.getItem("loginToken"),
@@ -241,10 +242,15 @@ export default {
           .catch(error => {
             console.log(error);
           });
+      } else if (is_banned) {
+        this.$message({
+          message: "您被管理员禁言了,请跟管理员联系恢复",
+          type: "warning"
+        });
       } else {
         this.$message({
-          message: '微博内容不能为空',
-          type: 'warning'
+          message: "微博内容不能为空",
+          type: "warning"
         });
       }
     },
