@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <el-container>
-            <el-main style="padding:0">
-                <img src="../assets/image/woman.jpg" alt="背景图" class='main-background'>
-                <div class='button-box'>
-                    <el-button class='box-start-button' type="primary" @click="start">发 现</el-button>
-                </div>
-            </el-main>
-        </el-container>
-    </div>
+  <div>
+    <el-container>
+      <el-main style="padding:0;">
+        <img src="../assets/image/woman.jpg" alt="背景图" class='main-background'>
+        <div class='button-box'>
+          <el-button class='box-start-button' type="primary" @click="start">发 现</el-button>
+        </div>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 <script>
 export default {
@@ -30,8 +30,8 @@ export default {
 /*-----------------------------------title-box------------------------------------*/
 .button-box {
   position: absolute;
-  top: 550px;
-  right: 400px;
+  top: 600px;
+  right: 20%;
   box-sizing: border-box;
 }
 

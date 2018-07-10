@@ -373,15 +373,15 @@ export default {
             .post("/system/user/banned", {
               token: localStorage.getItem("loginToken"),
               id: targetUser.id,
-              is_banned: !targetUser.is_banned
+              is_banned: targetUser.is_banned ? 0 : 1
             })
             .then(response => {
               if (response.data.msg.success > 0) {
-                targetUser.is_banned = !targetUser.is_banned;
-                this.$message({
-                  type: "success",
-                  message: "操作成功!"
-                });
+                (targetUser.is_banned = targetUser.is_banned ? 0 : 1),
+                  this.$message({
+                    type: "success",
+                    message: "操作成功!"
+                  });
               }
             });
         })

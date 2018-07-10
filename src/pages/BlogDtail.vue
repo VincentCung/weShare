@@ -211,7 +211,7 @@ export default {
       this.$_http
         .post("/weibo/thumb", {
           token: localStorage.getItem("loginToken"),
-          is_thumb: !this.weibo.content.is_thumb,
+          is_thumb: this.weibo.content.is_thumb ? 0 : 1,
           weibo_id: this.weibo.id,
           user_id: this.userId
         })
@@ -222,8 +222,8 @@ export default {
             } else {
               this.weibo.content.thumb_count++;
             }
-            this.weibo.content.is_thumb = !this.weibo.content.is_thumb;
-            this.weibo.showLoading = false;
+            (this.weibo.content.is_thumb = this.weibo.content.is_thumb ? 0 : 1),
+              (this.weibo.showLoading = false);
           }
         })
         .catch(error => {

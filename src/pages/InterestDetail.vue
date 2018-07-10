@@ -106,7 +106,6 @@ export default {
     next();
   },
   methods: {
-    subscribe() {},
     getUserInfoList(params) {
       this.$_http
         .get("/message/user", {
@@ -132,7 +131,7 @@ export default {
         .then(response => {
           this.weibos = response.data.msg.weibos;
           if (this.isLogin) {
-            this.isSubscribe = response.data.msg.is_subscribe;
+            this.isSubscribe = response.data.msg.is_subs;
             this.interest = response.data.msg.interest;
           }
         })
@@ -148,7 +147,7 @@ export default {
       this.$_http
         .post("/weibo/thumb", {
           token: localStorage.getItem("loginToken"),
-          is_thumb: !this.weibos[index].content.is_thumb,
+          is_thumb: this.weibos[index].content.is_thumb ? 0 : 1,
           weibo_id: this.weibos[index].id,
           user_id: this.userId
         })
@@ -159,9 +158,11 @@ export default {
             } else {
               this.weibos[index].content.thumb_count++;
             }
-            this.weibos[index].content.is_thumb = !this.weibos[index].content
-              .is_thumb;
-            this.weibos[index].showLoading = false;
+            (this.weibos[index].content.is_thumb = this.weibos[index].content
+              .is_thumb
+              ? 0
+              : 1),
+              (this.weibos[index].showLoading = false);
           }
         })
         .catch(error => {
@@ -173,14 +174,14 @@ export default {
       this.$_http
         .post("/interest/add", {
           token: localStorage.getItem("loginToken"),
-          is_sub: !this.isSubscribe,
+          is_sub: this.isSubscribe ? 0 : 1,
           interest_id: this.$route.query.id,
           user_id: this.userId
         })
         .then(response => {
           if (response.data.msg.success > 0) {
-            this.isSubscribe = !this.isSubscribe;
-            this.showLoading = false;
+            (this.isSubscribe = this.isSubscribe ? 0 : 1),
+              (this.showLoading = false);
           }
         })
         .catch(error => {

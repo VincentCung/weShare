@@ -31,8 +31,8 @@ Mock.mock('/user/login', 'post', (req, res) => {
       email: '123@123.com',
       photo: 'https://img.xiaopiu.com/userImages/img201644e5199c0.jpg',
       gender: 1,
-      is_banned: false,
-      is_admini:true
+      is_banned: 0,
+      is_admini:1
     }
     result.msg.token = '1234'
   } else {
@@ -334,11 +334,11 @@ Mock.mock(/\/weibo\/look_interest/, 'get', (req, res) => {
   })
 
   if (query.token) {
-    result.msg.is_subscribe = 1
+    result.msg.is_subs = 1
     result.msg.weibos.forEach(weibo => {
-      weibo.content.is_thumb = false
+      weibo.content.is_thumb = 0
       if (Random.boolean()) {
-        weibo.content.is_thumb = true
+        weibo.content.is_thumb =1
       }
       return weibo
     })
@@ -395,7 +395,7 @@ Mock.mock(/\/system\/user\/search/, 'get', (req, res) => {
         "weibo_count|10-200": 1,
         "fans_count|10-200": 1,
         "thumb_count|10-200": 1,
-        "is_banned": "@boolean()"
+        "is_banned": "@integer(0, 1)"
       }]
     }
   })

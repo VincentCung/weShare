@@ -42,9 +42,9 @@ import UserSideBar from "@/components/UserSideBar";
 export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      let login =!!localStorage.getItem('loginToken')
-      if(vm.$route.fullPath=="/blogs"&&!login){
-        vm.$router.replace('/404')
+      let login = !!localStorage.getItem("loginToken");
+      if (vm.$route.fullPath == "/blogs" && !login) {
+        vm.$router.replace("/404");
       }
     });
   },
@@ -211,7 +211,7 @@ export default {
       this.$_http
         .post("/weibo/thumb", {
           token: localStorage.getItem("loginToken"),
-          is_thumb: !this.weibos[index].content.is_thumb,
+          is_thumb: this.weibos[index].content.is_thumb ? 0 : 1,
           weibo_id: this.weibos[index].id,
           user_id: this.userId
         })
@@ -222,8 +222,10 @@ export default {
             } else {
               this.weibos[index].content.thumb_count++;
             }
-            this.weibos[index].content.is_thumb = !this.weibos[index].content
-              .is_thumb;
+            this.weibos[index].content.is_thumb = this.weibos[index].content
+              .is_thumb
+              ? 0
+              : 1;
             this.weibos[index].showLoading = false;
           }
         })

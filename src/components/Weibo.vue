@@ -167,7 +167,12 @@ export default {
       }
     },
     thumb() {
-      this.$emit("thumb", this.id);
+      let isLogin = !!localStorage.getItem('loginToken')
+      if(isLogin) {
+        this.$emit("thumb", this.id);
+      } else {
+        this.$router.replace('/404')
+      }
     },
     deleteWeibo() {
       this.$emit("delete", this.id);

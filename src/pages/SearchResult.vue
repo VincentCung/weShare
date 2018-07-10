@@ -3,7 +3,7 @@
     <div class="tab-box">
       <el-tabs>
         <el-tab-pane label="找微博" name="0">
-          <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" style="background-color:#e1e1e1" :name="weibo.user.name" :avatar-url="weibo.user.photo" :id="weibo.id" :user-id="weibo.user.id" />
+          <weibo v-for="weibo in weibos" :content='weibo.content' :key="weibo.id" style="background-color:#e1e1e1" :name="weibo.user.name" :avatar-url="weibo.user.photo" :id="weibo.id" :user-id="weibo.user.id" @thumb="thumb"/>
           <div class='nothing-tip' v-if='!weibos.length'>
             <h3>找不到微博呢..</h3>
           </div>
@@ -34,7 +34,8 @@ export default {
   data() {
     return {
       users: [],
-      weibos: []
+      weibos: [],
+      userId:0
     };
   },
   methods: {
@@ -46,9 +47,40 @@ export default {
       } else {
         return "";
       }
+    },
+    thumb(value) {
+      let index = this.weibos.findIndex(weibo => {
+        return weibo.id == value;
+      });
+      this.weibos[index].showLoading = true;
+      this.$_http
+        .post("/weibo/thumb", {
+          token: localStorage.getItem("loginToken"),
+          is_thumb: this.weibos[index].content.is_thumb ? 0 : 1,
+          weibo_id: this.weibos[index].id,
+          user_id: this.userId
+        })
+        .then(response => {
+          if (response.data.msg.success > 0) {
+            if (this.weibos[index].content.is_thumb) {
+              this.weibos[index].content.thumb_count--;
+            } else {
+              this.weibos[index].content.thumb_count++;
+            }
+            (this.weibos[index].content.is_thumb = this.weibos[index].content
+              .is_thumb
+              ? 0
+              : 1),
+              (this.weibos[index].showLoading = false);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   created() {
+    this.userId = JSON.parse(localStorage.getItem('user_info')).id
     this.$_http
       .get("/weibo/search", {
         params: {
@@ -79,7 +111,8 @@ export default {
       .catch(error => {
         console.log(error);
       });
-  }
+  },
+
 };
 </script>
 <style>

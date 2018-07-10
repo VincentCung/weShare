@@ -31,11 +31,13 @@ axios.interceptors.request.use(
     if (config.method == 'post') {
       let data = config.data
       postRequireToken == !!data.token
+     console.log(data)
     } else if (config.method == 'get') {
-      if (config.params.token) {
+      if (config.params&&config.params.token) {
         getRequireToken = true
       }
     }
+    
     if (postRequireToken || getRequireToken) {  // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
       config.headers.Authorization = localStorage.getItem('loginToken')
     }
@@ -66,7 +68,7 @@ axios.interceptors.response.use(
           break;
       }
     }
-    return Promise.reject(error.response.data)
+    return Promise.reject(error)
   });
 
 router.beforeEach((to, from, next) => {
