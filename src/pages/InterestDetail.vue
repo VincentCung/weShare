@@ -174,7 +174,7 @@ export default {
       this.$_http
         .post("/interest/add", {
           token: localStorage.getItem("loginToken"),
-          is_sub: this.isSubscribe ? 0 : 1,
+          is_subs: this.isSubscribe ? 0 : 1,
           interest_id: this.$route.query.id,
           user_id: this.userId
         })
